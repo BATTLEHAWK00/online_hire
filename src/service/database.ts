@@ -1,6 +1,7 @@
+const {application} = require("express");
 const MongoClient = require('mongodb').MongoClient;
 let connection = null
-let database = null
+let database: { collection: (arg0: any) => any; } | null = null
 
 // MongoDB Setup
 async function ConnectDB() {
@@ -13,7 +14,8 @@ async function ConnectDB() {
     }
 }
 
-function getColl(coll) {
+function getColl(coll: any) {
+    // @ts-ignore
     return database.collection(coll)
 }
 

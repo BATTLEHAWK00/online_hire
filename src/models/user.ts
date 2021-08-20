@@ -1,24 +1,25 @@
-const {getColl} = require('../database')
+const {getColl} = require('../service/database')
 const coll = getColl('users')
 
-async function getUserByID(userID) {
+export async function getUserByID(userID: string) {
     const res = await coll.findOne({_id: userID})
     return res
 }
 
-async function getUserByUname(userName) {
+export async function getUserByUname(userName: string) {
     const res = await coll.findOne({userName})
     return res
 }
 
-async function createUser(user) {
+export async function createUser(user: string) {
+    // @ts-ignore
     if (await coll.findOne({userName: user['userName']}))
         return null
     const res = await coll.insertOne(user)
     return res
 }
 
-module.exports = {
+export default {
     getUserByID,
     getUserByUname,
     createUser

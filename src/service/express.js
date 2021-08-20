@@ -6,20 +6,22 @@ const logger = require('morgan');
 const nunjucks = require('nunjucks')
 const session = require('express-session')
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('../routes');
 
 const app = express();
 
+
 // view engine setup
-nunjucks.configure('views', {autoescape: true, express: app});
-app.set('views', path.join(__dirname, 'views'));
+nunjucks.configure(path.join(__dirname, '../views'), {autoescape: true, express: app});
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'html');
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(session({
     secret: 'online-hire',
