@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+
+a {
+    color: #00B7FF;
+}
+
+input {
+    width: 100%;
+}
+
+form {
+    width: 100%;
+}
+
+ol {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.clear-float {
+    clear: both;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}

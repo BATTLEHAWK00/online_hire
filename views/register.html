@@ -1,0 +1,41 @@
+{% extends './partials/layouts/basic.html' %}
+{% block head %}
+<link rel="stylesheet" href="/css/form.css">
+{% endblock %}
+{% block content %}
+<div class="app">
+    <div class="section" style="width: 50%">
+        <div class="section-header" style="width: 60%;margin: 0 auto">
+            <h1>欢迎注册</h1>
+            <h2 class="text-center">网上招聘系统</h2>
+        </div>
+        <div class="section-content" style="width: 60%">
+            <form action="/register" method="post">
+                <div class="form-row">
+                    <p>用户名</p>
+                    <input type="text" name="userName" placeholder="请输入用户名..." autofocus>
+                </div>
+                <div class="form-row">
+                    <p>真实姓名</p>
+                    <input type="text" name="realName" placeholder="请输入真实姓名..." autofocus>
+                </div>
+                <div class="form-row">
+                    <p>手机号</p>
+                    <input type="text" name="phone" placeholder="请输入手机号..." autofocus>
+                </div>
+                <div class="form-row">
+                    <p>密码</p>
+                    <input type="text" name="passwd" placeholder="请输入密码..." autofocus>
+                </div>
+                <div class="form-row">
+                    <p>确认密码</p>
+                    <input type="text" name="confirmPasswd" placeholder="请再次输入密码..." autofocus>
+                </div>
+                <div class="form-row text-center" style="margin: 20px auto">
+                    <input type="submit" class="com-button" value="注册" style="width: 80%">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
