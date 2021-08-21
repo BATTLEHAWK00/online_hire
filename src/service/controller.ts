@@ -21,17 +21,11 @@ export class Controller {
         this.req = req;
         this.resp = resp;
         this.params = {...req.body, ...req.params, ...req.query}
-        this.handleUserSessionContext()
-    }
-
-    private handleUserSessionContext() {
-        const loggedUser = this.getSessionContext('loggedUser')
-        if (loggedUser)
-            this.setUIContext('loggedUser', loggedUser)
     }
 
     render(templateName: string) {
         if (!this.UIContext['title']) this.setTitle(templateName)
+        this.setUIContext('loggedUser', this.getSessionContext('loggedUser'))
         this.resp.render(templateName, this.UIContext)
     }
 
@@ -57,12 +51,13 @@ export class Controller {
         return this.req.session.context[name]
     }
 
-    renderMessage(msg: string, title: string = '消息') {
+    renderMessage(msg: string, redirectPath?: string, title: string = '消息') {
         this.setTitle(title)
         this.setUIContext('title', title)
         this.setUIContext('msg', msg)
-        this.setUIContext('referer', this.req.header('referer'))
-        this.resp.setHeader('refresh', `3;url=${this.req.header('referer')}`)
+        const redirectTo = redirectPath || this.req.header('referer')
+        this.setUIContext('referer', redirectTo)
+        this.resp.setHeader('refresh', `3;url=${redirectTo}`)
         this.render('message')
     }
 }

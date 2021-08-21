@@ -1,13 +1,16 @@
-{% extends './partials/layouts/html.html' %}
-{% block head %}
-<style>
-    body {
-        margin: 100px
-    }
-</style>
-{% endblock %}
+{% extends './partials/layouts/basic.html' %}
 {% block content %}
-<h1>错误:{{error.status}}</h1>
-<h2>{{ error.message }}</h2>
-<pre>{{ error.stack }}</pre>
+<div class="app">
+    <div class="section">
+        <div class="section-header">
+            <h1>错误:{{error.status}}</h1>
+        </div>
+        <div class="section-content">
+            <h2>{{ error.message }}</h2>
+        </div>
+        <div class="section-footer">
+            <pre>{{ error.stack }}</pre>
+        </div>
+    </div>
+</div>
 {% endblock %}
