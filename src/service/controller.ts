@@ -13,16 +13,22 @@ export interface Controller {
 export class Controller {
     private req: Express.Request
     private resp: Express.Response
-    protected UIContext: any = {}
+    private UIContext: any = {context: {}}
     protected params: any
 
     constructor(req: Express.Request, resp: Express.Response) {
         this.req = req;
         this.resp = resp;
         // @ts-ignore
-        this.params = {...req.params, ...req.query}
-        // @ts-ignore
-        console.log(req.params)
+        this.params = {...req.body, ...req.params, ...req.query}
+        this.handleUserSessionContext()
+        this.setTitle('网上招聘系统')
+    }
+
+    private handleUserSessionContext() {
+        const loggedUser = this.getSessionContext('loggedUser')
+        if (loggedUser)
+            this.setUIContext('loggedUser', loggedUser)
     }
 
     render(templateName: string) {
@@ -42,6 +48,15 @@ export class Controller {
     setSessionContext(name: string, context: any) {
         // @ts-ignore
         this.req.session.context[name] = context
+    }
+
+    setUIContext(name: string, context: any) {
+        this.UIContext.context[name] = context
+    }
+
+    getSessionContext(name: string) {
+        // @ts-ignore
+        return this.req.session.context[name]
     }
 }
 
