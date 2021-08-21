@@ -45,6 +45,7 @@
     /*float: left;*/
     display: inline-block;
     list-style: none;
+    transition: background-color .5s;
 }
 
 .com-navbar li:hover {
@@ -54,7 +55,7 @@
 .com-navbar .com-navbar-item a {
     color: #0e6d6d;
     text-decoration: none;
-    transition: all .25s;
+    transition: color .5s;
     padding: 0 5px 0 5px;
     color: #0e6d6d;
 }
