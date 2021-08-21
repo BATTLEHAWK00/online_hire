@@ -56,6 +56,15 @@ export class Controller {
         // @ts-ignore
         return this.req.session.context[name]
     }
+
+    renderMessage(msg: string, title: string = '消息') {
+        this.setTitle(title)
+        this.setUIContext('title', title)
+        this.setUIContext('msg', msg)
+        this.setUIContext('referer', this.req.header('referer'))
+        this.resp.setHeader('refresh', `3;url=${this.req.header('referer')}`)
+        this.render('message')
+    }
 }
 
 export async function handle(req: Request, resp: Response, handlerClass: any) {

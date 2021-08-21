@@ -1,10 +1,10 @@
-const {application} = require("express");
-const MongoClient = require('mongodb').MongoClient;
-let connection = null
-let database: { collection: (arg0: any) => any; } | null = null
+import {MongoClient, Db, Collection} from 'mongodb';
+
+let connection: MongoClient | null = null
+let database: Db
 
 // MongoDB Setup
-async function ConnectDB() {
+export async function ConnectDB() {
     try {
         console.log('Connecting to database...')
         connection = await MongoClient.connect("mongodb://localhost:27017/online_hire");
@@ -16,12 +16,6 @@ async function ConnectDB() {
     }
 }
 
-function getColl(coll: any) {
-    // @ts-ignore
+export function getColl(coll: string) {
     return database.collection(coll)
-}
-
-module.exports = {
-    ConnectDB,
-    getColl
 }

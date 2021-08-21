@@ -1,7 +1,8 @@
-import {ObjectId} from "mongodb";
+import {Collection, ObjectId} from "mongodb";
 
-const {getColl} = require('../service/database')
-const coll = getColl('users')
+import {getColl} from '../service/database';
+
+const coll: Collection<User> = getColl('users')
 
 type RoleType = 'manager' | 'applicant'
 
@@ -15,17 +16,16 @@ export interface User {
 }
 
 export async function getUserByID(userID: string) {
-    const res: User = await coll.findOne({_id: userID})
+    const res = await coll.findOne({_id: userID})
     return res
 }
 
 export async function getUserByUname(userName: string) {
-    const res: User = await coll.findOne({userName})
+    const res = await coll.findOne({userName})
     return res
 }
 
 export async function createUser(user: User) {
-    // @ts-ignore
     if (await coll.findOne({userName: user['userName']}))
         return null
     const res = await coll.insertOne(user)

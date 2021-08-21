@@ -5,6 +5,10 @@ import {LoginInvalidError} from "../service/error";
 
 export class loginController extends Controller {
     async get() {
+        if (this.getSessionContext('loggedUser')) {
+            this.redirect('/')
+            return
+        }
         this.setTitle("登录")
         this.render("login")
     }
@@ -14,10 +18,8 @@ export class loginController extends Controller {
         if (user && user['passwd'] === this.params['passwd']) {
             delete user['passwd']
             this.setSessionContext('loggedUser', user)
-        } else {
-            throw new LoginInvalidError()
-        }
-        this.redirect('/')
+            this.renderMessage('您已登录成功!')
+        } else throw new LoginInvalidError()
     }
 }
 
