@@ -3,15 +3,13 @@ interface IControllerError {
 }
 
 class ControllerError extends Error {
-    status: number | undefined
 
-    constructor(message?: string, status?: number) {
+    constructor(message?: string) {
         super(message);
-        this.status = status;
     }
 }
 
-function Err(ErrorClass: IControllerError, message?: string, status: number = 500) {
+function Err(ErrorClass: IControllerError, message?: string, status?: number) {
     const controllerError: IControllerError = class extends ErrorClass {
     }
     controllerError.prototype.message = message

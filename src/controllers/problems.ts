@@ -6,3 +6,13 @@ export class problemsHandler extends Controller{
         this.render('problems_main')
     }
 }
+
+export class addProblemsController extends Controller{
+    async get(){
+        this.setTitle('添加问题')
+        this.render('problems_add')
+    }
+    async post() {
+
+    }
+}

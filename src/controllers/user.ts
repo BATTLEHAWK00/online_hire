@@ -1,6 +1,6 @@
 import {Controller} from "../service/controller";
 
-import userModel from '../models/user';
+import userModel, {User} from '../models/user';
 import {LoginInvalidError} from "../service/error";
 
 export class loginController extends Controller {
@@ -15,7 +15,6 @@ export class loginController extends Controller {
             delete user['passwd']
             this.setSessionContext('loggedUser', user)
         } else {
-            console.log(this.params)
             throw new LoginInvalidError()
         }
         this.redirect('/')
@@ -30,7 +29,7 @@ export class registerController extends Controller {
 
     async post() {
         if (this.params['confirmPasswd'] !== this.params['passwd']) throw new Error()
-        const user = {
+        const user: User = {
             userName: this.params['userName'],
             passwd: this.params['passwd'],
             realName: this.params['realName'],
@@ -42,3 +41,9 @@ export class registerController extends Controller {
     }
 }
 
+export class logoutController extends Controller {
+    async get() {
+        this.setSessionContext('loggedUser', null)
+        this.redirect('/')
+    }
+}

@@ -1,4 +1,5 @@
 import {Express} from "express";
+import {MethodNotAllowedError} from "./error"
 
 export interface Controller {
     get(): void
@@ -22,7 +23,6 @@ export class Controller {
         // @ts-ignore
         this.params = {...req.body, ...req.params, ...req.query}
         this.handleUserSessionContext()
-        this.setTitle('网上招聘系统')
     }
 
     private handleUserSessionContext() {
@@ -32,6 +32,7 @@ export class Controller {
     }
 
     render(templateName: string) {
+        if (!this.UIContext['title']) this.setTitle(templateName)
         // @ts-ignore
         this.resp.render(templateName, this.UIContext)
     }
@@ -61,8 +62,16 @@ export class Controller {
 }
 
 export async function handle(req: Express.Request, resp: Express.Response, handlerClass: any) {
-    const handler = new handlerClass(req, resp)
-    // @ts-ignore
-    const method: string = req['method'].toLowerCase()
-    if (handler[method]) handler[method]()
+    try {
+        const handler = new handlerClass(req, resp)
+        // @ts-ignore
+        const method: string = req['method'].toLowerCase()
+        if (handler[method]) await handler[method]()
+        else throw new MethodNotAllowedError()
+    } catch (error) {
+        // @ts-ignore
+        resp.status(error.status || 500)
+        // @ts-ignore
+        resp.render('error.html', {title: '错误', error})
+    }
 }
