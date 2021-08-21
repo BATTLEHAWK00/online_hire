@@ -1,6 +1,13 @@
 import {Express} from "express";
 
 export interface Controller {
+    get(): void
+
+    post(): void
+
+    put(): void
+
+    delete(): void
 }
 
 export class Controller {
@@ -14,6 +21,8 @@ export class Controller {
         this.resp = resp;
         // @ts-ignore
         this.params = {...req.params, ...req.query}
+        // @ts-ignore
+        console.log(req.params)
     }
 
     render(templateName: string) {

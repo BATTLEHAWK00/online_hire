@@ -11,7 +11,7 @@ export async function getUserByUname(userName: string) {
     return res
 }
 
-export async function createUser(user: string) {
+export async function createUser(user: { realName: any; role: string; passwd: any; phone: any; userName: any }) {
     // @ts-ignore
     if (await coll.findOne({userName: user['userName']}))
         return null
