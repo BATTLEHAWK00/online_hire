@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 import {handle} from "../service/controller";
 import {loginController, logoutController, registerController, userDetailController} from '../controllers/user'
-import {indexController} from "../controllers/index";
+import {indexController, testController} from "../controllers/index";
 import {addProblemsController, problemsHandler} from "../controllers/problems";
 import {addPositionsController, deletePositionController, positionsController} from "../controllers/positions";
 import {addQuestionnaireController, questionnaireController} from "../controllers/questionnaire";
@@ -28,4 +28,6 @@ router.all('/questionnaire/add', (req, resp) => handle(req, resp, addQuestionnai
 
 router.all('/resumes', (req, resp) => handle(req, resp, resumesController))
 
-module.exports = router;
+router.all('/test', (req, resp) => handle(req, resp, testController))
+
+export default router

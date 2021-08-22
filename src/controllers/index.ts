@@ -6,3 +6,9 @@ export class indexController extends Controller {
         this.render('index')
     }
 }
+
+export class testController extends Controller {
+    async get() {
+
+    }
+}

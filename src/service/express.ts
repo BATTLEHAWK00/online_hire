@@ -1,27 +1,23 @@
 import express, {NextFunction, Request, Response} from "express";
-
 import createError from 'http-errors';
-
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import nunjucks from 'nunjucks';
-import session, {Session} from 'express-session';
-
-const indexRouter = require('../routes');
-
+import session from 'express-session';
+import indexRouter from '../routes';
 export const app = express();
 
 // 配置模板引擎
-nunjucks.configure(path.join(__dirname, '../views'), {autoescape: true, express: app});
-app.set('views', path.join(__dirname, '../views'));
+nunjucks.configure(path.join(__dirname, '../ui/views'), {autoescape: true, express: app});
+app.set('views', path.join(__dirname, '../ui/views'));
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../ui/public')));
 
 app.use(session({
     secret: 'online-hire',

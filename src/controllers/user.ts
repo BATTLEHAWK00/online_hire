@@ -1,7 +1,12 @@
 import {Controller} from "../service/controller";
 
 import userModel, {User} from '../models/user';
-import {LoginInvalidError, UnauthorizedError, UserAlreadyExistsError, UserNotExistError} from "../service/error";
+import {
+    LoginInvalidError,
+    UnauthorizedError,
+    UserAlreadyExistsError,
+    UserNotExistError
+} from "../service/error";
 
 export class loginController extends Controller {
     async get() {
@@ -73,13 +78,14 @@ export class userDetailController extends Controller {
             userName: this.params['userName'],
             realName: this.params['realName'],
             gender: this.params['gender'],
+            passwd: this.params['passwd'],
             phone: this.params['phone'],
             email: this.params['email'],
             desc: this.params['desc'],
         }
         const $set: any = {}
         for (const userKey in user) {
-            if (user[userKey] !== undefined) $set[userKey] = user[userKey]
+            if (user[userKey]) $set[userKey] = user[userKey]
         }
         await userModel.updateUser(this.params['uid'], $set)
         this.renderMessage('信息修改成功!')
