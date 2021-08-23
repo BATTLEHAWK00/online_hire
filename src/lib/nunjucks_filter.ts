@@ -16,9 +16,19 @@ const momentAgoFilter: Filter = {
     }
 }
 
+const escapeJSFilter: Filter = {
+    name: 'escapeJS',
+    filterFunc(templateString: string) {
+        console.log(escape(templateString))
+        return escape(templateString);
+    }
+}
+
 const filters: Filter[] = [
-    momentAgoFilter
+    momentAgoFilter,
+    escapeJSFilter
 ]
+
 export default function registerFilters(env: Environment) {
     filters.forEach((filter) => {
         env.addFilter(filter.name, filter.filterFunc, filter.async)

@@ -2,7 +2,7 @@
 {% block content %}
 <div class="section">
     <div class="section-header">
-        <h1>共{{ context.pList.length }}份职位</h1>
+        <h1>共{{ context.pList.length | d(0) }}份职位</h1>
         <a href="/positions/add">
             <button class="com-button">添加职位</button>
         </a>

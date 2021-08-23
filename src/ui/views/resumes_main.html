@@ -2,7 +2,7 @@
 {% block content %}
 <div class="section">
     <div class="section-header">
-        <h1>共{{ resdoc.length }}份简历信息</h1>
+        <h1>共{{ resdoc.length | d(0) }}份简历信息</h1>
     </div>
     <div class="section-content">
         <table class="com-table">

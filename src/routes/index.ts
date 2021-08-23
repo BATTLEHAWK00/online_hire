@@ -11,8 +11,13 @@ import {
     problemsHandler
 } from "../controllers/problems";
 import {addPositionsController, deletePositionController, positionsController} from "../controllers/positions";
-import {addQuestionnaireController, questionnaireController} from "../controllers/questionnaire";
+import {
+    addQuestionnaireController,
+    questionnaireController,
+    questionnaireDetailController
+} from "../controllers/questionnaire";
 import {resumesController} from "../controllers/resumes";
+import {mycvsController} from "../controllers/mycvs";
 
 router.all('/', (req, resp) => handle(req, resp, indexController))
 
@@ -32,8 +37,11 @@ router.all('/positions/delete/:_id', (req, resp) => handle(req, resp, deletePosi
 
 router.all('/questionnaire', (req, resp) => handle(req, resp, questionnaireController))
 router.all('/questionnaire/add', (req, resp) => handle(req, resp, addQuestionnaireController))
+router.all('/questionnaire/detail/:_id', (req, resp) => handle(req, resp, questionnaireDetailController))
 
 router.all('/resumes', (req, resp) => handle(req, resp, resumesController))
+
+router.all('/mycvs', (req, resp) => handle(req, resp, mycvsController))
 
 router.all('/test', (req, resp) => handle(req, resp, testController))
 
