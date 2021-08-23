@@ -1,10 +1,11 @@
 import express, {NextFunction, Request, Response} from "express";
-import createError from 'http-errors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
 export const app = express();
+
+const middlewares: any[] = []
 
 // 配置模板引擎
 import nunjucks from 'nunjucks';
@@ -13,58 +14,49 @@ const templatePath: string = path.join(__dirname, '../ui/views')
 nunjucks.configure(templatePath, {
     autoescape: true,
     express: app,
-    watch: true
+    watch: true,
 });
 app.set('views', templatePath);
 app.set('view engine', 'html');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../ui/public')));
+//路由日志记录
+middlewares.push(logger('dev'))
+//处理ResponseBody
+middlewares.push(express.json())
+//处理RequestBody
+middlewares.push(express.urlencoded({extended: false}))
+//处理Cookie
+middlewares.push(cookieParser())
+//处理静态文件
+middlewares.push(express.static(path.join(__dirname, '../ui/public')))
 
-// 配置Session
-import session from 'express-session';
-import MongoStore from 'connect-mongo'
+// Session配置
+import {sessionMiddleware, contextMiddleware, ipRecordMiddleware} from './middlewares/session'
 
-app.use(session({
-    secret: 'online-hire',
-    name: "sessionId",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {secure: false, maxAge: 1000 * 60 * 60},
-    store: new MongoStore({
-        mongoUrl: 'mongodb://localhost:27017/online_hire',
-        collectionName: 'session',
-        touchAfter: 24 * 3600,
-        autoRemove: "interval",
-        autoRemoveInterval: 60
-    })
-}))
-
-app.use((req: { session: any }, resp, next) => {
-    if (!req.session['context']) req.session['context'] = {}
-    next()
-})
+//处理Session
+middlewares.push(sessionMiddleware)
+//处理Session Context
+middlewares.push(contextMiddleware)
+//在Session中记录IP
+middlewares.push(ipRecordMiddleware)
 
 // 配置Router
 import indexRouter from '../routes';
 
-app.use('/', indexRouter);
+//路由配置
+middlewares.push(indexRouter)
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    next(createError(404));
-});
+// 捕获404并抛出异常
+import {NotFoundError} from "./error";
+import {errorHandleMiddleware} from "./middlewares/errorhandler";
 
-// error handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+function handle404(req: Request, res: Response, next: NextFunction) {
+    next(new NotFoundError());
+}
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
+//处理404
+middlewares.push(handle404)
+//处理异常
+middlewares.push(errorHandleMiddleware)
+
+middlewares.forEach((middleware) => app.use(middleware))
