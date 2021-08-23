@@ -11,13 +11,18 @@ const middlewares: any[] = []
 import nunjucks from 'nunjucks';
 
 const templatePath: string = path.join(__dirname, '../ui/views')
-nunjucks.configure(templatePath, {
+const nunjucksEnv = nunjucks.configure(templatePath, {
     autoescape: true,
     express: app,
     watch: true,
 });
 app.set('views', templatePath);
 app.set('view engine', 'html');
+
+//配置过滤器
+import registerFilters from "../lib/nunjucks_filter";
+
+registerFilters(nunjucksEnv)
 
 //路由日志记录
 middlewares.push(logger('dev'))

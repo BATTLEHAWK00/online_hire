@@ -1,13 +1,16 @@
 import {Collection, ObjectId} from "mongodb";
 import {getColl} from '../service/database';
 
-const coll: Collection<Problem> = getColl('problem')
+const coll: Collection<Problem> = getColl('problems')
 
 type ProblemType = SingleChoice | MultipleChoice | ShortAnswer
+type ProblemTypeStr = 'SingleChoice' | 'MultipleChoice' | 'ShortAnswer'
 
 export interface Problem {
     _id?: ObjectId,
     name?: string,
+    type?: ProblemTypeStr,
+    desc?: string,
     createTime?: Date,
     updateTime?: Date,
     createBy?: string,
@@ -17,20 +20,17 @@ export interface Problem {
 }
 
 export interface SingleChoice {
-    question: string,
-    selections: string[],
-    answer: number
+    options?: string[],
+    answer?: number
 }
 
 export interface MultipleChoice {
-    question: string,
-    selections: string[],
-    answers: number[]
+    options?: string[],
+    answers?: number[]
 }
 
 export interface ShortAnswer {
-    question: string,
-    answer: string
+    answer?: string
 }
 
 class problemModel {
@@ -54,6 +54,11 @@ class problemModel {
     }
 
     static async createProblem(problem: Problem) {
+        if (!problem.createTime) {
+            const now = new Date(Date.now())
+            problem.createTime = now
+            problem.updateTime = now
+        }
         const res = await coll.insertOne(problem)
         return res
     }

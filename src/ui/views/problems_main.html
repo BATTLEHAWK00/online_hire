@@ -18,21 +18,27 @@
                 <th class="text-left">通过数</th>
                 <th class="text-left">操作</th>
                 {% if context.problemList %}
-                    {% for item in context.problemList %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.createBy }}</td>
-                            <td>{{ item.updateTime }}</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>
-                                <a href="/">查看</a>
-                                <a href="/">编辑</a>
-                                <a href="/">删除</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                {% for item in context.problemList %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.createBy }}</td>
+                    <td>{{ item.updateTime | momentAgo }}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>
+                        <a href="/">查看</a>
+                        <a href="/">编辑</a>
+                        <form name="problems_del_{{ item._id }}"
+                              action="/problems/delete/{{ item._id }}"
+                              method="post"
+                              class="com-hiddenform"
+                        >
+                            <a href="javascript:document.problems_del_{{ item._id }}.submit();">删除</a>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
                 {% endif %}
             </table>
         </div>
