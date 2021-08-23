@@ -1,0 +1,21 @@
+{% extends './problems_add.html' %}
+{% block form %}
+<form action="/problems/add" method="post">
+    <input type="hidden" name="problemType" value="ShortAnswer">
+    <div class="form-row">
+        <p>题目名称</p>
+        <input type="text" name="name" placeholder="题目名称" autofocus>
+    </div>
+    <div class="form-row">
+        <p>题目描述</p>
+        <textarea name="desc" placeholder="题目描述" class="form-textarea" rows="3" autofocus></textarea>
+    </div>
+    <div class="form-row">
+        <p>标准答案</p>
+        <textarea name="answer" placeholder="标准答案" class="form-textarea" rows="3" autofocus></textarea>
+    </div>
+    <div class="form-row text-center" style="margin: 20px auto">
+        <input type="submit" class="com-button" value="添加">
+    </div>
+</form>
+{% endblock %}

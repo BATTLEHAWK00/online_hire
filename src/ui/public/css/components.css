@@ -111,3 +111,14 @@
 .com-hiddenform {
     display: inline;
 }
+
+.com-ul-list li{
+    padding: 15px 20px 15px 20px;
+    text-align: center;
+    transition: background-color .5s;
+}
+
+.com-ul-list li:hover{
+    cursor: pointer;
+    background-color: #c0d7c0;
+}
