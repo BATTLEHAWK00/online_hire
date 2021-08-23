@@ -3,14 +3,19 @@ import createError from 'http-errors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import nunjucks from 'nunjucks';
-import session from 'express-session';
-import indexRouter from '../routes';
+
 export const app = express();
 
 // 配置模板引擎
-nunjucks.configure(path.join(__dirname, '../ui/views'), {autoescape: true, express: app});
-app.set('views', path.join(__dirname, '../ui/views'));
+import nunjucks from 'nunjucks';
+
+const templatePath: string = path.join(__dirname, '../ui/views')
+nunjucks.configure(templatePath, {
+    autoescape: true,
+    express: app,
+    watch: true
+});
+app.set('views', templatePath);
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
@@ -19,18 +24,32 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../ui/public')));
 
+// 配置Session
+import session from 'express-session';
+import MongoStore from 'connect-mongo'
+
 app.use(session({
     secret: 'online-hire',
     name: "sessionId",
     resave: false,
     saveUninitialized: false,
-    cookie: {secure: false, maxAge: 1000 * 60 * 60}
+    cookie: {secure: false, maxAge: 1000 * 60 * 60},
+    store: new MongoStore({
+        mongoUrl: 'mongodb://localhost:27017/online_hire',
+        collectionName: 'session',
+        touchAfter: 24 * 3600,
+        autoRemove: "interval",
+        autoRemoveInterval: 60
+    })
 }))
 
 app.use((req: { session: any }, resp, next) => {
     if (!req.session['context']) req.session['context'] = {}
     next()
 })
+
+// 配置Router
+import indexRouter from '../routes';
 
 app.use('/', indexRouter);
 

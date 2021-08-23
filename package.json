@@ -10,6 +10,7 @@
     "@vue/compiler-sfc": "^3.2.4",
     "@vue/server-renderer": "^3.2.4",
     "ant-design-vue": "^2.2.6",
+    "connect-mongo": "^4.5.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",

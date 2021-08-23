@@ -12,17 +12,20 @@
             <table class="com-table">
                 <th class="text-left">序号</th>
                 <th class="text-left">题目名称</th>
+                <th class="text-left">创建人</th>
+                <th class="text-left">修改时间</th>
                 <th class="text-left">引用次数</th>
                 <th class="text-left">通过数</th>
                 <th class="text-left">操作</th>
-                {% if resdoc %}
-                    {% for item in resdoc %}
+                {% if context.problemList %}
+                    {% for item in context.problemList %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.userName }}</td>
-                            <td>{{ item.intention }}</td>
-                            <td>{{ item.marks }}</td>
-                            <td>{{ item.submitTime }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.createBy }}</td>
+                            <td>{{ item.updateTime }}</td>
+                            <td>0</td>
+                            <td>0</td>
                             <td>
                                 <a href="/">查看</a>
                                 <a href="/">编辑</a>
