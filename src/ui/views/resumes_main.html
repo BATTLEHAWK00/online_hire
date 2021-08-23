@@ -1,35 +1,33 @@
 {% extends './partials/layouts/basic.html' %}
 {% block content %}
-<div class="app">
-    <div class="section">
-        <div class="section-header">
-            <h1>共{{ resdoc.length }}份简历信息</h1>
-        </div>
-        <div class="section-content">
-            <table class="com-table">
-                <th class="text-left">序号</th>
-                <th class="text-left">提交人</th>
-                <th class="text-left">意向岗位</th>
-                <th class="text-left">问卷分数</th>
-                <th class="text-left">提交时间</th>
-                <th class="text-left">操作</th>
-                {% if resdoc %}
-                    {% for item in resdoc %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ item.userName }}</td>
-                            <td>{{ item.intention }}</td>
-                            <td>{{ item.marks }}</td>
-                            <td>{{ item.submitTime }}</td>
-                            <td>
-                                <a href="/">查看</a>
-                                <a href="/">驳回</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </table>
-        </div>
+<div class="section">
+    <div class="section-header">
+        <h1>共{{ resdoc.length }}份简历信息</h1>
+    </div>
+    <div class="section-content">
+        <table class="com-table">
+            <th class="text-left">序号</th>
+            <th class="text-left">提交人</th>
+            <th class="text-left">意向岗位</th>
+            <th class="text-left">问卷分数</th>
+            <th class="text-left">提交时间</th>
+            <th class="text-left">操作</th>
+            {% if resdoc %}
+            {% for item in resdoc %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.intention }}</td>
+                <td>{{ item.marks }}</td>
+                <td>{{ item.submitTime }}</td>
+                <td>
+                    <a href="/">查看</a>
+                    <a href="/">驳回</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
     </div>
 </div>
 {% endblock %}

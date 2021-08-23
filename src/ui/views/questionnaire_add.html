@@ -1,31 +1,27 @@
 {% extends './partials/layouts/basic.html' %}
+{% macro singlechoice() %}
+asd
+{% endmacro %}
 {% block content %}
-<div class="app">
-    <div class="section">
-        <div class="section-header">
-            <h1>添加岗位</h1>
-        </div>
-        <div class="section-content">
-            <div style="width: 50%;margin: 0 auto;">
-                <form action="/positions/add" method="post">
-                    <div class="form-row">
-                        <p>岗位名称</p>
-                        <input type="text" name="userName" placeholder="岗位名称" autofocus>
-                    </div>
-                    <div class="form-row">
-                        <p>选择考核问卷</p>
-                        <select name="questionnaireID">
-                            <option value="1">asd</option>
-                            <option value="1">asd</option>
-                            <option value="1">asd</option>
-                            <option value="1">asd</option>
-                        </select>
-                    </div>
-                    <div class="form-row text-center" style="margin: 20px auto">
-                        <input type="submit" class="com-button" value="提交">
-                    </div>
-                </form>
-            </div>
+<div class="section">
+    <div class="section-header">
+        <h1>添加岗位</h1>
+    </div>
+    <div class="section-content">
+        <div style="width: 50%;margin: 0 auto;">
+            <form action="/questionnaire/add" method="post">
+                <div class="form-row">
+                    <p>问卷名称</p>
+                    <input type="text" name="name" placeholder="问卷名称" autofocus>
+                </div>
+                <div class="form-row">
+                    <p>选择考核问卷</p>
+
+                </div>
+                <div class="form-row text-center" style="margin: 20px auto">
+                    <input type="submit" class="com-button" value="提交">
+                </div>
+            </form>
         </div>
     </div>
 </div>

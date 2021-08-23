@@ -1,38 +1,36 @@
 {% extends './partials/layouts/basic.html' %}
 {% block content %}
-<div class="app">
-    <div class="section">
-        <div class="section-header">
-            <h1>共{{ resdoc.len }}份问卷</h1>
-            <a href="/questionnaire/add">
-                <button class="com-button">创建问卷</button>
-            </a>
-        </div>
-        <div class="section-content">
-            <table class="com-table">
-                <th class="text-left">序号</th>
-                <th class="text-left">题目名称</th>
-                <th class="text-left">引用次数</th>
-                <th class="text-left">通过数</th>
-                <th class="text-left">操作</th>
-                {% if resdoc %}
-                    {% for item in resdoc %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ item.userName }}</td>
-                            <td>{{ item.intention }}</td>
-                            <td>{{ item.marks }}</td>
-                            <td>{{ item.submitTime }}</td>
-                            <td>
-                                <a href="/">查看</a>
-                                <a href="/">编辑</a>
-                                <a href="/">删除</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </table>
-        </div>
+<div class="section">
+    <div class="section-header">
+        <h1>共{{ resdoc.len }}份问卷</h1>
+        <a href="/questionnaire/add">
+            <button class="com-button">创建问卷</button>
+        </a>
+    </div>
+    <div class="section-content">
+        <table class="com-table">
+            <th class="text-left">序号</th>
+            <th class="text-left">题目名称</th>
+            <th class="text-left">引用次数</th>
+            <th class="text-left">通过数</th>
+            <th class="text-left">操作</th>
+            {% if resdoc %}
+            {% for item in resdoc %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.intention }}</td>
+                <td>{{ item.marks }}</td>
+                <td>{{ item.submitTime }}</td>
+                <td>
+                    <a href="/">查看</a>
+                    <a href="/">编辑</a>
+                    <a href="/">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
     </div>
 </div>
 {% endblock %}

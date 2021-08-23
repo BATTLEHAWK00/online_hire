@@ -3,31 +3,29 @@
 <link rel="stylesheet" href="/css/form.css">
 {% endblock %}
 {% block content %}
-<div class="app">
-    <div class="section" style="width: 50%">
-        <div class="section-header" style="width: 60%;margin: 0 auto">
-            <h1>欢迎登录</h1>
-            <h2 class="text-center">网上招聘系统</h2>
-        </div>
-        <div class="section-content" style="width: 60%">
-            <form action="/login" method="post">
-                <div class="form-row">
-                    <p>用户名</p>
-                    <input type="text" name="userName" placeholder="请输入用户名..." autofocus>
-                </div>
-                <div class="form-row">
-                    <p>密码</p>
-                    <input type="password" name="passwd" placeholder="请输入密码..." autofocus>
-                </div>
-                <div class="form-row text-right">
-                    <a href="/register">注册用户</a>
-                    <a href="/lostpass">忘记密码?</a>
-                </div>
-                <div class="form-row text-center" style="margin: 20px auto">
-                    <input type="submit" class="com-button" value="登录" style="width: 80%">
-                </div>
-            </form>
-        </div>
+<div class="section" style="width: 50%">
+    <div class="section-header" style="width: 60%;margin: 0 auto">
+        <h1>欢迎登录</h1>
+        <h2 class="text-center">网上招聘系统</h2>
+    </div>
+    <div class="section-content" style="width: 60%">
+        <form action="/login" method="post">
+            <div class="form-row">
+                <p>用户名</p>
+                <input type="text" name="userName" placeholder="请输入用户名..." autofocus>
+            </div>
+            <div class="form-row">
+                <p>密码</p>
+                <input type="password" name="passwd" placeholder="请输入密码..." autofocus>
+            </div>
+            <div class="form-row text-right">
+                <a href="/register">注册用户</a>
+                <a href="/lostpass">忘记密码?</a>
+            </div>
+            <div class="form-row text-center" style="margin: 20px auto">
+                <input type="submit" class="com-button" value="登录" style="width: 80%">
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

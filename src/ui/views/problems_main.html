@@ -1,47 +1,45 @@
 {% extends './partials/layouts/basic.html' %}
 {% block content %}
-<div class="app">
-    <div class="section">
-        <div class="section-header">
-            <h1>题库</h1>
-            <a href="/problems/add">
-                <button class="com-button">添加题目</button>
-            </a>
-        </div>
-        <div class="section-content">
-            <table class="com-table">
-                <th class="text-left">序号</th>
-                <th class="text-left">题目名称</th>
-                <th class="text-left">创建人</th>
-                <th class="text-left">修改时间</th>
-                <th class="text-left">引用次数</th>
-                <th class="text-left">通过数</th>
-                <th class="text-left">操作</th>
-                {% if context.problemList %}
-                {% for item in context.problemList %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.createBy }}</td>
-                    <td>{{ item.updateTime | momentAgo }}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>
-                        <a href="/">查看</a>
-                        <a href="/">编辑</a>
-                        <form name="problems_del_{{ item._id }}"
-                              action="/problems/delete/{{ item._id }}"
-                              method="post"
-                              class="com-hiddenform"
-                        >
-                            <a href="javascript:document.problems_del_{{ item._id }}.submit();">删除</a>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-            </table>
-        </div>
+<div class="section">
+    <div class="section-header">
+        <h1>题库</h1>
+        <a href="/problems/add">
+            <button class="com-button">添加题目</button>
+        </a>
+    </div>
+    <div class="section-content">
+        <table class="com-table">
+            <th class="text-left">序号</th>
+            <th class="text-left">题目名称</th>
+            <th class="text-left">创建人</th>
+            <th class="text-left">修改时间</th>
+            <th class="text-left">引用次数</th>
+            <th class="text-left">通过数</th>
+            <th class="text-left">操作</th>
+            {% if context.problemList %}
+            {% for item in context.problemList %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.createBy }}</td>
+                <td>{{ item.updateTime | momentAgo }}</td>
+                <td>0</td>
+                <td>0</td>
+                <td>
+                    <a href="/">查看</a>
+                    <a href="/">编辑</a>
+                    <form name="problems_del_{{ item._id }}"
+                          action="/problems/delete/{{ item._id }}"
+                          method="post"
+                          class="com-hiddenform"
+                    >
+                        <a href="javascript:document.problems_del_{{ item._id }}.submit();">删除</a>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
     </div>
 </div>
 {% endblock %}
