@@ -1,4 +1,4 @@
-import {Client} from 'minio'
+import {Client, ItemBucketMetadata} from 'minio'
 import {Readable} from 'stream'
 import configProvider, {ModuleConfig} from "../lib/configProvider";
 
@@ -46,9 +46,9 @@ export async function Init() {
 }
 
 export class storageService {
-    static async put(areaName: string, objName: string, file: Readable | Buffer | string) {
+    static async put(areaName: string, objName: string, file: Readable | Buffer | string, meta?: ItemBucketMetadata) {
         if (!fileStorageConfig) throw new Error()
-        await minioClient.putObject(fileStorageConfig.bucketName, `${areaName}/${objName}`, file)
+        await minioClient.putObject(fileStorageConfig.bucketName, `${areaName}/${objName}`, file, meta)
     }
 
     static async get(areaName: string, objName: string) {

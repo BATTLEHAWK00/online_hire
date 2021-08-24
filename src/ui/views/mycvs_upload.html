@@ -1,0 +1,43 @@
+{% extends './partials/layouts/basic.html' %}
+{% block head %}
+<link rel="stylesheet" href="/css/form.css">
+<style>
+    .com-textarea {
+        width: 100%;
+        min-height: 50px;
+        max-height: 200px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="section">
+    <div class="section-header">
+        <h1>简历上传</h1>
+    </div>
+    <div class="section-content">
+        <form action="/mycvs/send" method="post" style="width: 50%;margin: 0 auto" enctype="multipart/form-data">
+            <!--            accept=".pdf,.doc,.docx"-->
+            <div class="form-row">
+                <p>上传简历文件</p>
+                <input type="file" name="resumePDF">
+            </div>
+            <div class="form-row">
+                <p>意向部门</p>
+                <select name="intention">
+                    {% for item in context.pList %}
+                    <option value="{{ item._id }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row">
+                <p>个人介绍</p>
+                <textarea name="desc" rows="3" class="com-textarea"></textarea>
+            </div>
+            <div class="form-row text-center">
+                <input type="submit" class="com-button" value="上传">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

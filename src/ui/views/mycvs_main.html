@@ -1,9 +1,22 @@
 {% extends './partials/layouts/basic.html' %}
+{% macro status(str) %}
+{% if str === 'New' %}
+新投递
+{% elif str === 'RequireExam' %}
+试卷待完成
+{% elif str === 'Checking'  %}
+审核中
+{% elif str === 'Failed'  %}
+审核未通过
+{% elif str === 'Success'  %}
+审核通过
+{% endif %}
+{% endmacro %}
 {% block content %}
 <div class="section">
     <div class="section-header">
-        <h1>我投递了{{ context.pList.length | d(0) }}份简历</h1>
-        <a href="/positions/add">
+        <h1>我投递了{{ context.rList.length | d(0) }}份简历</h1>
+        <a href="/mycvs/send">
             <button class="com-button">投递简历</button>
         </a>
     </div>
@@ -14,15 +27,15 @@
             <th class="text-left">投递状态</th>
             <th class="text-left">投递时间</th>
             <th class="text-left">操作</th>
-            {% if context.pList %}
-            {% for item in context.pList %}
+            {% if context.rList %}
+            {% for item in context.rList %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ item.position }}</td>
-                <td>{{ item.state }}</td>
-                <td>{{ item.createTime | momentAgo }}</td>
+                <td>{{ item.intention.name }}</td>
+                <td>{{ status(item.status) }}</td>
+                <td>{{ item.submitTime | momentAgo }}</td>
                 <td>
-                    <a href="/">查看</a>
+                    <a href="/mycvs/detail/{{ item._id }}">查看</a>
                 </td>
             </tr>
             {% endfor %}

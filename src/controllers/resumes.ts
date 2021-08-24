@@ -11,21 +11,10 @@ export class resumesController extends Controller {
     }
 }
 
-export class resumesUploadController extends Controller {
+export class resumeFileController extends Controller {
     async get() {
-        this.setTitle('投递简历')
-        this.render('resume_upload')
-    }
-
-    async post() {
-        if (!this.req.file) throw new RequestInvalidError()
-        const fileMD5 = crypto.createHash('md5')
-            .update(this.req.file.buffer)
-            .digest('hex')
-            .toString()
-        const fileExt = path.extname(this.req.file.originalname)
-        const objName = `${this.getSessionContext('loggedUser')._id}/${fileMD5}${fileExt}`
-        await storageService.put('resumeFiles', objName, this.req.file.buffer)
-        this.renderMessage('投递成功!')
+        const path = `${this.params['user']}/${this.params['filename']}`
+        const file = await storageService.get('resumeFiles', path)
+        file.pipe(this.resp)
     }
 }

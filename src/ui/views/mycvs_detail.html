@@ -1,0 +1,33 @@
+{% extends './partials/layouts/basic.html' %}
+{% block head %}
+<link rel="stylesheet" href="/css/form.css">
+<style>
+    .resume-iframe {
+        width: 80%;
+        /*height: 1200px;*/
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="section">
+    <div class="section-header">
+        <h1>简历</h1>
+        <p>ID: {{ context.rDoc._id }}</p>
+        <p>投递人: {{ context.rDoc.uid }}</p>
+        <p>投递时间: {{ context.rDoc.submitTime }}</p>
+        <p>投递部门: {{ context.rDoc.intention.name }}</p>
+    </div>
+    <div class="section-content">
+        <div class="form-row text-center">
+            <div><a href="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}">点此下载简历文件</a></div>
+            <iframe
+                    src="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}#toolbar=0&navpanes=0&scrollbar=0"
+                    class="resume-iframe"
+                    height="800px"
+            >
+            </iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}
