@@ -12,8 +12,8 @@ export interface Controller {
 }
 
 export class Controller {
-    private req: Request
-    private resp: Response
+    protected req: Request
+    protected resp: Response
     private UIContext: any = {context: {}}
     protected params: any
 

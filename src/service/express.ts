@@ -2,8 +2,11 @@ import express, {NextFunction, Request, Response} from "express";
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import configProvider from '../lib/configProvider'
 
 export const app = express();
+
+const systemContext = configProvider.getGlobalConfig().system
 
 const middlewares: any[] = []
 
@@ -65,3 +68,4 @@ middlewares.push(handle404)
 middlewares.push(errorHandleMiddleware)
 
 middlewares.forEach((middleware) => app.use(middleware))
+

@@ -16,8 +16,9 @@ import {
     questionnaireController,
     questionnaireDetailController
 } from "../controllers/questionnaire";
-import {resumesController} from "../controllers/resumes";
+import {resumesController, resumesUploadController} from "../controllers/resumes";
 import {mycvsController} from "../controllers/mycvs";
+import multipart from "../service/middlewares/multipart";
 
 router.all('/', (req, resp) => handle(req, resp, indexController))
 
@@ -40,6 +41,7 @@ router.all('/questionnaire/add', (req, resp) => handle(req, resp, addQuestionnai
 router.all('/questionnaire/detail/:_id', (req, resp) => handle(req, resp, questionnaireDetailController))
 
 router.all('/resumes', (req, resp) => handle(req, resp, resumesController))
+router.all('/resumes/add', multipart.single('resumePDF'), (req, resp) => handle(req, resp, resumesUploadController))
 
 router.all('/mycvs', (req, resp) => handle(req, resp, mycvsController))
 

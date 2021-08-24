@@ -1,0 +1,17 @@
+system:
+  displayName: 网上招聘系统
+server:
+  port: 3000
+modules:
+  database:
+    db_host: localhost
+    db_port: 27017
+    db_name: online_hire
+  fileStorage:
+    endPoint: localhost
+    port: 9050
+    useSSL: false
+    accessKey: admin
+    secretKey: adminadmin
+    bucketName: online-hire
+    region: online_hire
