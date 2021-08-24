@@ -12,7 +12,7 @@ interface MainConfig {
         displayName: string,
     },
     server: {
-        port: number,
+        port: string,
         address?: string,
     }
     modules: Record<string, ModuleConfig>
@@ -63,7 +63,7 @@ const DefaultConfiguration: MainConfig = {
         displayName: '网上招聘系统'
     },
     server: {
-        port: 3000,
+        port: '3000',
     },
     modules: {}
 }
