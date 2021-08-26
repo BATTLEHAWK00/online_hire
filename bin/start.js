@@ -16,4 +16,20 @@ async function Init() {
     await server.Start(app)
 }
 
-Init()
+const openDefaultBrowser = function (url) {
+    const exec = require('child_process').exec;
+    switch (process.platform) {
+        case "darwin":
+            exec('open ' + url);
+            break;
+        case "win32":
+            exec('start ' + url);
+            break;
+        default:
+            exec('xdg-open', [url]);
+    }
+}
+
+Init().then(r => {
+    openDefaultBrowser(`http://localhost:${configProvider.default.getGlobalConfig().server.port}`)
+})
