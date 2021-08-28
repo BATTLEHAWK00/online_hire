@@ -9,6 +9,7 @@ export interface User {
     _id?: ObjectId,
     userName?: string,
     passwd?: string,
+    salt?: string,
     realName?: string,
     phone?: string,
     gender?: number,

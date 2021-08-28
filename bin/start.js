@@ -31,5 +31,5 @@ const openDefaultBrowser = function (url) {
 }
 
 Init().then(r => {
-    openDefaultBrowser(`http://localhost:${configProvider.default.getGlobalConfig().server.port}`)
+    // openDefaultBrowser(`http://localhost:${configProvider.default.getGlobalConfig().server.port}`)
 })

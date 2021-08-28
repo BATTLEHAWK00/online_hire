@@ -7,6 +7,7 @@ import {
     UserAlreadyExistsError,
     UserNotExistError
 } from "../service/error";
+import {sha1} from "../lib/crypto";
 
 export class loginController extends Controller {
     async get() {
@@ -20,8 +21,11 @@ export class loginController extends Controller {
 
     async post() {
         const user = await userModel.getUserByUname(this.params['userName'])
-        if (user && user['passwd'] === this.params['passwd']) {
+        if (user) {
+            const {cipher} = sha1(this.params['passwd'], user.salt)
+            if (cipher !== user.passwd) throw new LoginInvalidError()
             delete user['passwd']
+            delete user['salt']
             this.setSessionContext('loggedUser', user)
             this.renderMessage('您已登录成功!')
         } else throw new LoginInvalidError()
@@ -39,12 +43,14 @@ export class registerController extends Controller {
         if (this.params['confirmPasswd'] !== this.params['passwd']) throw new Error()
         const user: User = {
             userName: this.params['userName'],
-            passwd: this.params['passwd'],
             realName: this.params['realName'],
             phone: this.params['phone'],
             email: this.params['email'],
             role: 'applicant'
         }
+        const digest = sha1(this.params['passwd'])
+        user.passwd = digest.cipher
+        user.salt = digest.salt
         await userModel.createUser(user)
         this.renderMessage('注册成功!')
     }
@@ -78,10 +84,14 @@ export class userDetailController extends Controller {
             userName: this.params['userName'],
             realName: this.params['realName'],
             gender: this.params['gender'],
-            passwd: this.params['passwd'],
             phone: this.params['phone'],
             email: this.params['email'],
             desc: this.params['desc'],
+        }
+        if (this.params['passwd']) {
+            const digest = sha1(this.params['passwd'])
+            user.salt = digest.salt
+            user.passwd = digest.cipher
         }
         const $set: any = {}
         for (const userKey in user) {
