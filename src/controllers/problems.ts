@@ -87,7 +87,8 @@ function singleChoiceDoc(params: any): Problem {
         desc: params['desc'],
         type: 'SingleChoice',
         content: {
-            options: params['options']
+            options: params['options'],
+            answer: params['answer']
         }
     }
 }
@@ -98,7 +99,8 @@ function multipleChoiceDoc(params: any): Problem {
         desc: params['desc'],
         type: 'MultipleChoice',
         content: {
-            options: params['options']
+            options: params['options'],
+            answers: params['answers']
         }
     }
 }

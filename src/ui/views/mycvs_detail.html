@@ -12,10 +12,8 @@
 {% block content %}
 <div class="section">
     <div class="section-header">
-        <h1>简历</h1>
-        <p>ID: {{ context.rDoc._id }}</p>
-        <p>投递人: {{ context.rDoc.uid }}</p>
-        <p>投递时间: {{ context.rDoc.submitTime }}</p>
+        <h1>简历: {{ context.rDoc._id }}</h1>
+        <p>投递时间: {{ context.rDoc.submitTime | momentAgo }}</p>
         <p>投递部门: {{ context.rDoc.intention.name }}</p>
     </div>
     <div class="section-content">
