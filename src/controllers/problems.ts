@@ -22,6 +22,15 @@ export class problemsHandler extends Controller {
     }
 }
 
+export class problemsDetailController extends Controller {
+    async get() {
+        const pDoc = await problemModel.getByID(this.params['_id'])
+        this.setUIContext('pDoc', pDoc)
+        this.setTitle('题库')
+        this.render('problems_detail')
+    }
+}
+
 export class chooseProblemsTypeController extends Controller {
     async get() {
         this.setTitle('添加问题')

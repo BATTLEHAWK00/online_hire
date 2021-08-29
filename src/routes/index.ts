@@ -7,7 +7,7 @@ import {indexController, testController} from "../controllers/index";
 import {
     addProblemsController,
     chooseProblemsTypeController,
-    deleteProblemController,
+    deleteProblemController, problemsDetailController,
     problemsHandler
 } from "../controllers/problems";
 import {addPositionsController, deletePositionController, positionsController} from "../controllers/positions";
@@ -28,6 +28,7 @@ router.all('/register', (req, resp) => handle(req, resp, registerController))
 router.all('/logout', (req, resp) => handle(req, resp, logoutController))
 
 router.all('/problems', (req, resp) => handle(req, resp, problemsHandler))
+router.all('/problems/detail/:_id', (req, resp) => handle(req, resp, problemsDetailController))
 router.all('/problems/add', (req, resp) => handle(req, resp, chooseProblemsTypeController))
 router.all('/problems/add/:problemType', (req, resp) => handle(req, resp, addProblemsController))
 router.all('/problems/delete/:_id', (req, resp) => handle(req, resp, deleteProblemController))
