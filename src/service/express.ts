@@ -13,13 +13,13 @@ const middlewares: any[] = []
 // 配置模板引擎
 import nunjucks from 'nunjucks';
 
-const templatePath: string = path.join(__dirname, '../ui/views')
+const templatePath: string = path.join(__dirname, '../ui/templates')
 const nunjucksEnv = nunjucks.configure(templatePath, {
     autoescape: true,
     express: app,
     watch: true,
 });
-app.set('views', templatePath);
+app.set('templates', templatePath);
 app.set('view engine', 'html');
 
 //配置过滤器
