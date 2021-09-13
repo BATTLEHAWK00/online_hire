@@ -10,6 +10,9 @@ const systemContext = configProvider.getGlobalConfig().system
 
 const middlewares: any[] = []
 
+//路由日志记录
+middlewares.push(logger('dev'))
+
 // 配置模板引擎
 import nunjucks from 'nunjucks';
 
@@ -22,13 +25,16 @@ const nunjucksEnv = nunjucks.configure(templatePath, {
 app.set('templates', templatePath);
 app.set('view engine', 'html');
 
+import {devMiddleware, hotMiddleware} from './webpack'
+
+middlewares.push(devMiddleware)
+middlewares.push(hotMiddleware)
+
 //配置过滤器
 import registerFilters from "../lib/nunjucks_filter";
 
 registerFilters(nunjucksEnv)
 
-//路由日志记录
-middlewares.push(logger('dev'))
 //处理ResponseBody
 middlewares.push(express.json())
 //处理RequestBody
