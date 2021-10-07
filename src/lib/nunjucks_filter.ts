@@ -24,7 +24,7 @@ const escapeJSFilter: Filter = {
     }
 }
 
-const filters: Filter[] = [
+export const filters: Filter[] = [
     momentAgoFilter,
     escapeJSFilter
 ]

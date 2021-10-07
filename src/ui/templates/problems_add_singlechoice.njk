@@ -1,8 +1,8 @@
-{% extends './problems_add.html' %}
+{% extends './problems_add.njk' %}
 {% block form %}
 <div id="vue-app">
-    <form action="/problems/add/multiplechoice" method="post">
-        <!--    <input type="hidden" name="problemType" value="MultipleChoice">-->
+    <form action="/problems/add/singlechoice" method="post">
+        <!--    <input type="hidden" name="problemType" value="SingleChoice">-->
         <div class="form-row">
             <p>题目名称</p>
             <input type="text" name="name" placeholder="题目名称" autofocus>
@@ -37,8 +37,7 @@
                 options: [
                     {idx: 1, desc: ""},
                     {idx: 2, desc: ""},
-                    {idx: 3, desc: ""},
-                    {idx: 4, desc: ""}
+                    {idx: 3, desc: ""}
                 ],
                 answer: null
             }

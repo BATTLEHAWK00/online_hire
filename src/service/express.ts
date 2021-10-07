@@ -23,7 +23,7 @@ const nunjucksEnv = nunjucks.configure(templatePath, {
     watch: true,
 });
 app.set('templates', templatePath);
-app.set('view engine', 'html');
+app.set('view engine', 'njk');
 
 import {devMiddleware, hotMiddleware} from './webpack'
 
