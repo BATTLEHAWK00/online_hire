@@ -1,1 +1,5 @@
-const css = require('./public/css/style.css')
+const css1 = require('./public/css/style.css')
+const css2 = require('./public/css/sections.css')
+const css3 = require('./public/css/text-layout.css')
+const css4 = require('./public/css/components.css')
+console.log('test')
