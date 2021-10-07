@@ -25,6 +25,7 @@ export class Controller {
 
     render(templateName: string) {
         if (!this.UIContext['title']) this.setTitle(templateName)
+        this.setUIContext('pageName', templateName)
         this.setUIContext('loggedUser', this.getSessionContext('loggedUser'))
         this.resp.render(templateName, this.UIContext)
     }

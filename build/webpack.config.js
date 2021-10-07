@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackBar = require('webpackbar');
 const ExtractCssPlugin = require('mini-css-extract-plugin')
+const {VueLoaderPlugin} = require('vue-loader');
+
 
 require('./fileScanner')
 
@@ -21,15 +23,25 @@ module.exports = {
         new WebpackBar(),
         new ExtractCssPlugin({
             filename: '[name].css?[hash]'
-        })
+        }),
+        new VueLoaderPlugin()
     ],
     module: {
         rules: [
             {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
                 test: /\.css$/,
                 use: [ExtractCssPlugin.loader, 'css-loader'],
                 exclude: /node_modules/
-            }
+            },
+            {
+                test: /\.styl(us)?$/,
+                use: [ExtractCssPlugin.loader, 'css-loader','stylus-loader'],
+                exclude: /node_modules/
+            },
         ]
     }
 }

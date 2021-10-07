@@ -4,14 +4,14 @@ server:
   port: 3000
 modules:
   database:
-    db_host: localhost
+    db_host: battlehawk233.cn
     db_port: 27017
     db_name: online_hire
   fileStorage:
-    endPoint: localhost
-    port: 9050
+    endPoint: battlehawk233.cn
+    port: 10000
     useSSL: false
     accessKey: admin
-    secretKey: adminadmin
+    secretKey: 20010428YXL.
     bucketName: online-hire
     region: online_hire

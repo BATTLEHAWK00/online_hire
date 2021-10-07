@@ -7,7 +7,7 @@
     "start:watch": "nodemon -- --trace-deprecation"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.4",
+    "@vue/compiler-sfc": "^3.2.19",
     "@vue/server-renderer": "^3.2.4",
     "ant-design-vue": "^2.2.6",
     "connect-mongo": "^4.5.0",
@@ -32,10 +32,13 @@
     "nunjucks": "^3.2.3",
     "nunjucks-loader": "^3.0.0",
     "nunjucks-webpack-plugin": "^5.0.0",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.1.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.3.5",
     "uuid": "^8.3.2",
-    "vue": "^3.2.4",
+    "vue": "^3.2.19",
+    "vue-loader": "^16.8.1",
     "webpack": "^5.51.1",
     "webpack-dev-middleware": "^5.1.0",
     "webpack-hot-middleware": "^2.25.0",

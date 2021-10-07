@@ -12,19 +12,6 @@ function manageEnv(env: any) {
     filters.forEach((filter: any) => env.addFilter(filter.name, filter.filterFunc, filter.async))
 }
 
-
-// function test() {
-//     return gulp.src([src + '/ui/templates/*.njk'])
-//         .pipe(nunjucksRender({
-//             path: [src + '/ui/templates'], // String or Array
-//             data: {
-//                 test: 'test'
-//             },
-//             manageEnv
-//         }))
-//         .pipe(gulp.dest(dist))
-// }
-
 function test() {
     const resources = gulp.src([src+ '/ui/public/**/*.js', '/ui/public/**/*.css'], {read: false})
     return gulp.src([src + '/ui/templates/*.njk'])
