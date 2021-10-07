@@ -4,7 +4,7 @@ import configProvider, {ModuleConfig} from "../lib/configProvider";
 let connection: MongoClient | null = null
 let database: Db
 
-interface DatabaseConfig extends ModuleConfig {
+export interface DatabaseConfig extends ModuleConfig {
     db_host: string,
     db_port: number,
     db_name: string,
@@ -18,7 +18,7 @@ const defaultConfig: DatabaseConfig = {
 
 let db_config: DatabaseConfig | null = null
 
-function buildURL(config: DatabaseConfig) {
+export function buildURL(config: DatabaseConfig) {
     return `mongodb://${config.db_host}:${config.db_port}/${config.db_name}`
 }
 

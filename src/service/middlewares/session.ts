@@ -1,5 +1,9 @@
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import configProvider from "../../lib/configProvider";
+import {buildURL, DatabaseConfig} from "../database";
+
+const db_config = <DatabaseConfig>configProvider.getModuleConfig('database')
 
 export const sessionMiddleware = session({
     secret: 'online-hire',
@@ -8,7 +12,7 @@ export const sessionMiddleware = session({
     saveUninitialized: false,
     cookie: {secure: false, maxAge: 1000 * 60 * 60},
     store: new MongoStore({
-        mongoUrl: 'mongodb://localhost:27017/online_hire',
+        mongoUrl: buildURL(db_config),
         collectionName: 'session',
         touchAfter: 3600,
         autoRemove: "interval",

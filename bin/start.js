@@ -6,10 +6,12 @@ const configProvider = require("../src/lib/configProvider");
 async function Init() {
     //读取配置文件
     configProvider.Init()
-    //初始化数据库
-    await database.ConnectDB()
-    //初始化文件存储服务
-    await fileStorage.Init()
+    await Promise.all([
+        //初始化数据库
+        database.ConnectDB(),
+        //初始化文件存储服务
+        fileStorage.Init()
+    ])
     //Express初始化
     const {app} = require("../src/service/express")
     //开启服务器

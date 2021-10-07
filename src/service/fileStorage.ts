@@ -25,19 +25,20 @@ const DefaultConfig: FileStorageConfig = {
 }
 
 
-const minioClient = new Client({
-    endPoint: 'localhost',
-    port: 9050,
-    useSSL: false,
-    accessKey: 'admin',
-    secretKey: 'adminadmin'
-})
+let minioClient: Client;
 
 export async function Init() {
     if (!configProvider.moduleConfigExists('fileStorage'))
         configProvider.updateModuleConfig('fileStorage', DefaultConfig)
     fileStorageConfig = <FileStorageConfig>configProvider.getModuleConfig('fileStorage')
     console.log('Configuring fileStorage service..')
+    minioClient = new Client({
+        endPoint: fileStorageConfig.endPoint,
+        port: fileStorageConfig.port,
+        useSSL: fileStorageConfig.useSSL,
+        accessKey: fileStorageConfig.accessKey,
+        secretKey: fileStorageConfig.secretKey
+    })
     if (!await minioClient.bucketExists(fileStorageConfig.bucketName)) {
         console.log('Creating bucket...')
         await minioClient.makeBucket(fileStorageConfig.bucketName, fileStorageConfig.region);
