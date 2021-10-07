@@ -1,5 +1,5 @@
 const startTime = new Date()
-
+const Vue = require('vue')
 // 引入全局样式
 require.context('./public/css/', true, /\.styl(us)?$/i);
 
@@ -23,19 +23,18 @@ function loadVueComponents(ctx) {
     ctx.keys().forEach(key => {
         const contextDir = key.split('/')[1];
         if (contextDir === pageName) {
-            const Vue = require('vue')
             const component = ctx(key).default
             const mount_id = `vue-${component.name}`
-            if (document.getElementById(mount_id)) Vue.createApp(component).mount(`#${mount_id}`);
+            if (document.getElementById(mount_id)) Vue.createApp(component).mount(`#${mount_id}`)
         }
     })
 }
 
 loadPageContext(require.context(`./pages/`, true, /\.styl(us)?$/i))
-loadPageContext(require.context(`./pages/`, true, /\.js?$/i))
 
 window.onload = () => {
     loadVueComponents(require.context(`./pages/`, true, /\.vue?$/i))
+    loadPageContext(require.context(`./pages/`, true, /\.js?$/i))
     const endTime = new Date()
     console.log(`load complete. (${endTime - startTime}ms)`)
 }

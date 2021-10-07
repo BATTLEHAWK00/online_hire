@@ -7,9 +7,11 @@
     "start:watch": "nodemon -- --trace-deprecation"
   },
   "dependencies": {
+    "@babel/core": "^7.15.8",
     "@vue/compiler-sfc": "^3.2.19",
     "@vue/server-renderer": "^3.2.4",
     "ant-design-vue": "^2.2.6",
+    "babel-loader": "^8.2.2",
     "connect-mongo": "^4.5.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

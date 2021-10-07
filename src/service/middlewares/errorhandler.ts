@@ -7,5 +7,5 @@ export const errorHandleMiddleware = function (err: any, req: Request, res: Resp
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error.njk');
 }
