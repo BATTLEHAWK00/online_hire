@@ -9,6 +9,7 @@
     <script src="/main.js"></script>
     <script src="/chunk-vendors.js"></script>
     <link rel="stylesheet" href="/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@next"></script>
     {% block head %} {% endblock %}
     <script>
         window.UIContext = JSON.parse('{{ context | dump | d('{}') | safe }}')

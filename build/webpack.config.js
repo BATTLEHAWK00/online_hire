@@ -8,6 +8,9 @@ module.exports = {
     entry: [path.resolve(__dirname, "../src/ui/entry.js"), 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',],
     mode: "development",
     devtool: 'source-map',
+    externals: {
+        'vue': 'Vue'
+    },
     output: {
         path: path.resolve(__dirname, "../dist"),
         filename: "[name].js?[fullhash]",
@@ -15,28 +18,34 @@ module.exports = {
         hashFunction: 'sha1',
         hashDigest: 'hex',
         hashDigestLength: 10,
-        chunkFilename: '[name].[chunkhash].chunk.js',
+        chunkFilename: '[name].chunk.js?[chunkhash]',
     },
     optimization: {
         splitChunks: {
             chunks: 'async',
-            minSize: 30,
+            minSize: 0,
             minChunks: 1,
             maxAsyncRequests: 6,
             maxInitialRequests: 4,
             automaticNameDelimiter: '~',
             cacheGroups: {
+                styles: {
+                    name: 'chunk-styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    priority: -10,
+                },
                 vendors: {
                     name: `chunk-vendors`,
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
-                    chunks: 'initial'
+                    chunks: 'all'
                 },
                 common: {
                     name: `chunk-common`,
                     minChunks: 2,
                     priority: -20,
-                    chunks: 'initial',
+                    chunks: 'all',
                     reuseExistingChunk: true
                 }
             }
@@ -45,7 +54,8 @@ module.exports = {
     plugins: [
         new WebpackBar(),
         new ExtractCssPlugin({
-            filename: '[name].css?[fullhash]'
+            filename: '[name].css?[fullhash]',
+            chunkFilename: '[name].chunk.css?[fullhash]'
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({

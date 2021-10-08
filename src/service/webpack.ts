@@ -8,7 +8,7 @@ const compiler = webpack(webpackConfig)
 
 export const devMiddleware = webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
-    stats: 'errors-only'
+    // stats: 'errors-only'
 })
 
 export const hotMiddleware = webpackHotMiddleware(compiler)
