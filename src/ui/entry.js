@@ -48,17 +48,17 @@ async function loadPageScripts() {
     }, 'page-scripts');
 }
 
-window.onload = async () => {
-    await loadPageStyles()
-    await loadPageScripts()
-    await loadVueComponents()
-    const endTime = new Date()
-    console.log(`page load complete. (${endTime - startTime}ms)`)
-}
-
 if (process.env.NODE_ENV === 'development') {
     if (module.hot) {
         console.log('using development hot update.')
         module.hot.accept();
     }
 }
+
+window.addEventListener('load', async () => {
+    await loadPageStyles()
+    await loadPageScripts()
+    await loadVueComponents()
+    const endTime = new Date()
+    console.log(`page load complete. (${endTime - startTime}ms)`)
+})
