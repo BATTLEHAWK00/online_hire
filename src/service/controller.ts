@@ -71,6 +71,6 @@ export async function handle(req: Request, resp: Response, handlerClass: any) {
         else throw new MethodNotAllowedError()
     } catch (error) {
         resp.status(error.status || 500)
-        resp.render('error.html', {title: '错误', error})
+        resp.render('error', {title: '错误', error})
     }
 }
