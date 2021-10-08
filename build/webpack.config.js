@@ -3,6 +3,9 @@ const WebpackBar = require('webpackbar');
 const ExtractCssPlugin = require('mini-css-extract-plugin')
 const {VueLoaderPlugin} = require('vue-loader');
 const webpack = require("webpack");
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 
 module.exports = {
     entry: [path.resolve(__dirname, "../src/ui/entry.js"), 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',],
@@ -18,7 +21,7 @@ module.exports = {
         hashFunction: 'sha1',
         hashDigest: 'hex',
         hashDigestLength: 10,
-        chunkFilename: '[name].chunk.js?[chunkhash]',
+        // chunkFilename: '[id].chunk.js?[chunkhash]',
     },
     optimization: {
         splitChunks: {
@@ -55,7 +58,7 @@ module.exports = {
         new WebpackBar(),
         new ExtractCssPlugin({
             filename: '[name].css?[fullhash]',
-            chunkFilename: '[name].chunk.css?[fullhash]'
+            chunkFilename: '[id].chunk.css?[fullhash]'
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
@@ -63,6 +66,16 @@ module.exports = {
             __VUE_PROD_DEVTOOLS__: false,
         }),
         new webpack.HotModuleReplacementPlugin(),
+        // new OptimizeCSSPlugin({
+        //     cssProcessorOptions: {safe: true, map: {inline: false}}
+        // }),
+        // new UglifyJsPlugin({
+        //     uglifyOptions: {
+        //         compress: true
+        //     },
+        //     sourceMap: true,
+        //     parallel: true
+        // }),
     ],
     module: {
         rules: [

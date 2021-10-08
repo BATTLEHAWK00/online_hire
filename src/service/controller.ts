@@ -1,15 +1,15 @@
 import {Response, Request} from "express";
-import {MethodNotAllowedError} from "./error"
+import {MethodNotAllowedError, UnauthorizedError} from "./error"
 
-export interface Controller {
-    get(): void
-
-    post(): void
-
-    put(): void
-
-    delete(): void
-}
+// export interface Controller {
+//     get(): void
+//
+//     post(): void
+//
+//     put(): void
+//
+//     delete(): void
+// }
 
 export class Controller {
     protected req: Request
@@ -67,9 +67,12 @@ export async function handle(req: Request, resp: Response, handlerClass: any) {
     try {
         const handler = new handlerClass(req, resp)
         const method: string = req['method'].toLowerCase()
+        if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
+            throw new UnauthorizedError('你还没有登录！')
         if (handler[method]) await handler[method]()
         else throw new MethodNotAllowedError()
     } catch (error) {
+        // @ts-ignore
         resp.status(error.status || 500)
         resp.render('error', {title: '错误', error})
     }

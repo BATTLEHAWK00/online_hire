@@ -2,7 +2,9 @@ import {Controller} from "../service/controller";
 import problemModel, {Problem} from "../models/problem";
 import {RequestInvalidError} from "../service/error";
 import userModel from "../models/user";
+import {RequireAuth} from "../service/controllerDecorators";
 
+@RequireAuth()
 export class problemsHandler extends Controller {
     async get() {
         const problemList = []

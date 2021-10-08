@@ -1,7 +1,9 @@
 import {Controller} from "../service/controller";
 import positionModel from "../models/position";
 import {PositionAlreadyExistsError} from "../service/error";
+import {RequireAuth} from "../service/controllerDecorators";
 
+@RequireAuth()
 export class positionsController extends Controller {
     async get() {
         this.setTitle('职位')
@@ -10,6 +12,7 @@ export class positionsController extends Controller {
     }
 }
 
+@RequireAuth()
 export class addPositionsController extends Controller {
     async get() {
         this.setTitle('添加职位')
@@ -27,6 +30,7 @@ export class addPositionsController extends Controller {
     }
 }
 
+@RequireAuth()
 export class deletePositionController extends Controller {
     async post() {
         await positionModel.deletePosition(this.params['_id'])

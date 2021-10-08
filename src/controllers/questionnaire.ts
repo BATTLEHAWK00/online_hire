@@ -4,7 +4,9 @@ import problemModel from "../models/problem";
 import userModel from "../models/user";
 import {RequestInvalidError} from "../service/error";
 import questionnaire from "../models/questionnaire";
+import {RequireAuth} from "../service/controllerDecorators";
 
+@RequireAuth()
 export class questionnaireController extends Controller {
     async get() {
         const qList = []

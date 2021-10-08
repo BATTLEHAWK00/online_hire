@@ -6,6 +6,7 @@ const webpackConfig = require('../../build/webpack.config.js')
 
 const compiler = webpack(webpackConfig)
 
+// @ts-ignore
 export const devMiddleware = webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
     // stats: 'errors-only'

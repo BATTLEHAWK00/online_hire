@@ -5,7 +5,9 @@ import crypto from "crypto";
 import path from "path";
 import {storageService} from "../service/fileStorage";
 import positionModel from "../models/position";
+import {RequireAuth} from "../service/controllerDecorators";
 
+@RequireAuth()
 export class mycvsController extends Controller {
     async get() {
         const rList: any = await resumesModel.getResumesByUID(this.getSessionContext('loggedUser')._id)
@@ -18,6 +20,7 @@ export class mycvsController extends Controller {
     }
 }
 
+@RequireAuth()
 export class mycvsDetailController extends Controller {
     async get() {
         const rDoc: any = await resumesModel.getResumeByID(this.params['_id'])
@@ -28,6 +31,7 @@ export class mycvsDetailController extends Controller {
     }
 }
 
+@RequireAuth()
 export class mycvsUploadController extends Controller {
     async get() {
         const pList = await positionModel.getPositionList()

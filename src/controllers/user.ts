@@ -8,6 +8,7 @@ import {
     UserNotExistError
 } from "../service/error";
 import {sha1} from "../lib/crypto";
+import {RequireAuth} from "../service/controllerDecorators";
 
 export class loginController extends Controller {
     async get() {
@@ -56,6 +57,7 @@ export class registerController extends Controller {
     }
 }
 
+@RequireAuth()
 export class logoutController extends Controller {
     async get() {
         this.setSessionContext('loggedUser', null)
@@ -63,6 +65,7 @@ export class logoutController extends Controller {
     }
 }
 
+@RequireAuth()
 export class userDetailController extends Controller {
     async get() {
         const loggedUser = this.getSessionContext('loggedUser')
