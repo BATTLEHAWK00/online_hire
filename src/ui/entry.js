@@ -36,7 +36,7 @@ window.onload = () => {
     loadVueComponents(require.context(`./pages/`, true, /\.vue?$/i))
     loadPageContext(require.context(`./pages/`, true, /\.js?$/i))
     const endTime = new Date()
-    console.log(`load complete. (${endTime - startTime}ms)`)
+    console.log(`page load complete. (${endTime - startTime}ms)`)
 }
 
 if (process.env.NODE_ENV === 'development') {

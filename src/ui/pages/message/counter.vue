@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted() {
-    setInterval(() => this.timer--, 1000)
+    setInterval(() => this.timer > 0 ? this.timer-- : null, 1000)
   },
 }
 </script>
