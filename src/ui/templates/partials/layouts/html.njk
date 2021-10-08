@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/main.css">
     {% block head %} {% endblock %}
     <script>
-        window.UIContext = JSON.parse('{{ context | dump | safe }}')
+        window.UIContext = JSON.parse('{{ context | dump | d('{}') | safe }}')
     </script>
 </head>
 <body>
