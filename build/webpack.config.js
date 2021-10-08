@@ -5,11 +5,12 @@ const {VueLoaderPlugin} = require('vue-loader');
 const webpack = require("webpack");
 
 module.exports = {
-    entry: path.resolve(__dirname, "../src/ui/entry.js"),
+    entry: [path.resolve(__dirname, "../src/ui/entry.js"), 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',],
     mode: "development",
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, "../dist"),
-        filename: "[name].js?[hash]",
+        filename: "[name].js?[fullhash]",
         publicPath: "/",
         hashFunction: 'sha1',
         hashDigest: 'hex',
@@ -44,13 +45,14 @@ module.exports = {
     plugins: [
         new WebpackBar(),
         new ExtractCssPlugin({
-            filename: '[name].css?[hash]'
+            filename: '[name].css?[fullhash]'
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
             __VUE_OPTIONS_API__: true,
             __VUE_PROD_DEVTOOLS__: false,
         }),
+        new webpack.HotModuleReplacementPlugin(),
     ],
     module: {
         rules: [

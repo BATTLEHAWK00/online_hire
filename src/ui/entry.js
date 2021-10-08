@@ -38,3 +38,10 @@ window.onload = () => {
     const endTime = new Date()
     console.log(`load complete. (${endTime - startTime}ms)`)
 }
+
+if (process.env.NODE_ENV === 'development') {
+    console.log('using development config.')
+    if (module.hot) {
+        module.hot.accept();
+    }
+}

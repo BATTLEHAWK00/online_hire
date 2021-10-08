@@ -3,12 +3,16 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import configProvider from '../lib/configProvider'
+import compression from 'compression'
 
 export const app = express();
 
 const systemContext = configProvider.getGlobalConfig().system
 
 const middlewares: any[] = []
+
+// 启用Gzip压缩
+middlewares.push(compression())
 
 //路由日志记录
 middlewares.push(logger('dev'))

@@ -7,11 +7,8 @@ const webpackConfig = require('../../build/webpack.config.js')
 const compiler = webpack(webpackConfig)
 
 export const devMiddleware = webpackDevMiddleware(compiler, {
-    //这里的publicPath一定要与webpack配置的publicPath一致
     publicPath: webpackConfig.output.publicPath,
-    stats: {
-        colors: true
-    },
+    stats: 'errors-only'
 })
 
 export const hotMiddleware = webpackHotMiddleware(compiler)
