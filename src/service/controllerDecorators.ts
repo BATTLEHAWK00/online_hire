@@ -1,5 +1,5 @@
 export function RequireAuth() {
-    return function (constructor: Function) {
-        constructor.prototype.__requireAuth = true
-    }
+  return function (constructor: Function) {
+    constructor.prototype.__requireAuth = true;
+  };
 }

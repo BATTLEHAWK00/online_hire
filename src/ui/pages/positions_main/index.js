@@ -1,1 +1,1 @@
-console.log(window.UIContext)
+console.log(window.UIContext);

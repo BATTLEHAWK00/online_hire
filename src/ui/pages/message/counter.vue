@@ -4,18 +4,16 @@
 
 <script>
 export default {
-  name: "counter",
+  name: 'counter',
   data() {
     return {
-      timer: 3
-    }
+      timer: 3,
+    };
   },
   mounted() {
-    setInterval(() => this.timer > 0 ? this.timer-- : null, 1000)
+    setInterval(() => (this.timer > 0 ? this.timer-- : null), 1000);
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

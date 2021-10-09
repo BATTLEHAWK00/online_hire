@@ -1,36 +1,33 @@
-import {Environment} from 'nunjucks';
-import moment from "moment";
+import { Environment } from 'nunjucks';
+import moment from 'moment';
 
-moment.locale('zh-cn')
+moment.locale('zh-cn');
 
 interface Filter {
-    name: string,
-    async?: boolean,
-    filterFunc: (...args: any) => any
+  name: string;
+  async?: boolean;
+  filterFunc: (...args: any) => any;
 }
 
 const momentAgoFilter: Filter = {
-    name: 'momentAgo',
-    filterFunc(date: Date) {
-        return moment(date).startOf('hour').fromNow();
-    }
-}
+  name: 'momentAgo',
+  filterFunc(date: Date) {
+    return moment(date).startOf('hour').fromNow();
+  },
+};
 
 const escapeJSFilter: Filter = {
-    name: 'escapeJS',
-    filterFunc(templateString: string) {
-        console.log(escape(templateString))
-        return escape(templateString);
-    }
-}
+  name: 'escapeJS',
+  filterFunc(templateString: string) {
+    console.log(escape(templateString));
+    return escape(templateString);
+  },
+};
 
-export const filters: Filter[] = [
-    momentAgoFilter,
-    escapeJSFilter
-]
+export const filters: Filter[] = [momentAgoFilter, escapeJSFilter];
 
 export default function registerFilters(env: Environment) {
-    filters.forEach((filter) => {
-        env.addFilter(filter.name, filter.filterFunc, filter.async)
-    })
+  filters.forEach(filter => {
+    env.addFilter(filter.name, filter.filterFunc, filter.async);
+  });
 }

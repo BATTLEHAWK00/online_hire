@@ -1,14 +1,12 @@
-import {Controller} from "../service/controller";
+import { Controller } from '../service/controller';
 
 export class indexController extends Controller {
-    async get() {
-        this.setTitle('首页')
-        this.render('index')
-    }
+  async get() {
+    this.setTitle('首页');
+    this.render('index');
+  }
 }
 
 export class testController extends Controller {
-    async get() {
-
-    }
+  async get() {}
 }

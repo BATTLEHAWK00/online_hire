@@ -1,8 +1,8 @@
-import multer from 'multer'
+import multer from 'multer';
 
 export default multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 1024 * 1024 * 100
-    }
-})
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 1024 * 1024 * 100,
+  },
+});
