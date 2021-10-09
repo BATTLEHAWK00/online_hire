@@ -6,24 +6,24 @@ module.exports = {
     node: true,
   },
   extends: [
-    'prettier',
     'plugin:vue/essential',
-    // 'eslint:recommended',
-    // 'plugin:@typescript-eslint/recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaVersion: 12,
-    // parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaFeatures: {
       legacyDecorators: true,
     },
     extraFileExtensions: ['.vue']
   },
-  plugins: ['html', '@typescript-eslint', 'vue'],
+  plugins: ['html'],
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/ban-ts-comment': 1
   },
-  // ignorePatterns: ['node_modules/**', '.idea/**'],
 };

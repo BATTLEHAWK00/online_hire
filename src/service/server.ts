@@ -5,7 +5,7 @@ let server: http.Server | null = null;
 class HttpServer {
   port: string | undefined;
 
-  onError(error: { syscall: string; code: any }) {
+  onError(error: { syscall: string; code: never }) {
     if (error.syscall !== 'listen') {
       throw error;
     }
@@ -29,16 +29,14 @@ class HttpServer {
   }
 
   onListening() {
-    // @ts-ignore
-    const addr = server.address();
-    // @ts-ignore
-    const bind =
-      typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    // @ts-ignore
-    console.log('Server listening on ' + addr.address + ' ' + bind);
+    // const addr = server.address();
+    // const bind =
+    //   typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    // console.log('Server listening on ' + addr.address + ' ' + bind);
   }
 
   async Start(app: http.RequestListener | undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const configProvider = require('../lib/configProvider');
 
     const GlobalConfig = configProvider.default.getGlobalConfig();
