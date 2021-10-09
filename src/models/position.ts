@@ -1,13 +1,13 @@
 import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
-const coll: Collection<Position> = getColl('positions');
-
 export interface Position {
   _id?: ObjectId;
   name?: string;
   deleted?: boolean;
 }
+
+const coll: Collection<Position> = getColl('positions');
 
 class positionModel {
   static async addPosition(position: Position) {

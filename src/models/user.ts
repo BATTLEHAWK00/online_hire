@@ -1,8 +1,6 @@
 import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
-const coll: Collection<User> = getColl('users');
-
 type RoleType = 'manager' | 'applicant';
 
 export interface User {
@@ -17,6 +15,8 @@ export interface User {
   desc?: string;
   role?: RoleType;
 }
+
+const coll: Collection<User> = getColl('users');
 
 class userModel {
   static async getUserByID(_id: string) {

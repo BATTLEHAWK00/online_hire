@@ -1,8 +1,11 @@
 import webpack from 'webpack';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import webpackDevMiddleware from 'webpack-dev-middleware';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-const webpackConfig = require('../../build/webpack.config.js');
+// @ts-ignore
+import webpackConfig from '../../build/webpack.config';
 
 const compiler = webpack(webpackConfig);
 

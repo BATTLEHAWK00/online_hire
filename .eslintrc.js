@@ -26,6 +26,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-ts-comment': 1,
     'no-plusplus': 0,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
   },
   overrides: [
     {
@@ -33,6 +35,19 @@ module.exports = {
       extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
       rules: {
         '@typescript-eslint/no-var-requires': 0,
+      },
+    },
+    {
+      files: ['*.ts', '*.js'],
+      excludedFiles: ['src/ui/**/*'],
+      rules: {
+        'no-console': 0,
+        'no-param-reassign': 0,
+        'max-classes-per-file': 0,
+        'no-underscore-dangle': 0,
+        'no-continue': 0,
+        '@typescript-eslint/no-explicit-any': 1,
+        '@typescript-eslint/ban-ts-comment': 1,
       },
     },
   ],

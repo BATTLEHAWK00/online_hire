@@ -4,10 +4,10 @@ import yaml from './yamlUtil';
 
 const defaultConfigFileName = 'config.yaml';
 
-let GlobalConfiguration: MainConfig | null = null;
-let configFilePath: string | null = null;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ModuleConfig {}
 
-interface MainConfig {
+export interface MainConfig {
   system: {
     displayName: string;
   };
@@ -18,8 +18,19 @@ interface MainConfig {
   modules: Record<string, ModuleConfig>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ModuleConfig {}
+const DefaultConfiguration: MainConfig = {
+  system: {
+    displayName: '网上招聘系统',
+  },
+  server: {
+    port: '3000',
+  },
+  modules: {},
+};
+
+let GlobalConfiguration: MainConfig | null = null;
+let configFilePath: string | null = null;
+
 
 function updateModuleConfig(configName: string, configObj: ModuleConfig) {
   if (!GlobalConfiguration || !configFilePath) throw Error();
@@ -48,25 +59,13 @@ function moduleConfigExists(moduleName: string) {
   return !!GlobalConfiguration.modules[moduleName];
 }
 
-export function Init() {
-  console.log('Loading config...');
-  configFilePath =
-    process.env.config || path.join(process.cwd(), defaultConfigFileName);
-  if (!fs.existsSync(configFilePath)) {
-    yaml.save(DefaultConfiguration, configFilePath);
-  }
-  loadConfig();
+console.log('Loading config...');
+configFilePath =
+  process.env.config || path.join(process.cwd(), defaultConfigFileName);
+if (!fs.existsSync(configFilePath)) {
+  yaml.save(DefaultConfiguration, configFilePath);
 }
-
-const DefaultConfiguration: MainConfig = {
-  system: {
-    displayName: '网上招聘系统',
-  },
-  server: {
-    port: '3000',
-  },
-  modules: {},
-};
+loadConfig();
 
 export default {
   updateModuleConfig,

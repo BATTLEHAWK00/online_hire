@@ -2,8 +2,6 @@ import { Client, ItemBucketMetadata } from 'minio';
 import { Readable } from 'stream';
 import configProvider, { ModuleConfig } from '../lib/configProvider';
 
-let fileStorageConfig: FileStorageConfig | null = null;
-
 interface FileStorageConfig extends ModuleConfig {
   endPoint: string;
   port: number;
@@ -13,6 +11,8 @@ interface FileStorageConfig extends ModuleConfig {
   bucketName: string;
   region: string;
 }
+
+let fileStorageConfig: FileStorageConfig | null = null;
 
 const DefaultConfig: FileStorageConfig = {
   endPoint: 'localhost',
@@ -68,7 +68,7 @@ export class storageService {
 
   static async get(areaName: string, objName: string) {
     if (!fileStorageConfig) throw new Error();
-    return await minioClient.getObject(
+    return minioClient.getObject(
       fileStorageConfig.bucketName,
       `${areaName}/${objName}`
     );
@@ -85,7 +85,7 @@ export class storageService {
 
   static async delete(areaName: string, objName: string) {
     if (!fileStorageConfig) throw new Error();
-    return await minioClient.removeObject(
+    return minioClient.removeObject(
       fileStorageConfig.bucketName,
       `${areaName}/${objName}`
     );

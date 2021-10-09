@@ -7,7 +7,6 @@ function load(filePath: string) {
 
 function save(obj: any, filePath: string) {
   fs.writeFileSync(filePath, yaml.dump(obj));
-  return;
 }
 
 export default {

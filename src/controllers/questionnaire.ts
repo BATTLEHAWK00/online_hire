@@ -9,9 +9,11 @@ import { RequireAuth } from '../service/controllerDecorators';
 export class questionnaireController extends Controller {
   async get() {
     const qList = [];
-    for await (const q of await questionnaireModel.getQuestionnaireList()) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const q of await questionnaireModel.getQuestionnaireList()) {
       const { createBy, ...qDoc } = q;
       if (!createBy) continue;
+      // eslint-disable-next-line no-await-in-loop
       const user = await userModel.getUserByID(createBy);
       if (!user) continue;
       qList.push({
@@ -28,12 +30,8 @@ export class questionnaireController extends Controller {
 export class addQuestionnaireController extends Controller {
   async get() {
     const pList = [];
-    for (const {
-      _id,
-      name,
-      desc,
-      type,
-    } of await problemModel.getProblemList()) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const { _id, name, desc, type } of await problemModel.getProblemList()) {
       pList.push({ _id, name, desc, type });
     }
     this.setUIContext('pList', pList);
@@ -57,6 +55,7 @@ export class questionnaireDetailController extends Controller {
     const pList: any = [];
     const q = await questionnaireModel.getByID(this.params._id);
     if (!q?.content) throw new RequestInvalidError();
+    // eslint-disable-next-line no-restricted-syntax
     for await (const p of q.content) {
       pList.push(await problemModel.getByID(p));
     }

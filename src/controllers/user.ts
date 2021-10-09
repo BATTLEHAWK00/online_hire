@@ -99,6 +99,7 @@ export class userDetailController extends Controller {
       user.passwd = digest.cipher;
     }
     const $set: any = {};
+    // eslint-disable-next-line no-restricted-syntax
     for (const userKey in user) {
       if (user[userKey]) $set[userKey] = user[userKey];
     }

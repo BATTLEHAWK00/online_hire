@@ -66,10 +66,11 @@ export class Controller {
   }
 }
 
-export async function handle(req: Request, resp: Response, handlerClass: any) {
+export async function handle(req: Request, resp: Response, HandlerClass: any) {
   try {
-    const handler = new handlerClass(req, resp);
+    const handler = new HandlerClass(req, resp);
     const method: string = req.method.toLowerCase();
+    // eslint-disable-next-line no-underscore-dangle
     if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
       throw new UnauthorizedError('你还没有登录！');
     if (handler[method]) await handler[method]();

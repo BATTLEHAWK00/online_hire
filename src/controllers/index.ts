@@ -8,5 +8,5 @@ export class indexController extends Controller {
 }
 
 export class testController extends Controller {
-  async get() {}
+  // async get() {}
 }

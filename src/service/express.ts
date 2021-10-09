@@ -21,11 +21,13 @@ import indexRouter from '../routes';
 import { NotFoundError } from './error';
 import { errorHandleMiddleware } from './middlewares/errorhandler';
 
+// eslint-disable-next-line import/prefer-default-export
 export const app = express();
 
+// eslint-disable-next-line no-unused-vars
 const systemContext = configProvider.getGlobalConfig().system;
 
-const middlewares: any[] = [];
+const middlewares = [];
 
 // 启用Gzip压缩
 middlewares.push(compression());

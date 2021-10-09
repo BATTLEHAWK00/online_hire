@@ -6,6 +6,7 @@ moment.locale('zh-cn');
 interface Filter {
   name: string;
   async?: boolean;
+  // eslint-disable-next-line no-unused-vars
   filterFunc: (...args: any) => any;
 }
 

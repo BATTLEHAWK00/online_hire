@@ -1,8 +1,6 @@
 import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
-const coll: Collection<Questionnaire> = getColl('questionnaire');
-
 export interface Questionnaire {
   _id?: ObjectId;
   name?: string;
@@ -14,6 +12,8 @@ export interface Questionnaire {
   hidden?: boolean;
   deleted?: boolean;
 }
+
+const coll: Collection<Questionnaire> = getColl('questionnaire');
 
 class questionnaireModel {
   static async getByID(_id: string) {

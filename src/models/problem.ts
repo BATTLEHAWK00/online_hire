@@ -1,7 +1,19 @@
 import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
-const coll: Collection<Problem> = getColl('problems');
+export interface SingleChoice {
+  options?: string[];
+  answer?: number;
+}
+
+export interface MultipleChoice {
+  options?: string[];
+  answers?: number[];
+}
+
+export interface ShortAnswer {
+  answer?: string;
+}
 
 type ProblemType = SingleChoice | MultipleChoice | ShortAnswer;
 type ProblemTypeStr = 'SingleChoice' | 'MultipleChoice' | 'ShortAnswer';
@@ -19,19 +31,7 @@ export interface Problem {
   deleted?: boolean;
 }
 
-export interface SingleChoice {
-  options?: string[];
-  answer?: number;
-}
-
-export interface MultipleChoice {
-  options?: string[];
-  answers?: number[];
-}
-
-export interface ShortAnswer {
-  answer?: string;
-}
+const coll: Collection<Problem> = getColl('problems');
 
 class problemModel {
   static async getByID(_id: string) {

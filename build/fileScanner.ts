@@ -2,7 +2,8 @@ import fs from 'fs'
 import path from "path";
 
 
-export function scanDir(dirPath: string, callback: (file: string) => any) {
+// eslint-disable-next-line import/prefer-default-export,no-unused-vars
+export function scanDir(dirPath: string, callback: (file: string) => never) {
     const files: string[] = fs.readdirSync(path.resolve(dirPath))
     files.forEach((f) => {
         const fileName: string = path.join(dirPath, f)

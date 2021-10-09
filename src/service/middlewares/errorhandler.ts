@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 
-export const errorHandleMiddleware = function (
-  err: any,
+// eslint-disable-next-line import/prefer-default-export
+export function errorHandleMiddleware(
+  err: { message: any; status: number },
   req: Request,
   res: Response
   // next: NextFunction
@@ -13,6 +14,6 @@ export const errorHandleMiddleware = function (
   }
   console.error(err);
   // render the error page
-  res.status(err.status || 500);
+  res.status('status' in err ? err.status : 500);
   res.render('error');
-};
+}

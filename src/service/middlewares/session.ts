@@ -3,7 +3,7 @@ import MongoStore from 'connect-mongo';
 import configProvider from '../../lib/configProvider';
 import { buildURL, DatabaseConfig } from '../database';
 
-const db_config = <DatabaseConfig>configProvider.getModuleConfig('database');
+const dbConfig = <DatabaseConfig>configProvider.getModuleConfig('database');
 
 export const sessionMiddleware = session({
   secret: 'online-hire',
@@ -12,7 +12,7 @@ export const sessionMiddleware = session({
   saveUninitialized: false,
   cookie: { secure: false, maxAge: 1000 * 60 * 60 },
   store: new MongoStore({
-    mongoUrl: buildURL(db_config),
+    mongoUrl: buildURL(dbConfig),
     collectionName: 'session',
     touchAfter: 3600,
     autoRemove: 'interval',
@@ -27,7 +27,7 @@ export const ipRecordMiddleware = function (
 ) {
   if (!req.session.create_ip)
     req.session.create_ip = req.socket.remoteAddress;
-  if (req.session.update_ip != req.socket.remoteAddress)
+  if (req.session.update_ip !== req.socket.remoteAddress)
     req.session.update_ip = req.socket.remoteAddress;
   next();
 };

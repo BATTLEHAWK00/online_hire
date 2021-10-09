@@ -4,11 +4,48 @@ import { RequestInvalidError } from '../service/error';
 import userModel from '../models/user';
 import { RequireAuth } from '../service/controllerDecorators';
 
+function singleChoiceDoc(params: any): Problem {
+  return {
+    name: params.name,
+    desc: params.desc,
+    type: 'SingleChoice',
+    content: {
+      options: params.options,
+      answer: params.answer,
+    },
+  };
+}
+
+function multipleChoiceDoc(params: any): Problem {
+  return {
+    name: params.name,
+    desc: params.desc,
+    type: 'MultipleChoice',
+    content: {
+      options: params.options,
+      answers: params.answers,
+    },
+  };
+}
+
+function shortAnswerDoc(params: any): Problem {
+  return {
+    name: params.name,
+    desc: params.desc,
+    type: 'ShortAnswer',
+    content: {
+      answer: params.answer,
+    },
+  };
+}
+
 @RequireAuth()
 export class problemsHandler extends Controller {
   async get() {
     const problemList = [];
-    for await (const problem of await problemModel.getProblemList()) {
+    const problems = await problemModel.getProblemList();
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const problem of problems) {
       const { createBy, ...pDoc } = problem;
       if (!createBy) continue;
       const user = await userModel.getUserByID(createBy);
@@ -90,39 +127,4 @@ export class deleteProblemController extends Controller {
     await problemModel.deleteProblem(this.params._id);
     this.renderMessage('删除成功!');
   }
-}
-
-function singleChoiceDoc(params: any): Problem {
-  return {
-    name: params.name,
-    desc: params.desc,
-    type: 'SingleChoice',
-    content: {
-      options: params.options,
-      answer: params.answer,
-    },
-  };
-}
-
-function multipleChoiceDoc(params: any): Problem {
-  return {
-    name: params.name,
-    desc: params.desc,
-    type: 'MultipleChoice',
-    content: {
-      options: params.options,
-      answers: params.answers,
-    },
-  };
-}
-
-function shortAnswerDoc(params: any): Problem {
-  return {
-    name: params.name,
-    desc: params.desc,
-    type: 'ShortAnswer',
-    content: {
-      answer: params.answer,
-    },
-  };
 }

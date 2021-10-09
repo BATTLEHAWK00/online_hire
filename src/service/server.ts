@@ -1,26 +1,41 @@
 import http from 'http';
+import configProvider, { MainConfig } from '../lib/configProvider';
 
-let server: http.Server | null = null;
+function normalizePort(val: string) {
+  const port = parseInt(val, 10);
+  if (Number.isNaN(port)) return val;
+  if (port >= 0) return port;
+  return false;
+}
+
+// function normalizeAddress(val: string | null) {
+//   if (val === '::') return '0.0.0.0';
+//   return val;
+// }
 
 class HttpServer {
-  port: string | undefined;
+  server: http.Server;
 
-  onError(error: { syscall: string; code: never }) {
+  GlobalConfig: MainConfig;
+
+  port: string | number | boolean;
+
+  private static onError(
+    that: HttpServer,
+    error: { syscall: string; code: never }
+  ) {
     if (error.syscall !== 'listen') {
       throw error;
     }
-
     const bind =
-      typeof this.port === 'string' ? `Pipe ${  this.port}` : `Port ${  this.port}`;
-
-    // handle specific listen errors with friendly messages
+      typeof that.port === 'string' ? `Pipe ${that.port}` : `Port ${that.port}`;
     switch (error.code) {
       case 'EACCES':
-        console.error(`${bind  } requires elevated privileges`);
+        console.error(`${bind} requires elevated privileges`);
         process.exit(1);
         break;
       case 'EADDRINUSE':
-        console.error(`${bind  } is already in use`);
+        console.error(`${bind} is already in use`);
         process.exit(1);
         break;
       default:
@@ -28,52 +43,26 @@ class HttpServer {
     }
   }
 
-  onListening() {
-    // const addr = server.address();
-    // const bind =
-    //   typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    // console.log('Server listening on ' + addr.address + ' ' + bind);
+  private static onListening(that: HttpServer) {
+    console.log(`Server listening on ${that.port}`);
   }
 
-  async Start(app: http.RequestListener | undefined) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const configProvider = require('../lib/configProvider');
+  Start(app: http.RequestListener) {
+    this.server.addListener('request', app);
+    this.server.listen(this.port);
+  }
 
-    const GlobalConfig = configProvider.default.getGlobalConfig();
-    const port = normalizePort(
-      process.env.PORT || GlobalConfig.server.port || '3000'
+  constructor() {
+    this.server = http.createServer();
+    this.server.on('error', (error: { syscall: string; code: never }) =>
+      HttpServer.onError(this, error)
     );
-    /**
-     * Create HTTP server.
-     */
-    server = http.createServer(app);
-
-    // @ts-ignore
-    app.set('port', port);
-    server.listen(port);
-    server.on('error', this.onError);
-    server.on('listening', this.onListening);
+    this.server.on('listening', () => HttpServer.onListening(this));
+    this.GlobalConfig = configProvider.getGlobalConfig();
+    this.port = normalizePort(
+      process.env.PORT || this.GlobalConfig.server.port || '3000'
+    );
   }
-}
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val: string) {
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
 }
 
 module.exports = {

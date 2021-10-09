@@ -1,11 +1,14 @@
-interface IControllerError {
-  new (...args: any[]): ControllerError;
-}
-
+// eslint-disable-next-line max-classes-per-file
 class ControllerError extends Error {
+  // eslint-disable-next-line no-useless-constructor
   constructor(message?: string) {
     super(message);
   }
+}
+
+interface IControllerError {
+  // eslint-disable-next-line no-unused-vars
+  new (...args: any[]): ControllerError;
 }
 
 function Err(ErrorClass: IControllerError, message?: string, status?: number) {

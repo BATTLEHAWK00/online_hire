@@ -5,8 +5,11 @@ let connection: MongoClient | null = null;
 let database: Db;
 
 export interface DatabaseConfig extends ModuleConfig {
+  // eslint-disable-next-line camelcase
   db_host: string;
+  // eslint-disable-next-line camelcase
   db_port: number;
+  // eslint-disable-next-line camelcase
   db_name: string;
 }
 
@@ -16,7 +19,7 @@ const defaultConfig: DatabaseConfig = {
   db_name: 'online_hire',
 };
 
-let db_config: DatabaseConfig | null = null;
+let dbConfig: DatabaseConfig | null = null;
 
 export function buildURL(config: DatabaseConfig) {
   return `mongodb://${config.db_host}:${config.db_port}/${config.db_name}`;
@@ -27,9 +30,9 @@ export async function ConnectDB() {
   try {
     if (!configProvider.moduleConfigExists('database'))
       configProvider.updateModuleConfig('database', defaultConfig);
-    db_config = <DatabaseConfig>configProvider.getModuleConfig('database');
+    dbConfig = <DatabaseConfig>configProvider.getModuleConfig('database');
     console.log('Connecting to database...');
-    connection = await MongoClient.connect(buildURL(db_config));
+    connection = await MongoClient.connect(buildURL(dbConfig));
     database = connection.db();
     console.log('Database Connected.');
   } catch (err) {
