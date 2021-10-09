@@ -25,10 +25,10 @@ export const ipRecordMiddleware = function (
   resp: any,
   next: any
 ) {
-  if (!req.session['create_ip'])
-    req.session['create_ip'] = req.socket.remoteAddress;
-  if (req.session['update_ip'] != req.socket.remoteAddress)
-    req.session['update_ip'] = req.socket.remoteAddress;
+  if (!req.session.create_ip)
+    req.session.create_ip = req.socket.remoteAddress;
+  if (req.session.update_ip != req.socket.remoteAddress)
+    req.session.update_ip = req.socket.remoteAddress;
   next();
 };
 
@@ -37,6 +37,6 @@ export const contextMiddleware = function (
   resp: any,
   next: any
 ) {
-  if (!req.session['context']) req.session['context'] = {};
+  if (!req.session.context) req.session.context = {};
   next();
 };

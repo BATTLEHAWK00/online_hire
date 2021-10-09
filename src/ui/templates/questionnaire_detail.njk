@@ -1,19 +1,19 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>试卷: {{ context.qDoc.name }}</h1>
-        <p>ID: {{ context.qDoc._id }}</p>
-        <p>创建人: {{ context.qDoc.createBy }}</p>
-    </div>
-    <div class="section-content">
-        {% for item in context.qDoc.content %}
-        <div class="form-row">
-            <h2>{{ loop.index }}. {{ item.name }}</h2>
-            <h3>{{ item.desc }}</h3>
-            <hr style="border-width: 0;border-bottom-width: 2px">
+    <div class="section">
+        <div class="section-header">
+            <h1>试卷: {{ context.qDoc.name }}</h1>
+            <p>ID: {{ context.qDoc._id }}</p>
+            <p>创建人: {{ context.qDoc.createBy }}</p>
         </div>
-        {% endfor %}
+        <div class="section-content">
+            {% for item in context.qDoc.content %}
+                <div class="form-row">
+                    <h2>{{ loop.index }}. {{ item.name }}</h2>
+                    <h3>{{ item.desc }}</h3>
+                    <hr style="border-width: 0;border-bottom-width: 2px">
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
 {% endblock %}

@@ -1,6 +1,4 @@
 import express from 'express';
-
-const router = express.Router();
 import { handle } from '../service/controller';
 import {
   loginController,
@@ -36,6 +34,8 @@ import {
   mycvsUploadController,
 } from '../controllers/mycvs';
 import multipart from '../service/middlewares/multipart';
+
+const router = express.Router();
 
 router.all('/', (req, resp) => handle(req, resp, indexController));
 

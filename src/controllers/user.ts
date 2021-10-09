@@ -21,12 +21,12 @@ export class loginController extends Controller {
   }
 
   async post() {
-    const user = await userModel.getUserByUname(this.params['userName']);
+    const user = await userModel.getUserByUname(this.params.userName);
     if (user) {
-      const { cipher } = sha1(this.params['passwd'], user.salt);
+      const { cipher } = sha1(this.params.passwd, user.salt);
       if (cipher !== user.passwd) throw new LoginInvalidError();
-      delete user['passwd'];
-      delete user['salt'];
+      delete user.passwd;
+      delete user.salt;
       this.setSessionContext('loggedUser', user);
       this.renderMessage('您已登录成功!');
     } else throw new LoginInvalidError();
@@ -40,18 +40,18 @@ export class registerController extends Controller {
   }
 
   async post() {
-    if (await userModel.getUserByUname(this.params['userName']))
+    if (await userModel.getUserByUname(this.params.userName))
       throw new UserAlreadyExistsError();
-    if (this.params['confirmPasswd'] !== this.params['passwd'])
+    if (this.params.confirmPasswd !== this.params.passwd)
       throw new Error();
     const user: User = {
-      userName: this.params['userName'],
-      realName: this.params['realName'],
-      phone: this.params['phone'],
-      email: this.params['email'],
+      userName: this.params.userName,
+      realName: this.params.realName,
+      phone: this.params.phone,
+      email: this.params.email,
       role: 'applicant',
     };
-    const digest = sha1(this.params['passwd']);
+    const digest = sha1(this.params.passwd);
     user.passwd = digest.cipher;
     user.salt = digest.salt;
     await userModel.createUser(user);
@@ -71,11 +71,11 @@ export class logoutController extends Controller {
 export class userDetailController extends Controller {
   async get() {
     const loggedUser = this.getSessionContext('loggedUser');
-    if (!loggedUser || (loggedUser && loggedUser['_id'] !== this.params['uid']))
+    if (!loggedUser || (loggedUser && loggedUser._id !== this.params.uid))
       throw new UnauthorizedError();
-    const user = await userModel.getUserByID(this.params['uid']);
+    const user = await userModel.getUserByID(this.params.uid);
     if (user) {
-      delete user['passwd'];
+      delete user.passwd;
       this.setTitle(user.userName || 'null');
       this.setUIContext('udoc', user);
       this.render('user_detail');
@@ -83,18 +83,18 @@ export class userDetailController extends Controller {
   }
 
   async post() {
-    if (this.params['passwd'] !== this.params['confirmPasswd'])
+    if (this.params.passwd !== this.params.confirmPasswd)
       throw new Error();
     const user: any = {
-      userName: this.params['userName'],
-      realName: this.params['realName'],
-      gender: this.params['gender'],
-      phone: this.params['phone'],
-      email: this.params['email'],
-      desc: this.params['desc'],
+      userName: this.params.userName,
+      realName: this.params.realName,
+      gender: this.params.gender,
+      phone: this.params.phone,
+      email: this.params.email,
+      desc: this.params.desc,
     };
-    if (this.params['passwd']) {
-      const digest = sha1(this.params['passwd']);
+    if (this.params.passwd) {
+      const digest = sha1(this.params.passwd);
       user.salt = digest.salt;
       user.passwd = digest.cipher;
     }
@@ -102,7 +102,7 @@ export class userDetailController extends Controller {
     for (const userKey in user) {
       if (user[userKey]) $set[userKey] = user[userKey];
     }
-    await userModel.updateUser(this.params['uid'], $set);
+    await userModel.updateUser(this.params.uid, $set);
     this.renderMessage('信息修改成功!');
   }
 }

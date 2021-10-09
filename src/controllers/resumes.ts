@@ -13,7 +13,7 @@ export class resumesController extends Controller {
 @RequireAuth()
 export class resumeFileController extends Controller {
   async get() {
-    const path = `${this.params['user']}/${this.params['filename']}`;
+    const path = `${this.params.user}/${this.params.filename}`;
     const file = await storageService.get('resumeFiles', path);
     file.pipe(this.resp);
   }

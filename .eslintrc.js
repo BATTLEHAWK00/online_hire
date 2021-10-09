@@ -7,8 +7,8 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'airbnb-base',
     'prettier',
   ],
   parser: 'vue-eslint-parser',
@@ -19,11 +19,21 @@ module.exports = {
     ecmaFeatures: {
       legacyDecorators: true,
     },
-    extraFileExtensions: ['.vue']
+    extraFileExtensions: ['.vue'],
   },
   plugins: ['html'],
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 0,
-    '@typescript-eslint/ban-ts-comment': 1
+    '@typescript-eslint/ban-ts-comment': 1,
+    'no-plusplus': 0,
   },
+  overrides: [
+    {
+      files: ['*.js', '*.vue'],
+      extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 0,
+      },
+    },
+  ],
 };

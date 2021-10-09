@@ -1,43 +1,43 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>共{{ context.pList.length | d(0) }}份职位</h1>
-        <a href="/positions/add">
-            <button class="com-button">添加职位</button>
-        </a>
+    <div class="section">
+        <div class="section-header">
+            <h1>共{{ context.pList.length | d(0) }}份职位</h1>
+            <a href="/positions/add">
+                <button class="com-button">添加职位</button>
+            </a>
+        </div>
+        <div class="section-content">
+            <table class="com-table">
+                <th class="text-left">序号</th>
+                <th class="text-left">职位名称</th>
+                <th class="text-left">应聘人数</th>
+                <th class="text-left">通过人数</th>
+                <th class="text-left">通过率</th>
+                <th class="text-left">操作</th>
+                {% if context.pList %}
+                    {% for item in context.pList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>
+                                <a href="/">查看</a>
+                                <a href="/">编辑</a>
+                                <form name="position_del_{{ item._id }}"
+                                      action="/positions/delete/{{ item._id }}"
+                                      method="post"
+                                      class="com-hiddenform"
+                                >
+                                    <a href="javascript:document.position_del_{{ item._id }}.submit();">删除</a>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
     </div>
-    <div class="section-content">
-        <table class="com-table">
-            <th class="text-left">序号</th>
-            <th class="text-left">职位名称</th>
-            <th class="text-left">应聘人数</th>
-            <th class="text-left">通过人数</th>
-            <th class="text-left">通过率</th>
-            <th class="text-left">操作</th>
-            {% if context.pList %}
-            {% for item in context.pList %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ item.name }}</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>
-                    <a href="/">查看</a>
-                    <a href="/">编辑</a>
-                    <form name="position_del_{{ item._id }}"
-                          action="/positions/delete/{{ item._id }}"
-                          method="post"
-                          class="com-hiddenform"
-                    >
-                        <a href="javascript:document.position_del_{{ item._id }}.submit();">删除</a>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </table>
-    </div>
-</div>
 {% endblock %}

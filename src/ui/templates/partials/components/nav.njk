@@ -22,17 +22,17 @@
     </ol>
     <div class="com-loggeduser" style="width: 200px">
         {% if context.loggedUser %}
-        <span>
+            <span>
             <span>登录用户:</span>
-            <a href="/user/{{context.loggedUser._id}}">{{ context.loggedUser.userName }}</a>
+            <a href="/user/{{ context.loggedUser._id }}">{{ context.loggedUser.userName }}</a>
         </span>
-        <a href="/logout">
-            注销
-        </a>
+            <a href="/logout">
+                注销
+            </a>
         {% else %}
-        <a href="/login">
-            请登录
-        </a>
+            <a href="/login">
+                请登录
+            </a>
         {% endif %}
     </div>
     <div class="clear-float" style="display: none"></div>

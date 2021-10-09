@@ -1,80 +1,80 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
-<div id="vue-app">
-    <div class="section">
-        <div class="section-header">
-            <h1>创建试卷</h1>
-        </div>
-        <div class="section-content">
-            <div style="width: 50%;margin: 0 auto;">
-                <form action="/questionnaire/add" method="post">
-                    <div class="form-row">
-                        <p>试卷名称</p>
-                        <input type="text" name="name" placeholder="试卷名称" autofocus>
-                    </div>
-                    {% raw %}
-                    <div class="form-row" v-for="(item,index) in problems">
-                        <h2>{{ index + 1 }}. {{ item.name }}</h2>
-                        <input type="hidden" name="content" :value="item._id">
-                        <p>题目类型:{{ problemType(item.type) }}</p>
-                        <p>题目描述:{{ item.desc }}</p>
-                        <hr style="border-width: 0;border-bottom-width: 2px">
-                    </div>
-                    <div class="form-row">
-                        <input type="button" class="com-button" value="添加题目" @click="addProblem">
-                        <select id="addProblemSelect"
-                                v-model="selectedProblem"
-                                style="margin:0 20px"
-                        >
-                            <option v-for="item in pList" :value="item._id">{{ item.name }}</option>
-                        </select>
-                    </div>
-                    {% endraw %}
-                    <div class="form-row text-center" style="margin: 20px auto">
-                        <input type="submit" class="com-button" value="提交">
-                    </div>
-                </form>
+    <div id="vue-app">
+        <div class="section">
+            <div class="section-header">
+                <h1>创建试卷</h1>
+            </div>
+            <div class="section-content">
+                <div style="width: 50%;margin: 0 auto;">
+                    <form action="/questionnaire/add" method="post">
+                        <div class="form-row">
+                            <p>试卷名称</p>
+                            <input type="text" name="name" placeholder="试卷名称" autofocus>
+                        </div>
+                        {% raw %}
+                            <div class="form-row" v-for="(item,index) in problems">
+                                <h2>{{ index + 1 }}. {{ item.name }}</h2>
+                                <input type="hidden" name="content" :value="item._id">
+                                <p>题目类型:{{ problemType(item.type) }}</p>
+                                <p>题目描述:{{ item.desc }}</p>
+                                <hr style="border-width: 0;border-bottom-width: 2px">
+                            </div>
+                            <div class="form-row">
+                                <input type="button" class="com-button" value="添加题目" @click="addProblem">
+                                <select id="addProblemSelect"
+                                        v-model="selectedProblem"
+                                        style="margin:0 20px"
+                                >
+                                    <option v-for="item in pList" :value="item._id">{{ item.name }}</option>
+                                </select>
+                            </div>
+                        {% endraw %}
+                        <div class="form-row text-center" style="margin: 20px auto">
+                            <input type="submit" class="com-button" value="提交">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% raw %}
-<script>
-    const problem = {
-        data() {
-            return {
+    {% raw %}
+        <script>
+          const problem = {
+            data() {
+              return {
                 problems: [],
                 selectedProblem: null,
-                pList: UIContext.pList
-            }
-        },
-        methods: {
-            addProblem() {
-                this.problems.push(this.pList.find((obj) => obj._id === this.selectedProblem, this))
-                for (const i in this.pList) {
-                    if (this.pList[i]['_id'] === this.selectedProblem) {
-                        this.pList.splice(i, 1)
-                        break
-                    }
-                }
-                this.selectedProblem = null
-                // this.pList.remove()
+                pList: UIContext.pList,
+              };
             },
-            problemType(val) {
-                switch (val) {
-                    case 'SingleChoice':
-                        return '单选题'
-                    case 'MultipleChoice':
-                        return '多选题'
-                    case 'ShortAnswer':
-                        return '简答题'
-                    default:
-                        return 'null'
+            methods: {
+              addProblem() {
+                this.problems.push(this.pList.find((obj) => obj._id === this.selectedProblem, this));
+                for (const i in this.pList) {
+                  if (this.pList[i]['_id'] === this.selectedProblem) {
+                    this.pList.splice(i, 1);
+                    break;
+                  }
                 }
-            }
-        }
-    }
-    Vue.createApp(problem).mount('#vue-app')
-</script>
-{% endraw %}
+                this.selectedProblem = null;
+                // this.pList.remove()
+              },
+              problemType(val) {
+                switch (val) {
+                  case 'SingleChoice':
+                    return '单选题';
+                  case 'MultipleChoice':
+                    return '多选题';
+                  case 'ShortAnswer':
+                    return '简答题';
+                  default:
+                    return 'null';
+                }
+              },
+            },
+          };
+          Vue.createApp(problem).mount('#vue-app');
+        </script>
+    {% endraw %}
 {% endblock %}

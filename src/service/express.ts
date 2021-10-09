@@ -2,8 +2,24 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import configProvider from '../lib/configProvider';
 import compression from 'compression';
+// 配置模板引擎
+import nunjucks from 'nunjucks';
+import configProvider from '../lib/configProvider';
+import { devMiddleware, hotMiddleware } from './webpack';
+// 配置过滤器
+import registerFilters from '../lib/nunjucks_filter';
+// Session配置
+import {
+  contextMiddleware,
+  ipRecordMiddleware,
+  sessionMiddleware,
+} from './middlewares/session';
+// 配置Router
+import indexRouter from '../routes';
+// 捕获404并抛出异常
+import { NotFoundError } from './error';
+import { errorHandleMiddleware } from './middlewares/errorhandler';
 
 export const app = express();
 
@@ -14,11 +30,8 @@ const middlewares: any[] = [];
 // 启用Gzip压缩
 middlewares.push(compression());
 
-//路由日志记录
+// 路由日志记录
 middlewares.push(logger('dev'));
-
-// 配置模板引擎
-import nunjucks from 'nunjucks';
 
 const templatePath: string = path.join(__dirname, '../ui/templates');
 const nunjucksEnv = nunjucks.configure(templatePath, {
@@ -29,56 +42,37 @@ const nunjucksEnv = nunjucks.configure(templatePath, {
 app.set('templates', templatePath);
 app.set('view engine', 'njk');
 
-import { devMiddleware, hotMiddleware } from './webpack';
-
 middlewares.push(devMiddleware);
 middlewares.push(hotMiddleware);
 
-//配置过滤器
-import registerFilters from '../lib/nunjucks_filter';
-
 registerFilters(nunjucksEnv);
 
-//处理ResponseBody
+// 处理ResponseBody
 middlewares.push(express.json());
-//处理RequestBody
+// 处理RequestBody
 middlewares.push(express.urlencoded({ extended: false }));
-//处理Cookie
+// 处理Cookie
 middlewares.push(cookieParser());
-//处理静态文件
+// 处理静态文件
 middlewares.push(express.static(path.join(__dirname, '../ui/public')));
 
-// Session配置
-import {
-  sessionMiddleware,
-  contextMiddleware,
-  ipRecordMiddleware,
-} from './middlewares/session';
-
-//处理Session
+// 处理Session
 middlewares.push(sessionMiddleware);
-//处理Session Context
+// 处理Session Context
 middlewares.push(contextMiddleware);
-//在Session中记录IP
+// 在Session中记录IP
 middlewares.push(ipRecordMiddleware);
 
-// 配置Router
-import indexRouter from '../routes';
-
-//路由配置
+// 路由配置
 middlewares.push(indexRouter);
-
-// 捕获404并抛出异常
-import { NotFoundError } from './error';
-import { errorHandleMiddleware } from './middlewares/errorhandler';
 
 function handle404(req: Request, res: Response, next: NextFunction) {
   next(new NotFoundError());
 }
 
-//处理404
+// 处理404
 middlewares.push(handle404);
-//处理异常
+// 处理异常
 middlewares.push(errorHandleMiddleware);
 
 middlewares.forEach(middleware => app.use(middleware));

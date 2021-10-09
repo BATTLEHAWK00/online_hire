@@ -32,7 +32,7 @@ class resumesModel {
   static async createResume(resume: Resume) {
     resume.submitTime = new Date(Date.now());
     await coll.insertOne(resume);
-    return;
+    
   }
 
   static async getResumesByUID(uid: string) {

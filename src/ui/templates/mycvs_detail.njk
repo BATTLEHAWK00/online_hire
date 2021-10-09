@@ -1,20 +1,20 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>简历: {{ context.rDoc._id }}</h1>
-        <p>投递时间: {{ context.rDoc.submitTime | momentAgo }}</p>
-        <p>投递部门: {{ context.rDoc.intention.name }}</p>
-    </div>
-    <div class="section-content">
-        <div class="form-row text-center">
-            <div><a href="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}">点此下载简历文件</a></div>
-            <embed src="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}#toolbar=0&navpanes=0&scrollbar=0#toolbar=0"
-                   type="application/pdf"
-                   height="800px"
-                   class="resume-iframe"
-            >
+    <div class="section">
+        <div class="section-header">
+            <h1>简历: {{ context.rDoc._id }}</h1>
+            <p>投递时间: {{ context.rDoc.submitTime | momentAgo }}</p>
+            <p>投递部门: {{ context.rDoc.intention.name }}</p>
+        </div>
+        <div class="section-content">
+            <div class="form-row text-center">
+                <div><a href="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}">点此下载简历文件</a></div>
+                <embed src="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}#toolbar=0&navpanes=0&scrollbar=0#toolbar=0"
+                       type="application/pdf"
+                       height="800px"
+                       class="resume-iframe"
+                >
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

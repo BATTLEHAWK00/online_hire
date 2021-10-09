@@ -3,7 +3,6 @@ import questionnaireModel, { Questionnaire } from '../models/questionnaire';
 import problemModel from '../models/problem';
 import userModel from '../models/user';
 import { RequestInvalidError } from '../service/error';
-import questionnaire from '../models/questionnaire';
 import { RequireAuth } from '../service/controllerDecorators';
 
 @RequireAuth()
@@ -43,9 +42,9 @@ export class addQuestionnaireController extends Controller {
   }
 
   async post() {
-    let questionnaireDoc: Questionnaire = {
-      name: this.params['name'],
-      content: this.params['content'],
+    const questionnaireDoc: Questionnaire = {
+      name: this.params.name,
+      content: this.params.content,
     };
     questionnaireDoc.createBy = this.getSessionContext('loggedUser')._id;
     await questionnaireModel.createQuestionnaire(questionnaireDoc);
@@ -56,7 +55,7 @@ export class addQuestionnaireController extends Controller {
 export class questionnaireDetailController extends Controller {
   async get() {
     const pList: any = [];
-    const q = await questionnaireModel.getByID(this.params['_id']);
+    const q = await questionnaireModel.getByID(this.params._id);
     if (!q?.content) throw new RequestInvalidError();
     for await (const p of q.content) {
       pList.push(await problemModel.getByID(p));

@@ -1,31 +1,31 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block head %}
-<style>
-    .problem-row {
-        padding: 10px 0 10px 0;
-    }
-</style>
+    <style>
+        .problem-row {
+            padding: 10px 0 10px 0;
+        }
+    </style>
 {% endblock %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>题目: {{ context.pDoc.name }}</h1>
-        <h3>创建时间: {{ context.pDoc.createTime | momentAgo}}</h3>
-        <h3>创建人: {{ context.pDoc.createBy }}</h3>
-    </div>
-    <div class="section-content">
-        <div style="width: 80%;margin: 0 auto">
-            <div class="problem-row">
-                <strong>
-                    <span>{{ context.pDoc.desc }}</span>
-                </strong>
+    <div class="section">
+        <div class="section-header">
+            <h1>题目: {{ context.pDoc.name }}</h1>
+            <h3>创建时间: {{ context.pDoc.createTime | momentAgo }}</h3>
+            <h3>创建人: {{ context.pDoc.createBy }}</h3>
+        </div>
+        <div class="section-content">
+            <div style="width: 80%;margin: 0 auto">
+                <div class="problem-row">
+                    <strong>
+                        <span>{{ context.pDoc.desc }}</span>
+                    </strong>
+                </div>
+                {% for item in context.pDoc.content.options %}
+                    <div class="problem-row">
+                        <span>{{ loop.index }}. {{ item }}</span>
+                    </div>
+                {% endfor %}
             </div>
-            {% for item in context.pDoc.content.options %}
-            <div class="problem-row">
-                <span>{{ loop.index }}. {{ item }}</span>
-            </div>
-            {% endfor %}
         </div>
     </div>
-</div>
 {% endblock %}

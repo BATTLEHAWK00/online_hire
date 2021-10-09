@@ -1,4 +1,4 @@
-import { MongoClient, Db } from 'mongodb';
+import { Db, MongoClient } from 'mongodb';
 import configProvider, { ModuleConfig } from '../lib/configProvider';
 
 let connection: MongoClient | null = null;

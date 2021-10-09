@@ -1,8 +1,8 @@
+import crypto from 'crypto';
+import path from 'path';
 import { Controller } from '../service/controller';
 import resumesModel, { Resume } from '../models/resume';
 import { RequestInvalidError } from '../service/error';
-import crypto from 'crypto';
-import path from 'path';
 import { storageService } from '../service/fileStorage';
 import positionModel from '../models/position';
 import { RequireAuth } from '../service/controllerDecorators';
@@ -27,7 +27,7 @@ export class mycvsController extends Controller {
 @RequireAuth()
 export class mycvsDetailController extends Controller {
   async get() {
-    const rDoc: any = await resumesModel.getResumeByID(this.params['_id']);
+    const rDoc: any = await resumesModel.getResumeByID(this.params._id);
     rDoc.intention = await positionModel.getPositionByID(rDoc.intention);
     this.setUIContext('rDoc', rDoc);
     this.setTitle('简历投递');
@@ -57,9 +57,9 @@ export class mycvsUploadController extends Controller {
     }/${fileMD5}${fileExt}`;
     await storageService.put('resumeFiles', objName, this.req.file.buffer);
     const rDoc: Resume = {
-      uid: this.getSessionContext('loggedUser')['_id'],
-      intention: this.params['intention'],
-      desc: this.params['desc'],
+      uid: this.getSessionContext('loggedUser')._id,
+      intention: this.params.intention,
+      desc: this.params.desc,
       status: 'New',
       resumeFiles: [
         {

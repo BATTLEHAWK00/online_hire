@@ -1,36 +1,37 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block head %}
-<style>
-    .com-ul-list a{
-        text-decoration: none;
-        color: black;
-    }
-    .com-ul-list li:hover a{
-        color: white;
-    }
-</style>
+    <style>
+        .com-ul-list a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .com-ul-list li:hover a {
+            color: white;
+        }
+    </style>
 {% endblock %}
 {% block content %}
-<div class="app">
-    <div class="section">
-        <div class="section-header">
-            <h1>请选择要添加的题目类型</h1>
-        </div>
-        <div class="section-content">
-            <div style="width: 60%;margin:0 auto">
-                <ul class="com-ul-list">
-                    <li>
-                        <a href="/problems/add/singlechoice">单项选择题</a>
-                    </li>
-                    <li>
-                        <a href="/problems/add/multiplechoice">多项选择题</a>
-                    </li>
-                    <li>
-                        <a href="/problems/add/shortanswer">简答题</a>
-                    </li>
-                </ul>
+    <div class="app">
+        <div class="section">
+            <div class="section-header">
+                <h1>请选择要添加的题目类型</h1>
+            </div>
+            <div class="section-content">
+                <div style="width: 60%;margin:0 auto">
+                    <ul class="com-ul-list">
+                        <li>
+                            <a href="/problems/add/singlechoice">单项选择题</a>
+                        </li>
+                        <li>
+                            <a href="/problems/add/multiplechoice">多项选择题</a>
+                        </li>
+                        <li>
+                            <a href="/problems/add/shortanswer">简答题</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

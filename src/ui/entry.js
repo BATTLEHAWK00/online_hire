@@ -19,11 +19,11 @@ async function loadVueComponents() {
       ctx.keys().forEach(async key => {
         const contextDir = key.split('/')[1];
         if (contextDir === pageName) {
-          const Vue = require('vue');
+          const Vue = await import('vue');
           const component = (await ctx(key)).default;
-          const mount_id = `vue-${component.name}`;
-          if (document.getElementById(mount_id))
-            Vue.createApp(component).mount(`#${mount_id}`);
+          const mountId = `vue-${component.name}`;
+          if (document.getElementById(mountId))
+            Vue.createApp(component).mount(`#${mountId}`);
         }
       });
     },
@@ -66,6 +66,7 @@ async function loadPageScripts() {
 
 if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
+    // eslint-disable-next-line no-console
     console.log('using development hot update.');
     module.hot.accept();
   }
@@ -76,5 +77,6 @@ window.addEventListener('load', async () => {
   await loadPageScripts();
   await loadVueComponents();
   const endTime = new Date();
+  // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 });

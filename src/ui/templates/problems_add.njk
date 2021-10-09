@@ -1,23 +1,23 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block head %}
-<style>
-    .form-textarea {
-        width: 100%;
-        min-height: 50px;
-        max-height: 200px;
-        resize: vertical
-    }
-</style>
+    <style>
+        .form-textarea {
+            width: 100%;
+            min-height: 50px;
+            max-height: 200px;
+            resize: vertical
+        }
+    </style>
 {% endblock %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>添加题目</h1>
-    </div>
-    <div class="section-content">
-        <div style="width: 50%;margin: 0 auto;">
-            {% block form %} {% endblock %}
+    <div class="section">
+        <div class="section-header">
+            <h1>添加题目</h1>
+        </div>
+        <div class="section-content">
+            <div style="width: 50%;margin: 0 auto;">
+                {% block form %} {% endblock %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

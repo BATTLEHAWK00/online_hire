@@ -26,7 +26,7 @@ export class problemsHandler extends Controller {
 
 export class problemsDetailController extends Controller {
   async get() {
-    const pDoc = await problemModel.getByID(this.params['_id']);
+    const pDoc = await problemModel.getByID(this.params._id);
     this.setUIContext('pDoc', pDoc);
     this.setTitle('题库');
     this.render('problems_detail');
@@ -43,7 +43,7 @@ export class chooseProblemsTypeController extends Controller {
 export class addProblemsController extends Controller {
   async get() {
     this.setTitle('添加问题');
-    switch (this.params['problemType']) {
+    switch (this.params.problemType) {
       case 'singlechoice': {
         this.render('problems_add_singlechoice');
         break;
@@ -63,7 +63,7 @@ export class addProblemsController extends Controller {
 
   async post() {
     let problemDoc = null;
-    switch (this.params['problemType']) {
+    switch (this.params.problemType) {
       case 'singlechoice': {
         problemDoc = singleChoiceDoc(this.params);
         break;
@@ -87,42 +87,42 @@ export class addProblemsController extends Controller {
 
 export class deleteProblemController extends Controller {
   async post() {
-    await problemModel.deleteProblem(this.params['_id']);
+    await problemModel.deleteProblem(this.params._id);
     this.renderMessage('删除成功!');
   }
 }
 
 function singleChoiceDoc(params: any): Problem {
   return {
-    name: params['name'],
-    desc: params['desc'],
+    name: params.name,
+    desc: params.desc,
     type: 'SingleChoice',
     content: {
-      options: params['options'],
-      answer: params['answer'],
+      options: params.options,
+      answer: params.answer,
     },
   };
 }
 
 function multipleChoiceDoc(params: any): Problem {
   return {
-    name: params['name'],
-    desc: params['desc'],
+    name: params.name,
+    desc: params.desc,
     type: 'MultipleChoice',
     content: {
-      options: params['options'],
-      answers: params['answers'],
+      options: params.options,
+      answers: params.answers,
     },
   };
 }
 
 function shortAnswerDoc(params: any): Problem {
   return {
-    name: params['name'],
-    desc: params['desc'],
+    name: params.name,
+    desc: params.desc,
     type: 'ShortAnswer',
     content: {
-      answer: params['answer'],
+      answer: params.answer,
     },
   };
 }

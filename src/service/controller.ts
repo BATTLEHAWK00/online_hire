@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Request, Response } from 'express';
 import { MethodNotAllowedError, UnauthorizedError } from './error';
 
 // export interface Controller {
@@ -13,8 +13,11 @@ import { MethodNotAllowedError, UnauthorizedError } from './error';
 
 export class Controller {
   protected req: Request;
+
   protected resp: Response;
+
   private UIContext: any = { context: {} };
+
   protected params: any;
 
   constructor(req: Request, resp: Response) {
@@ -24,14 +27,14 @@ export class Controller {
   }
 
   render(templateName: string) {
-    if (!this.UIContext['title']) this.setTitle(templateName);
+    if (!this.UIContext.title) this.setTitle(templateName);
     this.setUIContext('pageName', templateName);
     this.setUIContext('loggedUser', this.getSessionContext('loggedUser'));
     this.resp.render(templateName, this.UIContext);
   }
 
   setTitle(name: string) {
-    this.UIContext['title'] = `${name} - 网上招聘系统`;
+    this.UIContext.title = `${name} - 网上招聘系统`;
   }
 
   redirect(path: string) {
@@ -66,7 +69,7 @@ export class Controller {
 export async function handle(req: Request, resp: Response, handlerClass: any) {
   try {
     const handler = new handlerClass(req, resp);
-    const method: string = req['method'].toLowerCase();
+    const method: string = req.method.toLowerCase();
     if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
       throw new UnauthorizedError('你还没有登录！');
     if (handler[method]) await handler[method]();

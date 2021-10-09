@@ -1,6 +1,6 @@
-import yaml from './yamlUtil';
 import path from 'path';
 import fs from 'fs';
+import yaml from './yamlUtil';
 
 const defaultConfigFileName = 'config.yaml';
 
@@ -35,7 +35,7 @@ function loadConfig() {
 
 function getModuleConfig(moduleName: string) {
   if (!GlobalConfiguration) throw Error();
-  return GlobalConfiguration['modules'][moduleName];
+  return GlobalConfiguration.modules[moduleName];
 }
 
 function getGlobalConfig() {
@@ -45,7 +45,7 @@ function getGlobalConfig() {
 
 function moduleConfigExists(moduleName: string) {
   if (!GlobalConfiguration) throw Error();
-  return !!GlobalConfiguration['modules'][moduleName];
+  return !!GlobalConfiguration.modules[moduleName];
 }
 
 export function Init() {

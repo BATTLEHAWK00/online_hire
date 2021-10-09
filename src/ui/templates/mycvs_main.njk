@@ -1,46 +1,46 @@
 {% extends './partials/layouts/basic.njk' %}
 {% macro status(str) %}
-{% if str === 'New' %}
-新投递
-{% elif str === 'RequireExam' %}
-试卷待完成
-{% elif str === 'Checking'  %}
-审核中
-{% elif str === 'Failed'  %}
-审核未通过
-{% elif str === 'Success'  %}
-审核通过
-{% endif %}
+    {% if str === 'New' %}
+        新投递
+        {% elif str === 'RequireExam' %}
+        试卷待完成
+        {% elif str === 'Checking' %}
+        审核中
+        {% elif str === 'Failed' %}
+        审核未通过
+        {% elif str === 'Success' %}
+        审核通过
+    {% endif %}
 {% endmacro %}
 {% block content %}
-<div class="section">
-    <div class="section-header">
-        <h1>我投递了{{ context.rList.length | d(0) }}份简历</h1>
-        <a href="/mycvs/send">
-            <button class="com-button">投递简历</button>
-        </a>
+    <div class="section">
+        <div class="section-header">
+            <h1>我投递了{{ context.rList.length | d(0) }}份简历</h1>
+            <a href="/mycvs/send">
+                <button class="com-button">投递简历</button>
+            </a>
+        </div>
+        <div class="section-content">
+            <table class="com-table">
+                <th class="text-left">序号</th>
+                <th class="text-left">投递职位</th>
+                <th class="text-left">投递状态</th>
+                <th class="text-left">投递时间</th>
+                <th class="text-left">操作</th>
+                {% if context.rList %}
+                    {% for item in context.rList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.intention.name }}</td>
+                            <td>{{ status(item.status) }}</td>
+                            <td>{{ item.submitTime | momentAgo }}</td>
+                            <td>
+                                <a href="/mycvs/detail/{{ item._id }}">查看</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
     </div>
-    <div class="section-content">
-        <table class="com-table">
-            <th class="text-left">序号</th>
-            <th class="text-left">投递职位</th>
-            <th class="text-left">投递状态</th>
-            <th class="text-left">投递时间</th>
-            <th class="text-left">操作</th>
-            {% if context.rList %}
-            {% for item in context.rList %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ item.intention.name }}</td>
-                <td>{{ status(item.status) }}</td>
-                <td>{{ item.submitTime | momentAgo }}</td>
-                <td>
-                    <a href="/mycvs/detail/{{ item._id }}">查看</a>
-                </td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </table>
-    </div>
-</div>
 {% endblock %}
