@@ -5,7 +5,8 @@ const startTime = new Date();
 require('./public/intro');
 
 // 引入全局样式
-require.context('./public/css/', true, /\.styl(us)?$/i);
+require('./public/css/common.styl')
+// require.context('', true, /\.styl(us)?$/i);
 
 // 引入全局js
 require.context('./public/js/', true, /\.js$/i);

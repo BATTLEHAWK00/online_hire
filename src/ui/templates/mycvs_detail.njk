@@ -5,10 +5,19 @@
             <h1>简历: {{ context.rDoc._id }}</h1>
             <p>投递时间: {{ context.rDoc.submitTime | momentAgo }}</p>
             <p>投递部门: {{ context.rDoc.intention.name }}</p>
+            <p>
+                <a href="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}" target='_blank'>
+                    <button class='com-button'>下载简历文件</button>
+                </a>
+            </p>
         </div>
-        <div class="section-content">
+    </div>
+    <div class='section'>
+        <div class='section-header'>
+            <h1>简历查看</h1>
+        </div>
+        <div class='section-content'>
             <div class="form-row text-center">
-                <div><a href="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}">点此下载简历文件</a></div>
                 <embed src="/resumes/file/{{ context.rDoc.resumeFiles[0].filePath }}#toolbar=0&navpanes=0&scrollbar=0#toolbar=0"
                        type="application/pdf"
                        height="800px"

@@ -62,6 +62,7 @@ module.exports = {
     new ExtractCssPlugin({
       filename: '[name].css',
       chunkFilename: '[id].chunk.css',
+      ignoreOrder: false,
     }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
