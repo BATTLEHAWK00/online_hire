@@ -1,19 +1,18 @@
 // noinspection JSUnresolvedFunction
 
+const pageName = document.documentElement.getAttribute('page-name');
 const startTime = new Date();
+
 // 引入intro
 require('./public/intro');
 
 // 引入全局样式
 require('./public/css/common.styl');
-// require.context('', true, /\.styl(us)?$/i);
 
 // 引入全局js
 require.context('./public/js/', true, /\.js$/i);
 
 // 加载页面上下文
-const pageName = document.documentElement.getAttribute('page-name');
-
 async function loadVueComponents() {
   require.ensure(
     [],
@@ -76,9 +75,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 window.addEventListener('load', async () => {
-  await loadPageStyles();
-  await loadPageScripts();
-  await loadVueComponents();
+  await Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]);
   const endTime = new Date();
   // eslint-disable-next-line no-console
   console.log(`server process time: ${window.handleTime}ms`);
