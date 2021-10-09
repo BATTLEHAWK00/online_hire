@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 const startTime = new Date();
 // 引入intro
 require('./public/intro');

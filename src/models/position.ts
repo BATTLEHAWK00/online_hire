@@ -11,34 +11,29 @@ const coll: Collection<Position> = getColl('positions');
 
 class positionModel {
   static async addPosition(position: Position) {
-    const res = await coll.insertOne(position);
-    return res;
+    return coll.insertOne(position);
   }
 
   static async getPositionByID(_id: string) {
-    const res = await coll.findOne({
+    return coll.findOne({
       _id: new ObjectId(_id),
       deleted: { $ne: true },
     });
-    return res;
   }
 
   static async getPositionByName(name: string) {
-    const res = await coll.findOne({ name, deleted: { $ne: true } });
-    return res;
+    return coll.findOne({ name, deleted: { $ne: true } });
   }
 
   static async getPositionList() {
-    const res = await coll.find({ deleted: { $ne: true } }).toArray();
-    return res;
+    return coll.find({ deleted: { $ne: true } }).toArray();
   }
 
   static async deletePosition(_id: string) {
-    const res = await coll.findOneAndUpdate(
+    return coll.findOneAndUpdate(
       { _id: new ObjectId(_id) },
       { $set: { deleted: true } }
     );
-    return res;
   }
 }
 

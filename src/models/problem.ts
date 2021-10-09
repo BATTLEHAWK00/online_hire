@@ -35,16 +35,14 @@ const coll: Collection<Problem> = getColl('problems');
 
 class problemModel {
   static async getByID(_id: string) {
-    const problem = await coll.findOne({
+    return coll.findOne({
       _id: new ObjectId(_id),
       deleted: { $ne: true },
     });
-    return problem;
   }
 
   static async getProblemList() {
-    const problems = await coll.find({ deleted: { $ne: true } }).toArray();
-    return problems;
+    return coll.find({ deleted: { $ne: true } }).toArray();
   }
 
   static async updateProblem(
@@ -56,10 +54,9 @@ class problemModel {
     if ($set && Object.keys($set).length) op.$set = $set;
     if ($unset && Object.keys($unset).length) op.$unset = $unset;
     if (Object.getOwnPropertyNames(op).length === 0) return null;
-    const res = await coll.findOneAndUpdate({ _id: new ObjectId(_id) }, op, {
+    return coll.findOneAndUpdate({ _id: new ObjectId(_id) }, op, {
       returnDocument: 'after',
     });
-    return res;
   }
 
   static async createProblem(problem: Problem) {
@@ -68,8 +65,7 @@ class problemModel {
       problem.createTime = now;
       problem.updateTime = now;
     }
-    const res = await coll.insertOne(problem);
-    return res;
+    return coll.insertOne(problem);
   }
 
   static async deleteProblem(_id: string) {

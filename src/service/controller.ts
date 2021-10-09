@@ -75,8 +75,7 @@ export async function handle(req: Request, resp: Response, HandlerClass: any) {
       throw new UnauthorizedError('你还没有登录！');
     if (handler[method]) await handler[method]();
     else throw new MethodNotAllowedError();
-  } catch (error) {
-    // @ts-ignore
+  } catch (error: any) {
     resp.status(error.status || 500);
     resp.render('error', { title: '错误', error });
   }

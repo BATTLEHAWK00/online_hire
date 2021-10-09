@@ -20,18 +20,15 @@ const coll: Collection<User> = getColl('users');
 
 class userModel {
   static async getUserByID(_id: string) {
-    const res = await coll.findOne({ _id: new ObjectId(_id) });
-    return res;
+    return coll.findOne({ _id: new ObjectId(_id) });
   }
 
   static async getUserByUname(userName: string) {
-    const res = await coll.findOne({ userName });
-    return res;
+    return coll.findOne({ userName });
   }
 
   static async createUser(user: User) {
-    const res = await coll.insertOne(user);
-    return res;
+    return coll.insertOne(user);
   }
 
   static async updateUser(
@@ -43,10 +40,9 @@ class userModel {
     if ($set && Object.keys($set).length) op.$set = $set;
     if ($unset && Object.keys($unset).length) op.$unset = $unset;
     if (Object.getOwnPropertyNames(op).length === 0) return null;
-    const res = await coll.findOneAndUpdate({ _id: new ObjectId(userId) }, op, {
+    return coll.findOneAndUpdate({ _id: new ObjectId(userId) }, op, {
       returnDocument: 'after',
     });
-    return res;
   }
 }
 

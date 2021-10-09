@@ -17,16 +17,14 @@ const coll: Collection<Questionnaire> = getColl('questionnaire');
 
 class questionnaireModel {
   static async getByID(_id: string) {
-    const questionnaire = await coll.findOne({
+    return coll.findOne({
       _id: new ObjectId(_id),
       deleted: { $ne: true },
     });
-    return questionnaire;
   }
 
   static async getQuestionnaireList() {
-    const qList = await coll.find({ deleted: { $ne: true } }).toArray();
-    return qList;
+    return coll.find({ deleted: { $ne: true } }).toArray();
   }
 
   static async updateQuestionnaire(
@@ -38,10 +36,9 @@ class questionnaireModel {
     if ($set && Object.keys($set).length) op.$set = $set;
     if ($unset && Object.keys($unset).length) op.$unset = $unset;
     if (Object.getOwnPropertyNames(op).length === 0) return null;
-    const res = await coll.findOneAndUpdate({ _id: new ObjectId(_id) }, op, {
+    return coll.findOneAndUpdate({ _id: new ObjectId(_id) }, op, {
       returnDocument: 'after',
     });
-    return res;
   }
 
   static async createQuestionnaire(questionnaire: Questionnaire) {
@@ -50,8 +47,7 @@ class questionnaireModel {
       questionnaire.createTime = now;
       questionnaire.updateTime = now;
     }
-    const res = await coll.insertOne(questionnaire);
-    return res;
+    return coll.insertOne(questionnaire);
   }
 
   static async deleteQuestionnaire(_id: string) {

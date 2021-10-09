@@ -6,7 +6,7 @@ import {
   registerController,
   userDetailController,
 } from '../controllers/user';
-import { indexController, testController } from '../controllers/index';
+import { indexController, testController } from '../controllers';
 import {
   addProblemsController,
   chooseProblemsTypeController,

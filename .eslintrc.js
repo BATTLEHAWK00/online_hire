@@ -35,6 +35,7 @@ module.exports = {
       extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
       rules: {
         '@typescript-eslint/no-var-requires': 0,
+        'global-require': 0,
       },
     },
     {
