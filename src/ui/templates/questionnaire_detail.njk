@@ -2,12 +2,12 @@
 {% block content %}
     <div class="section">
         <div class="section-header">
-            <h1>试卷: {{ context.qDoc.name }}</h1>
-            <p>ID: {{ context.qDoc._id }}</p>
-            <p>创建人: {{ context.qDoc.createBy }}</p>
+            <h1>试卷: {{ qDoc.name }}</h1>
+            <p>ID: {{ qDoc._id }}</p>
+            <p>创建人: {{ qDoc.createBy }}</p>
         </div>
         <div class="section-content">
-            {% for item in context.qDoc.content %}
+            {% for item in qDoc.content %}
                 <div class="form-row">
                     <h2>{{ loop.index }}. {{ item.name }}</h2>
                     <h3>{{ item.desc }}</h3>

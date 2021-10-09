@@ -5,7 +5,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // @ts-ignore
-import webpackConfig from '../../build/webpack.config';
+import webpackConfig from '../../build/webpack.dev.config';
 
 const compiler = webpack(webpackConfig);
 

@@ -24,7 +24,7 @@
                 <div class="form-row">
                     <p>意向部门</p>
                     <select name="intention">
-                        {% for item in context.pList %}
+                        {% for item in pList %}
                             <option value="{{ item._id }}">{{ item.name }}</option>
                         {% endfor %}
                     </select>

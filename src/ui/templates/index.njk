@@ -2,11 +2,11 @@
 {% block content %}
     <div class="section" style="width: 50%">
         <div class="section-header text-center" style="width: 80%;">
-            <h1>欢迎进入网上招聘系统</h1>
+            <h1>欢迎进入{{ globalContext.displayName }}</h1>
         </div>
         <div class="section-content">
-            {% if context.loggedUser %}
-                <h3>你好，{{ context.loggedUser.userName }}</h3>
+            {% if loggedUser %}
+                <h3>你好，{{ loggedUser.userName }}</h3>
                 <h4>点击上方导航栏使用本系统!</h4>
             {% else %}
                 <h3>您还未登录，请先登录！</h3>

@@ -5,12 +5,17 @@ import logger from 'morgan';
 import compression from 'compression';
 // 配置模板引擎
 import nunjucks from 'nunjucks';
+import fs from 'fs';
 import configProvider from '../lib/configProvider';
-import { devMiddleware, hotMiddleware } from './webpack';
+
 // 配置过滤器
 import registerFilters from '../lib/nunjucks_filter';
 // Session配置
-import { contextMiddleware, ipRecordMiddleware, sessionMiddleware } from './middlewares/session';
+import {
+  contextMiddleware,
+  ipRecordMiddleware,
+  sessionMiddleware,
+} from './middlewares/session';
 // 配置Router
 import indexRouter from '../routes';
 // 捕获404并抛出异常
@@ -37,13 +42,27 @@ const nunjucksEnv = nunjucks.configure(templatePath, {
   express: app,
   watch: true,
 });
+
+if (process.env.NODE_ENV === 'production') {
+  const manifestPath = path.join(__dirname, '../../dist/manifest.json');
+  if (fs.existsSync(manifestPath)) {
+    const manifest = fs.readFileSync(manifestPath).toString();
+    nunjucksEnv.addGlobal('staticFilesMap', JSON.parse(manifest));
+  }
+}
+nunjucksEnv.addGlobal('globalContext', {
+  displayName: systemContext.displayName,
+});
+registerFilters(nunjucksEnv);
 app.set('templates', templatePath);
 app.set('view engine', 'njk');
 
-middlewares.push(devMiddleware);
-middlewares.push(hotMiddleware);
-
-registerFilters(nunjucksEnv);
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+  const { devMiddleware, hotMiddleware } = require('./webpack');
+  middlewares.push(devMiddleware);
+  middlewares.push(hotMiddleware);
+}
 
 // 处理ResponseBody
 middlewares.push(express.json());
@@ -52,7 +71,7 @@ middlewares.push(express.urlencoded({ extended: false }));
 // 处理Cookie
 middlewares.push(cookieParser());
 // 处理静态文件
-middlewares.push(express.static(path.join(__dirname, '../ui/public')));
+middlewares.push(express.static(path.join(__dirname, '../../dist')));
 
 // 处理Session
 middlewares.push(sessionMiddleware);

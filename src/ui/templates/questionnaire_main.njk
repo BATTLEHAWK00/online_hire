@@ -2,7 +2,7 @@
 {% block content %}
     <div class="section">
         <div class="section-header">
-            <h1>共{{ context.qList.length | d(0) }}份试卷</h1>
+            <h1>共{{ qList.length | d(0) }}份试卷</h1>
             <a href="/questionnaire/add">
                 <button class="com-button">创建试卷</button>
             </a>
@@ -16,8 +16,8 @@
                 <th class="text-left">引用次数</th>
                 <th class="text-left">通过数</th>
                 <th class="text-left">操作</th>
-                {% if context.qList %}
-                    {% for item in context.qList %}
+                {% if qList %}
+                    {% for item in qList %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ item.name }}</td>

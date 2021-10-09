@@ -16,8 +16,8 @@
                 <th class="text-left">引用次数</th>
                 <th class="text-left">通过数</th>
                 <th class="text-left">操作</th>
-                {% if context.problemList %}
-                    {% for item in context.problemList %}
+                {% if problemList %}
+                    {% for item in problemList %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ item.name }}</td>

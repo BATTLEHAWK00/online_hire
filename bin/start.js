@@ -3,7 +3,10 @@ const { server } = require('../src/service/server');
 const fileStorage = require('../src/service/fileStorage');
 require('../src/lib/configProvider');
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+
 async function Init() {
+  console.log(`Using ${process.env.NODE_ENV} config.`);
   await Promise.all([
     // 初始化数据库
     database.ConnectDB(),
@@ -15,6 +18,6 @@ async function Init() {
   // 开启服务器
   await server.Start(app);
 }
-// noinspection JSIgnoredPromiseFromCall
-Init()
 
+// noinspection JSIgnoredPromiseFromCall
+Init();

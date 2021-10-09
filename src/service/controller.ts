@@ -16,7 +16,9 @@ export class Controller {
 
   protected resp: Response;
 
-  private UIContext: any = { context: {} };
+  private UIContext: any = {};
+
+  private startTime: number = Date.now();
 
   protected params: any;
 
@@ -27,14 +29,18 @@ export class Controller {
   }
 
   render(templateName: string) {
-    if (!this.UIContext.title) this.setTitle(templateName);
+    if (!this.UIContext.pageTitle) this.setTitle(templateName);
     this.setUIContext('pageName', templateName);
     this.setUIContext('loggedUser', this.getSessionContext('loggedUser'));
-    this.resp.render(templateName, this.UIContext);
+    this.resp.render(templateName, {
+      ...this.UIContext,
+      UIContext: this.UIContext,
+      handleTime: Date.now() - this.startTime,
+    });
   }
 
   setTitle(name: string) {
-    this.UIContext.title = `${name} - 网上招聘系统`;
+    this.setUIContext('pageTitle', `${name} - 网上招聘系统`);
   }
 
   redirect(path: string) {
@@ -47,7 +53,7 @@ export class Controller {
   }
 
   setUIContext(name: string, context: any) {
-    this.UIContext.context[name] = context;
+    this.UIContext[name] = context;
   }
 
   getSessionContext(name: string) {

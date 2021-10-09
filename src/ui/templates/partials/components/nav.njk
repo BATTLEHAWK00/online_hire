@@ -21,10 +21,10 @@
         </li>
     </ol>
     <div class="com-loggeduser" style="width: 200px">
-        {% if context.loggedUser %}
+        {% if loggedUser %}
             <span>
             <span>登录用户:</span>
-            <a href="/user/{{ context.loggedUser._id }}">{{ context.loggedUser.userName }}</a>
+            <a href="/user/{{ loggedUser._id }}">{{ loggedUser.userName }}</a>
         </span>
             <a href="/logout">
                 注销

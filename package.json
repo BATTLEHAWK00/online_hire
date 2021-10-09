@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npx ts-node bin/start.js",
-    "start:watch": "nodemon -- --trace-deprecation"
+    "start:watch": "nodemon -- --trace-deprecation",
+    "build": "webpack --config ./build/webpack.prod.config.js"
   },
   "dependencies": {
     "@babel/core": "^7.15.8",
@@ -13,9 +14,11 @@
     "ant-design-vue": "^2.2.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
     "compression": "^1.7.4",
     "connect-mongo": "4.6.0",
     "cookie-parser": "~1.4.4",
+    "css-minimizer-webpack-plugin": "^3.1.1",
     "debug": "4.3.2",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-plugin-html": "^6.2.0",
@@ -35,12 +38,15 @@
     "nunjucks": "^3.2.3",
     "stylus": "^0.55.0",
     "stylus-loader": "^6.1.0",
+    "terser-webpack-plugin": "^5.2.4",
     "ts-node": "^10.2.1",
     "typescript": "4.4.3",
     "uuid": "^8.3.2",
     "vue": "^3.2.19",
     "vue-loader": "^16.8.1",
     "webpack": "5.58.1",
+    "webpack-manifest-plugin": "^4.0.2",
+    "webpack-merge": "^5.8.0",
     "webpackbar": "^5.0.0-3"
   },
   "devDependencies": {
@@ -68,11 +74,9 @@
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-vue": "^7.19.1",
     "mini-css-extract-plugin": "2.4.2",
-    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "prettier": "2.4.1",
     "prettier-eslint": "^13.0.0",
     "style-loader": "3.3.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack-cli": "4.9.0",
     "webpack-dev-middleware": "5.2.1",
     "webpack-hot-middleware": "^2.25.1"

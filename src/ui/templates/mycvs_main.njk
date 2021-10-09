@@ -15,7 +15,7 @@
 {% block content %}
     <div class="section">
         <div class="section-header">
-            <h1>我投递了{{ context.rList.length | d(0) }}份简历</h1>
+            <h1>我投递了{{ rList.length | d(0) }}份简历</h1>
             <a href="/mycvs/send">
                 <button class="com-button">投递简历</button>
             </a>
@@ -27,8 +27,8 @@
                 <th class="text-left">投递状态</th>
                 <th class="text-left">投递时间</th>
                 <th class="text-left">操作</th>
-                {% if context.rList %}
-                    {% for item in context.rList %}
+                {% if rList %}
+                    {% for item in rList %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ item.intention.name }}</td>
