@@ -5,7 +5,7 @@ const startTime = new Date();
 require('./public/intro');
 
 // 引入全局样式
-require('./public/css/common.styl')
+require('./public/css/common.styl');
 // require.context('', true, /\.styl(us)?$/i);
 
 // 引入全局js
@@ -80,6 +80,8 @@ window.addEventListener('load', async () => {
   await loadPageScripts();
   await loadVueComponents();
   const endTime = new Date();
+  // eslint-disable-next-line no-console
+  console.log(`server process time: ${window.handleTime}ms`);
   // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 });
