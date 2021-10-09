@@ -19,12 +19,12 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].js?[fullhash]',
+    filename: '[name].js',
     publicPath: '/',
     hashFunction: 'sha1',
     hashDigest: 'hex',
     hashDigestLength: 10,
-    // chunkFilename: '[id].chunk.js?[chunkhash]',
+    chunkFilename: '[id].chunk.js',
   },
   optimization: {
     splitChunks: {
@@ -60,8 +60,8 @@ module.exports = {
   plugins: [
     new WebpackBar(),
     new ExtractCssPlugin({
-      filename: '[name].css?[fullhash]',
-      chunkFilename: '[id].chunk.css?[fullhash]',
+      filename: '[name].css',
+      chunkFilename: '[id].chunk.css',
     }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({

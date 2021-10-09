@@ -10,11 +10,7 @@ import { devMiddleware, hotMiddleware } from './webpack';
 // 配置过滤器
 import registerFilters from '../lib/nunjucks_filter';
 // Session配置
-import {
-  contextMiddleware,
-  ipRecordMiddleware,
-  sessionMiddleware,
-} from './middlewares/session';
+import { contextMiddleware, ipRecordMiddleware, sessionMiddleware } from './middlewares/session';
 // 配置Router
 import indexRouter from '../routes';
 // 捕获404并抛出异常
@@ -24,7 +20,7 @@ import { errorHandleMiddleware } from './middlewares/errorhandler';
 // eslint-disable-next-line import/prefer-default-export
 export const app = express();
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const systemContext = configProvider.getGlobalConfig().system;
 
 const middlewares = [];
