@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { MethodNotAllowedError, UnauthorizedError } from './error';
 
-// export interface Controller {
+// export interface ControllerMethods {
 //     get(): void
 //
 //     post(): void

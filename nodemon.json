@@ -9,6 +9,6 @@
     "src/**/*.spec.ts",
     "src/ui"
   ],
-  "exec": "ts-node ./bin/start",
+  "exec": "ts-node ./bin/dev",
   "delay": 1000
 }
