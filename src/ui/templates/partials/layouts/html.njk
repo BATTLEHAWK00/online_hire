@@ -9,7 +9,8 @@
     <title>{{ pageTitle }}</title>
     <script>
       window.UIContext = JSON.parse('{{ UIContext | dump | d('{}') | safe }}');
-      window.handleTime = {{ handleTime| d(0) }}
+      window.renderTime = {{ handler.__renderTime | timeDiff | d(0) | safe }};
+      window.handleTime = {{ handler.__renderTime - handler.__handleTime | d(0) | safe }};
     </script>
     <script src="{{ staticFilesMap['/main.js'] | d('/main.js') }}"></script>
     <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.js') }}"></script>

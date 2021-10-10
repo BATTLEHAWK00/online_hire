@@ -1,14 +1,16 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
     <div class="section">
-        <div class="section-header">
-            <h1>错误:{{ error.status }}</h1>
+        <div class="section-header text-center">
+            <h1>错误: {{ error.status }}</h1>
         </div>
         <div class="section-content">
             <h2>{{ error.message | d('服务器错误') }}</h2>
         </div>
-        <div class="section-footer">
-            <pre>{{ error.stack }}</pre>
-        </div>
+        {% if globalContext.devMode %}
+            <div class="section-footer">
+                <pre>{{ error.stack }}</pre>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

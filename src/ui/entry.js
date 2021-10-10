@@ -80,5 +80,7 @@ window.addEventListener('load', async () => {
   // eslint-disable-next-line no-console
   console.log(`server process time: ${window.handleTime}ms`);
   // eslint-disable-next-line no-console
+  console.log(`server render time: ${window.renderTime}ms`);
+  // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 });

@@ -20,12 +20,22 @@ const momentAgoFilter: Filter = {
 const escapeJSFilter: Filter = {
   name: 'escapeJS',
   filterFunc(templateString: string) {
-    console.log(escape(templateString));
     return escape(templateString);
   },
 };
 
-export const filters: Filter[] = [momentAgoFilter, escapeJSFilter];
+const timeDiffFilter: Filter = {
+  name: 'timeDiff',
+  filterFunc(startTime: number, endTime: number = Date.now()) {
+    return endTime - startTime;
+  },
+};
+
+export const filters: Filter[] = [
+  momentAgoFilter,
+  escapeJSFilter,
+  timeDiffFilter,
+];
 
 export default function registerFilters(env: Environment) {
   filters.forEach(filter => {

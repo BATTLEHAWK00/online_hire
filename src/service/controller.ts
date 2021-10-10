@@ -18,24 +18,28 @@ export class Controller {
 
   private UIContext: any = {};
 
-  private startTime: number = Date.now();
-
   protected params: any;
 
+  private __handleTime: number;
+
+  private __renderTime: number | undefined;
+
   constructor(req: Request, resp: Response) {
+    this.__handleTime = Date.now();
     this.req = req;
     this.resp = resp;
     this.params = { ...req.body, ...req.params, ...req.query };
   }
 
   render(templateName: string) {
+    this.__renderTime = Date.now();
     if (!this.UIContext.pageTitle) this.setTitle(templateName);
     this.setUIContext('pageName', templateName);
     this.setUIContext('loggedUser', this.getSessionContext('loggedUser'));
     this.resp.render(templateName, {
       ...this.UIContext,
       UIContext: this.UIContext,
-      handleTime: Date.now() - this.startTime,
+      handler: this,
     });
   }
 
@@ -76,12 +80,12 @@ export async function handle(req: Request, resp: Response, HandlerClass: any) {
   try {
     const handler = new HandlerClass(req, resp);
     const method: string = req.method.toLowerCase();
-    // eslint-disable-next-line no-underscore-dangle
     if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
       throw new UnauthorizedError('你还没有登录！');
     if (handler[method]) await handler[method]();
     else throw new MethodNotAllowedError();
   } catch (error: any) {
+    console.log(error);
     resp.status(error.status || 500);
     resp.render('error', { title: '错误', error });
   }
