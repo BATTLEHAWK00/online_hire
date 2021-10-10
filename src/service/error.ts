@@ -1,49 +1,41 @@
-// eslint-disable-next-line max-classes-per-file
-class ControllerError extends Error {
-  // eslint-disable-next-line no-useless-constructor
-  constructor(message?: string) {
-    super(message);
+export class ControllerError extends Error {
+  constructor(private msg?: string, private status: number = 400) {
+    super(msg);
+  }
+
+  public getStatus() {
+    return this.status;
+  }
+
+  public getMessage() {
+    return this.msg;
   }
 }
 
-interface IControllerError {
-  // eslint-disable-next-line no-unused-vars
-  new (...args: any[]): ControllerError;
+function ControllerErr(message?: string, status = 400) {
+  const ErrorClass: new (
+    ...args: any[]
+  ) => ControllerError = class extends ControllerError {};
+  return (...args: any[]) => new ErrorClass(message, status, ...args);
 }
 
-function Err(ErrorClass: IControllerError, message?: string, status?: number) {
-  const controllerError: IControllerError = class extends ErrorClass {};
-  controllerError.prototype.message = message;
-  controllerError.prototype.status = status;
-  return controllerError;
-}
-
-export const MethodNotAllowedError = Err(
-  ControllerError,
+export const MethodNotAllowedError = ControllerErr(
   'The method you requested is not allowed',
   405
 );
-export const NotFoundError = Err(ControllerError, 'Not found', 404);
+export const NotFoundError = ControllerErr('Not found', 404);
 
-export const RequestInvalidError = Err(ControllerError, '请求错误.', 400);
-export const LoginInvalidError = Err(
-  ControllerError,
+export const RequestInvalidError = ControllerErr('请求错误.', 400);
+export const LoginInvalidError = ControllerErr(
   '登录失败!请检查用户名和密码.',
   400
 );
-export const UserAlreadyExistsError = Err(
-  ControllerError,
+export const UserAlreadyExistsError = ControllerErr(
   '用户已存在!请检查用户名.',
   400
 );
-export const UserNotExistError = Err(ControllerError, '该用户不存在!', 404);
-export const UnauthorizedError = Err(
-  ControllerError,
-  '您无权限进行此操作!',
-  403
-);
-export const PositionAlreadyExistsError = Err(
-  ControllerError,
-  '该职位已存在!',
-  400
-);
+export const UserNotExistError = ControllerErr('该用户不存在!', 404);
+export const UnauthorizedError = ControllerErr('您无权限进行此操作!', 403);
+export const PositionAlreadyExistsError = ControllerErr('该职位已存在!', 400);
+export const EmptyResponseError = ControllerErr('响应为空!', 500);
+export const ValidationError = (msg: string) => ControllerErr(msg, 400);

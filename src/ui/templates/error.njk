@@ -1,6 +1,6 @@
 {% extends './partials/layouts/basic.njk' %}
 {% block content %}
-    <div class="section">
+    <div class="section" style='{% if not globalContext.devMode %} width: 60% {% endif %}'>
         <div class="section-header text-center">
             <h1>错误: {{ error.status }}</h1>
         </div>

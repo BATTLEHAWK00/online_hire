@@ -17,13 +17,21 @@ function singleChoiceDoc(params: any): Problem {
 }
 
 function multipleChoiceDoc(params: any): Problem {
+  const options = [];
+  console.log(params);
+  // eslint-disable-next-line no-restricted-syntax,guard-for-in
+  for (const option in params.options) {
+    options.push({
+      name: params.options[option],
+      isAnswer: params[`answer.${option}`] === 'on',
+    });
+  }
   return {
     name: params.name,
     desc: params.desc,
     type: 'MultipleChoice',
     content: {
-      options: params.options,
-      answers: params.answers,
+      options,
     },
   };
 }
@@ -94,7 +102,7 @@ export class addProblemsController extends Controller {
         break;
       }
       default:
-        throw new RequestInvalidError();
+        throw RequestInvalidError();
     }
   }
 
@@ -114,7 +122,7 @@ export class addProblemsController extends Controller {
         break;
       }
       default:
-        throw new RequestInvalidError();
+        throw RequestInvalidError();
     }
     problemDoc.createBy = this.getSessionContext('loggedUser')._id;
     await problemModel.createProblem(problemDoc);

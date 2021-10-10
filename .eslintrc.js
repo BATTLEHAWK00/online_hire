@@ -28,6 +28,8 @@ module.exports = {
     'no-plusplus': 0,
     'import/extensions': 0,
     'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'lines-between-class-members': 0,
   },
   overrides: [
     {
@@ -36,6 +38,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-var-requires': 0,
         'global-require': 0,
+        'no-underscore-dangle': 0,
       },
     },
     {

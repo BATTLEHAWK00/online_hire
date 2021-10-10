@@ -13,7 +13,9 @@
             <h3>创建时间: {{ pDoc.createTime | momentAgo }}</h3>
             <h3>创建人: {{ pDoc.createBy }}</h3>
         </div>
-        <div class="section-content">
+    </div>
+    <div class='section'>
+        <div class='section-content'>
             <div style="width: 80%;margin: 0 auto">
                 <div class="problem-row">
                     <strong>
@@ -22,7 +24,9 @@
                 </div>
                 {% for item in pDoc.content.options %}
                     <div class="problem-row">
-                        <span>{{ loop.index }}. {{ item }}</span>
+                        <input type='checkbox' {% if item.isAnswer %} checked {% endif %} disabled
+                               style='vertical-align: middle'>
+                        <span>{{ loop.index }}. {{ item.name }}</span>
                     </div>
                 {% endfor %}
             </div>

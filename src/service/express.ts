@@ -55,7 +55,7 @@ async function InitExpress() {
   middlewares.push(indexRouter);
 
   function handle404(req: Request, res: Response, next: NextFunction) {
-    next(new NotFoundError());
+    next(NotFoundError());
   }
 
   // 处理404

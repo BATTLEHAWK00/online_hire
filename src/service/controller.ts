@@ -1,27 +1,40 @@
 import { Request, Response } from 'express';
-import { MethodNotAllowedError, UnauthorizedError } from './error';
+import {
+  ControllerError,
+  EmptyResponseError,
+  MethodNotAllowedError,
+  UnauthorizedError,
+  ValidationError,
+} from './error';
 
-// export interface ControllerMethods {
-//     get(): void
-//
-//     post(): void
-//
-//     put(): void
-//
-//     delete(): void
-// }
+export interface ControllerMethods {
+  get(): void;
 
-export class Controller {
+  post(): void;
+
+  put(): void;
+
+  delete(): void;
+}
+
+interface Function {
+  name: string;
+}
+
+function trimParams(data: any) {
+  Object.keys(data).forEach(key => {
+    if (data[key] instanceof Object) trimParams(data[key]);
+    if (typeof data[key] === 'string') data[key] = data[key].trim();
+  });
+}
+
+export abstract class Controller {
   protected req: Request;
-
   protected resp: Response;
-
   private UIContext: any = {};
-
   protected params: any;
-
+  private validators: any = {};
   private __handleTime: number;
-
   private __renderTime: number | undefined;
 
   constructor(req: Request, resp: Response) {
@@ -29,9 +42,11 @@ export class Controller {
     this.req = req;
     this.resp = resp;
     this.params = { ...req.body, ...req.params, ...req.query };
+    trimParams(this.params);
+    if (this.onInit) this.onInit();
   }
 
-  render(templateName: string) {
+  protected render(templateName: string) {
     this.__renderTime = Date.now();
     if (!this.UIContext.pageTitle) this.setTitle(templateName);
     this.setUIContext('pageName', templateName);
@@ -43,29 +58,42 @@ export class Controller {
     });
   }
 
-  setTitle(name: string) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  protected setValidator(method: Function, validators: any) {
+    this.validators[method.name] = validators;
+  }
+
+  public getValidator(methodName: string) {
+    return this.validators[methodName];
+  }
+
+  public getParam(name: string) {
+    return this.params[name];
+  }
+
+  protected setTitle(name: string) {
     this.setUIContext('pageTitle', `${name} - 网上招聘系统`);
   }
 
-  redirect(path: string) {
+  protected redirect(path: string) {
     this.resp.redirect(path);
   }
 
-  setSessionContext(name: string, context: any) {
+  protected setSessionContext(name: string, context: any) {
     // @ts-ignore
     this.req.session.context[name] = context;
   }
 
-  setUIContext(name: string, context: any) {
+  protected setUIContext(name: string, context: any) {
     this.UIContext[name] = context;
   }
 
-  getSessionContext(name: string) {
+  public getSessionContext(name: string) {
     // @ts-ignore
     return this.req.session.context[name];
   }
 
-  renderMessage(msg: string, redirectPath?: string, title = '消息') {
+  protected renderMessage(msg: string, redirectPath?: string, title = '消息') {
     this.setTitle(title);
     this.setUIContext('title', title);
     this.setUIContext('msg', msg);
@@ -74,19 +102,45 @@ export class Controller {
     this.resp.setHeader('refresh', `3;url=${redirectTo}`);
     this.render('message');
   }
+
+  protected onInit?(): void;
+}
+
+function validateParams(validators: any, params: any) {
+  Object.keys(validators)
+    .filter(key => key in params)
+    .map(key => ({ name: key, result: validators[key](params[key]) }))
+    .forEach(res => {
+      if (res.result === false)
+        throw ValidationError(`校验错误：${res.name}`)();
+      else if (typeof res.result === 'string')
+        throw ValidationError(`校验错误：${res.name}, ${res.result}`)();
+    });
 }
 
 export async function handle(req: Request, resp: Response, HandlerClass: any) {
   try {
+    // 生成Handler
     const handler = new HandlerClass(req, resp);
+
+    // 获取HTTP方法
     const method: string = req.method.toLowerCase();
+
+    // 登录验证
     if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
-      throw new UnauthorizedError('你还没有登录！');
+      throw UnauthorizedError('你还没有登录！');
+
+    // 校验参数
+    if (handler.getValidator(method))
+      validateParams(handler.getValidator(method), handler.params);
+
+    // 处理请求
     if (handler[method]) await handler[method]();
-    else throw new MethodNotAllowedError();
-  } catch (error: any) {
+    // 处理无法响应的请求
+    else throw MethodNotAllowedError();
+  } catch (error) {
     console.log(error);
-    resp.status(error.status || 500);
+    if (error instanceof ControllerError) resp.status(error.getStatus() || 500);
     resp.render('error', { title: '错误', error });
   }
 }

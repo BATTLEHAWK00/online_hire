@@ -7,8 +7,10 @@ export interface SingleChoice {
 }
 
 export interface MultipleChoice {
-  options?: string[];
-  answers?: number[];
+  options?: {
+    name?: string;
+    isAnswer?: boolean;
+  }[];
 }
 
 export interface ShortAnswer {

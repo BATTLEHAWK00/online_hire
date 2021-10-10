@@ -5,10 +5,17 @@ import {
   LoginInvalidError,
   UnauthorizedError,
   UserAlreadyExistsError,
-  UserNotExistError,
+  UserNotExistError, ValidationError,
 } from '../service/error';
 import { sha1 } from '../lib/crypto';
 import { RequireAuth } from '../service/controllerDecorators';
+import {
+  isChineseName,
+  isEmail,
+  isPassword,
+  isPhone,
+  isUname,
+} from '../lib/validators';
 
 export class loginController extends Controller {
   async get() {
@@ -24,12 +31,19 @@ export class loginController extends Controller {
     const user = await userModel.getUserByUname(this.params.userName);
     if (user) {
       const { cipher } = sha1(this.params.passwd, user.salt);
-      if (cipher !== user.passwd) throw new LoginInvalidError();
+      if (cipher !== user.passwd) throw LoginInvalidError();
       delete user.passwd;
       delete user.salt;
       this.setSessionContext('loggedUser', user);
       this.renderMessage('您已登录成功!');
-    } else throw new LoginInvalidError();
+    } else throw LoginInvalidError();
+  }
+
+  protected onInit() {
+    this.setValidator(this.post, {
+      userName: isUname,
+      passwd: isPassword,
+    });
   }
 }
 
@@ -41,9 +55,9 @@ export class registerController extends Controller {
 
   async post() {
     if (await userModel.getUserByUname(this.params.userName))
-      throw new UserAlreadyExistsError();
+      throw UserAlreadyExistsError();
     if (this.params.confirmPasswd !== this.params.passwd)
-      throw new Error();
+      throw ValidationError('输入密码不一致！')();
     const user: User = {
       userName: this.params.userName,
       realName: this.params.realName,
@@ -56,6 +70,16 @@ export class registerController extends Controller {
     user.salt = digest.salt;
     await userModel.createUser(user);
     this.renderMessage('注册成功!');
+  }
+
+  protected onInit() {
+    this.setValidator(this.post, {
+      userName: isUname,
+      realName: isChineseName,
+      phone: isPhone,
+      email: isEmail,
+      passwd: isPassword,
+    });
   }
 }
 
@@ -72,19 +96,18 @@ export class userDetailController extends Controller {
   async get() {
     const loggedUser = this.getSessionContext('loggedUser');
     if (!loggedUser || (loggedUser && loggedUser._id !== this.params.uid))
-      throw new UnauthorizedError();
+      throw UnauthorizedError();
     const user = await userModel.getUserByID(this.params.uid);
     if (user) {
       delete user.passwd;
       this.setTitle(user.userName || 'null');
       this.setUIContext('udoc', user);
       this.render('user_detail');
-    } else throw new UserNotExistError();
+    } else throw UserNotExistError();
   }
 
   async post() {
-    if (this.params.passwd !== this.params.confirmPasswd)
-      throw new Error();
+    if (this.params.passwd !== this.params.confirmPasswd) throw new Error();
     const user: any = {
       userName: this.params.userName,
       realName: this.params.realName,

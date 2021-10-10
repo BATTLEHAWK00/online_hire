@@ -47,7 +47,7 @@ export class mycvsUploadController extends Controller {
   }
 
   async post() {
-    if (!this.req.file) throw new RequestInvalidError();
+    if (!this.req.file) throw RequestInvalidError();
     const fileMD5 = crypto
       .createHash('md5')
       .update(this.req.file.buffer)

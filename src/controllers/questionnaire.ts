@@ -54,7 +54,7 @@ export class questionnaireDetailController extends Controller {
   async get() {
     const pList: any = [];
     const q = await questionnaireModel.getByID(this.params._id);
-    if (!q?.content) throw new RequestInvalidError();
+    if (!q?.content) throw RequestInvalidError();
     // eslint-disable-next-line no-restricted-syntax
     for await (const p of q.content) {
       pList.push(await problemModel.getByID(p));

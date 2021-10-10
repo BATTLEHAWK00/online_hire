@@ -21,7 +21,7 @@ export class addPositionsController extends Controller {
 
   async post() {
     if (await positionModel.getPositionByName(this.params.name))
-      throw new PositionAlreadyExistsError();
+      throw PositionAlreadyExistsError();
     const position: any = {
       name: this.params.name,
     };

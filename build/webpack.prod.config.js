@@ -1,12 +1,11 @@
-/* eslint-disable */
 const OptimizeCSSPlugin = require('css-minimizer-webpack-plugin');
 const TerserJsPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { merge } = require('webpack-merge');
-const commonConfig = require('./webpack.config');
 const path = require('path');
 const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const commonConfig = require('./webpack.config');
 
 const prodConfig = {
   mode: 'production',
