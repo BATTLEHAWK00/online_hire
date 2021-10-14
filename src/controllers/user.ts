@@ -134,5 +134,6 @@ export class userDetailController extends Controller {
 }
 
 Router.RegisterRoute('/login', loginController);
+Router.RegisterRoute('/logout', logoutController);
 Router.RegisterRoute('/register', registerController);
 Router.RegisterRoute('/user/:uid', userDetailController);

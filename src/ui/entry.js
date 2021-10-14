@@ -12,29 +12,44 @@ require('./public/css/common.styl');
 // 引入全局js
 require.context('./public/js/', true, /\.js$/i);
 
+async function waitVueLoading(components) {
+  if (!components.length) return;
+  try {
+    const Vue = await import('vue');
+    components.forEach(component => {
+      const mountId = `vue-${component.name}`;
+      if (document.getElementById(mountId)) {
+        Vue.createApp(component).mount(`#${mountId}`);
+      }
+    });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.err(`load Vue components failed: ${e}`);
+  }
+}
+
 // 加载页面上下文
 async function loadVueComponents() {
-  require.ensure(
+  await require.ensure(
     [],
-    () => {
+    async () => {
       const ctx = require.context(`./pages/`, true, /\.vue?$/i, 'lazy-once');
-      ctx.keys().forEach(async key => {
-        const contextDir = key.split('/')[1];
-        if (contextDir === pageName) {
-          const Vue = await import('vue');
-          const component = (await ctx(key)).default;
-          const mountId = `vue-${component.name}`;
-          if (document.getElementById(mountId))
-            Vue.createApp(component).mount(`#${mountId}`);
-        }
-      });
+      const components = [];
+      await Promise.all(
+        ctx.keys().map(async key => {
+          const contextDir = key.split('/')[1];
+          if (contextDir === pageName)
+            components.push((await ctx(key)).default);
+        })
+      );
+      await waitVueLoading(components);
     },
     'vue-components'
   );
 }
 
 async function loadPageStyles() {
-  require.ensure(
+  await require.ensure(
     [],
     () => {
       const ctx = require.context(
@@ -53,7 +68,7 @@ async function loadPageStyles() {
 }
 
 async function loadPageScripts() {
-  require.ensure(
+  await require.ensure(
     [],
     () => {
       const ctx = require.context(`./pages/`, true, /\.js?$/i, 'lazy-once');
@@ -66,24 +81,28 @@ async function loadPageScripts() {
   );
 }
 
-if (process.env.NODE_ENV === 'development') {
-  if (module.hot) {
+const pageLoadStartTime = Date.now();
+Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]).then(
+  () => {
     // eslint-disable-next-line no-console
-    console.log('using development hot update.');
-    module.hot.accept();
+    console.log(`content load time: ${Date.now() - pageLoadStartTime}ms`);
   }
-}
+);
 
 window.addEventListener('load', async () => {
-  const pageLoadStartTime = Date.now();
-  await Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]);
   const endTime = Date.now();
   // eslint-disable-next-line no-console
   console.log(`server process time: ${window.handleTime}ms`);
   // eslint-disable-next-line no-console
   console.log(`server render time: ${window.renderTime}ms`);
   // eslint-disable-next-line no-console
-  console.log(`content load time: ${endTime - pageLoadStartTime}ms`);
-  // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
+
+  if (process.env.NODE_ENV === 'development') {
+    if (module.hot) {
+      // eslint-disable-next-line no-console
+      console.log('using development hot update.');
+      module.hot.accept();
+    }
+  }
 });

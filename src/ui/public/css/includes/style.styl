@@ -12,6 +12,31 @@ a
 input[type="text"], input[type="password"], select
   width 100%
 
+input[type="text"], input[type="password"], textarea
+  padding 8px 15px
+  border-radius 5px
+  border-width 1px
+  border-color #cbcbcb
+  border-style solid
+  transition all .25s
+  outline none
+
+input[type="text"], input[type="password"]
+  height 30px
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus
+  box-shadow 0 0 7px #b5b5b5
+
+input[type="text"]:focus:hover, input[type="password"]:focus:hover, textarea:focus:hover
+  box-shadow 0 0 7px #b5b5b5
+
+input[type="text"]:hover, input[type="password"]:hover, textarea:hover
+  box-shadow 0 0 5px #c0c0c0
+
+select
+  width 50%
+  height 30px
+
 form
   width 100%
 

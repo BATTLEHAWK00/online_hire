@@ -14,11 +14,11 @@
     </script>
     <script src="{{ staticFilesMap['/main.js'] | d('/main.js') }}"></script>
     <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.js') }}"></script>
-    {% if globalContext.devMode %}
-        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js"></script>
-    {% else %}
-        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js"></script>
-    {% endif %}
+{#    {% if globalContext.devMode %}#}
+{#        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js" async></script>#}
+{#    {% else %}#}
+{#        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js" async></script>#}
+{#    {% endif %}#}
     <link rel="stylesheet" href="{{ staticFilesMap['/main.css'] | d('/main.css') }}">
     {% block head %} {% endblock %}
 </head>

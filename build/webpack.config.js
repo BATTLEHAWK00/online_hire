@@ -7,8 +7,12 @@ const EslintFriendlyFormatter = require('eslint-friendly-formatter');
 
 module.exports = {
   entry: [path.resolve(__dirname, '../src/ui/entry.js')],
+  externalsType: 'script',
   externals: {
-    vue: 'Vue',
+    vue:
+      process.env.NODE_ENV === 'development'
+        ? 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js'
+        : 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js',
   },
   output: {
     filename: '[name].js',
@@ -40,11 +44,17 @@ module.exports = {
           priority: -10,
           chunks: 'all',
         },
+        pages:{
+          name: `chunk-pages`,
+          test: /[\\/]pages[\\/]/,
+          priority: -15,
+          chunks: 'async',
+          reuseExistingChunk: true,
+        },
         common: {
           name: `chunk-common`,
-          minChunks: 2,
           priority: -20,
-          chunks: 'all',
+          chunks: 'async',
           reuseExistingChunk: true,
         },
       },
@@ -94,3 +104,5 @@ module.exports = {
     ],
   },
 };
+
+// console.log(module.exports.optimization);
