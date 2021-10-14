@@ -19,6 +19,7 @@ module.exports = {
     chunkFilename: '[name].chunk.js',
   },
   optimization: {
+    chunkIds: 'natural',
     splitChunks: {
       chunks: 'async',
       minSize: 0,

@@ -1,6 +1,7 @@
 import { Controller } from '../service/controller';
+import Router from '../service/router';
 
-export class indexController extends Controller {
+class indexController extends Controller {
   async get() {
     this.setTitle('首页');
     this.render('index');
@@ -8,6 +9,9 @@ export class indexController extends Controller {
   }
 }
 
-export class testController extends Controller {
+class testController extends Controller {
   // async get() {}
 }
+
+Router.RegisterRoute('/', indexController);
+Router.RegisterRoute('/test', testController);

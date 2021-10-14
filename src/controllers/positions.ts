@@ -2,6 +2,7 @@ import { Controller } from '../service/controller';
 import positionModel from '../models/position';
 import { PositionAlreadyExistsError } from '../service/error';
 import { RequireAuth } from '../service/controllerDecorators';
+import Router from '../service/router';
 
 @RequireAuth()
 export class positionsController extends Controller {
@@ -37,3 +38,7 @@ export class deletePositionController extends Controller {
     this.renderMessage('删除成功!', '/positions');
   }
 }
+
+Router.RegisterRoute('/positions', positionsController);
+Router.RegisterRoute('/positions/add', addPositionsController);
+Router.RegisterRoute('/positions/delete/:_id', deletePositionController);

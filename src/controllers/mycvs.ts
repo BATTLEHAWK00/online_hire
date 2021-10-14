@@ -6,6 +6,8 @@ import { RequestInvalidError } from '../service/error';
 import { storageService } from '../service/fileStorage';
 import positionModel from '../models/position';
 import { RequireAuth } from '../service/controllerDecorators';
+import Router from '../service/router';
+import multipart from '../service/middlewares/multipart';
 
 @RequireAuth()
 export class mycvsController extends Controller {
@@ -75,3 +77,7 @@ export class mycvsUploadController extends Controller {
     this.renderMessage('投递成功!');
   }
 }
+
+Router.RegisterRoute('/mycvs',mycvsController)
+Router.RegisterRoute('/mycvs/send',mycvsUploadController,[multipart.single('resumePDF')])
+Router.RegisterRoute('/mycvs/detail/:_id',mycvsDetailController)

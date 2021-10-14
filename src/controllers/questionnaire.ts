@@ -4,6 +4,7 @@ import problemModel from '../models/problem';
 import userModel from '../models/user';
 import { RequestInvalidError } from '../service/error';
 import { RequireAuth } from '../service/controllerDecorators';
+import Router from '../service/router'
 
 @RequireAuth()
 export class questionnaireController extends Controller {
@@ -68,3 +69,7 @@ export class questionnaireDetailController extends Controller {
     this.render('questionnaire_detail');
   }
 }
+
+Router.RegisterRoute('/questionnaire',questionnaireController)
+Router.RegisterRoute('/questionnaire/add',addQuestionnaireController)
+Router.RegisterRoute('/questionnaire/detail/:_id',questionnaireDetailController)

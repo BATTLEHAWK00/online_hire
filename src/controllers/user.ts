@@ -1,11 +1,13 @@
 import { Controller } from '../service/controller';
+import Router from '../service/router'
 
 import userModel, { User } from '../models/user';
 import {
   LoginInvalidError,
   UnauthorizedError,
   UserAlreadyExistsError,
-  UserNotExistError, ValidationError,
+  UserNotExistError,
+  ValidationError,
 } from '../service/error';
 import { sha1 } from '../lib/crypto';
 import { RequireAuth } from '../service/controllerDecorators';
@@ -130,3 +132,7 @@ export class userDetailController extends Controller {
     this.renderMessage('信息修改成功!');
   }
 }
+
+Router.RegisterRoute('/login', loginController);
+Router.RegisterRoute('/register', registerController);
+Router.RegisterRoute('/user/:uid', userDetailController);

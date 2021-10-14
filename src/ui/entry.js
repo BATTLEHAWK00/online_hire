@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedFunction
 
 const pageName = document.documentElement.getAttribute('page-name');
-const startTime = new Date();
+const startTime = Date.now();
 
 // 引入intro
 require('./public/intro');
@@ -75,12 +75,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 window.addEventListener('load', async () => {
+  const pageLoadStartTime = Date.now();
   await Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]);
-  const endTime = new Date();
+  const endTime = Date.now();
   // eslint-disable-next-line no-console
   console.log(`server process time: ${window.handleTime}ms`);
   // eslint-disable-next-line no-console
   console.log(`server render time: ${window.renderTime}ms`);
+  // eslint-disable-next-line no-console
+  console.log(`content load time: ${endTime - pageLoadStartTime}ms`);
   // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 });

@@ -29,12 +29,14 @@ const prodConfig = {
   optimization: {
     minimize: true,
     minimizer: [
-      new OptimizeCSSPlugin(),
+      new OptimizeCSSPlugin({
+        parallel: true,
+      }),
       new TerserJsPlugin({
         parallel: true,
-        extractComments: false,
         terserOptions: {
           compress: {
+            passes: 2,
             warnings: true,
             drop_debugger: true,
           },

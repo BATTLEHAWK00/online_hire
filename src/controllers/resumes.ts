@@ -1,6 +1,7 @@
 import { Controller } from '../service/controller';
 import { storageService } from '../service/fileStorage';
 import { RequireAuth } from '../service/controllerDecorators';
+import Router from '../service/router'
 
 @RequireAuth()
 export class resumesController extends Controller {
@@ -18,3 +19,6 @@ export class resumeFileController extends Controller {
     file.pipe(this.resp);
   }
 }
+
+Router.RegisterRoute('/resumes',resumesController)
+Router.RegisterRoute('/resumes/file/:user/:filename',resumeFileController)

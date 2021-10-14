@@ -8,7 +8,7 @@ import {
   ipRecordMiddleware,
   sessionMiddleware,
 } from './middlewares/session';
-import indexRouter from '../routes';
+import Router from './router';
 import { NotFoundError } from './error';
 import { errorHandleMiddleware } from './middlewares/errorhandler';
 import { registerNunjucks } from './nunjucks';
@@ -52,7 +52,7 @@ async function InitExpress() {
   middlewares.push(ipRecordMiddleware);
 
   // 路由配置
-  middlewares.push(indexRouter);
+  middlewares.push(Router.router);
 
   function handle404(req: Request, res: Response, next: NextFunction) {
     next(NotFoundError());

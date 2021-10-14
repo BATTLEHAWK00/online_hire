@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import {
   ControllerError,
-  EmptyResponseError,
   MethodNotAllowedError,
   UnauthorizedError,
   ValidationError,
@@ -105,6 +104,9 @@ export abstract class Controller {
 
   protected onInit?(): void;
 }
+
+// eslint-disable-next-line no-unused-vars
+export type ControllerClass = new (...args: any[]) => Controller;
 
 function validateParams(validators: any, params: any) {
   Object.keys(validators)
