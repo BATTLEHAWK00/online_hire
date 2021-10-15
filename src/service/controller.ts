@@ -1,6 +1,5 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import {
-  ControllerError,
   MethodNotAllowedError,
   UnauthorizedError,
   ValidationError,
@@ -120,7 +119,12 @@ function validateParams(validators: any, params: any) {
     });
 }
 
-export async function handle(req: Request, resp: Response, HandlerClass: any) {
+export async function handle(
+  req: Request,
+  resp: Response,
+  next: NextFunction,
+  HandlerClass: any
+) {
   try {
     // 生成Handler
     const handler = new HandlerClass(req, resp);
@@ -141,8 +145,6 @@ export async function handle(req: Request, resp: Response, HandlerClass: any) {
     // 处理无法响应的请求
     else throw MethodNotAllowedError();
   } catch (error) {
-    console.log(error);
-    if (error instanceof ControllerError) resp.status(error.getStatus() || 500);
-    resp.render('error', { title: '错误', error });
+    next(error);
   }
 }

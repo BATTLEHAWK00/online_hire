@@ -4,13 +4,13 @@ const pageName = document.documentElement.getAttribute('page-name');
 const startTime = Date.now();
 
 // 引入intro
-require('./public/intro');
+require('@public/intro');
 
 // 引入全局样式
-require('./public/css/common.styl');
+require('@public/css/common.styl');
 
 // 引入全局js
-require.context('./public/js/', true, /\.js$/i);
+require.context('@public/js/', true, /\.js$/i);
 
 async function waitVueLoading(components) {
   if (!components.length) return;
@@ -33,7 +33,7 @@ async function loadVueComponents() {
   await require.ensure(
     [],
     async () => {
-      const ctx = require.context(`./pages/`, true, /\.vue?$/i, 'lazy-once');
+      const ctx = require.context(`@pages/`, true, /\.vue?$/i, 'lazy-once');
       const components = [];
       await Promise.all(
         ctx.keys().map(async key => {
@@ -53,7 +53,7 @@ async function loadPageStyles() {
     [],
     () => {
       const ctx = require.context(
-        `./pages/`,
+        `@pages/`,
         true,
         /\.styl(us)?$/i,
         'lazy-once'
@@ -71,7 +71,7 @@ async function loadPageScripts() {
   await require.ensure(
     [],
     () => {
-      const ctx = require.context(`./pages/`, true, /\.js?$/i, 'lazy-once');
+      const ctx = require.context(`@pages/`, true, /\.js?$/i, 'lazy-once');
       ctx.keys().forEach(async key => {
         const contextDir = key.split('/')[1];
         if (contextDir === pageName) await ctx(key);
@@ -92,16 +92,14 @@ Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]).then(
 window.addEventListener('load', async () => {
   const endTime = Date.now();
   // eslint-disable-next-line no-console
-  console.log(`server process time: ${window.handleTime}ms`);
-  // eslint-disable-next-line no-console
-  console.log(`server render time: ${window.renderTime}ms`);
+  console.log(`server process time: ${window.handleTime}ms, render time: ${window.renderTime}ms `);
   // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 
   if (process.env.NODE_ENV === 'development') {
     if (module.hot) {
       // eslint-disable-next-line no-console
-      console.log('using development hot update.');
+      console.log('using hot update.');
       module.hot.accept();
     }
   }

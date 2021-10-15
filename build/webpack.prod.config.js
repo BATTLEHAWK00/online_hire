@@ -15,6 +15,7 @@ const prodConfig = {
       filename: '[name].[contenthash].css',
       chunkFilename: '[name].[chunkhash].chunk.css',
       ignoreOrder: false,
+      publicPath: '@public',
     }),
     new CleanWebpackPlugin(),
     new WebpackManifestPlugin({

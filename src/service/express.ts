@@ -9,9 +9,9 @@ import {
   sessionMiddleware,
 } from './middlewares/session';
 import Router from './router';
-import { NotFoundError } from './error';
-import { errorHandleMiddleware } from './middlewares/errorhandler';
 import { registerNunjucks } from './nunjucks';
+import { errorHandleMiddleware } from './middlewares/errorhandler';
+import { NotFoundError } from './error';
 
 async function InitExpress() {
   const app = express();

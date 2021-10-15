@@ -12,14 +12,16 @@ a
 input[type="text"], input[type="password"], select
   width 100%
 
+input[type="text"], input[type="password"], textarea, select
+  outline none
+
 input[type="text"], input[type="password"], textarea
   padding 8px 15px
   border-radius 5px
   border-width 1px
   border-color #cbcbcb
   border-style solid
-  transition all .25s
-  outline none
+  transition box-shadow .4s
 
 input[type="text"], input[type="password"]
   height 30px
@@ -36,6 +38,7 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover
 select
   width 50%
   height 30px
+  padding 5px 10px
 
 form
   width 100%

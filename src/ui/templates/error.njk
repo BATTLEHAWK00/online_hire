@@ -6,6 +6,9 @@
         </div>
         <div class="section-content">
             <h2>{{ error.message | d('服务器错误') }}</h2>
+            {% if error.status === 404 %}
+                <div class='error-404'></div>
+            {% endif %}
         </div>
         {% if globalContext.devMode %}
             <div class="section-footer">

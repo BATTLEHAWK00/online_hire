@@ -4,9 +4,18 @@ const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 const EslintFriendlyFormatter = require('eslint-friendly-formatter');
+const { fromSrc } = require('../src/lib/pathUtil');
 
 module.exports = {
   entry: [path.resolve(__dirname, '../src/ui/entry.js')],
+  context: fromSrc(),
+  resolve: {
+    alias: {
+      '@': fromSrc(),
+      '@pages': path.resolve(fromSrc(), './ui/pages'),
+      '@public': path.resolve(fromSrc(), './ui/public'),
+    },
+  },
   externalsType: 'script',
   externals: {
     vue:
@@ -26,35 +35,39 @@ module.exports = {
     chunkIds: 'natural',
     splitChunks: {
       chunks: 'async',
-      minSize: 0,
+      minSize: 256000,
       minChunks: 1,
       maxAsyncRequests: 6,
       maxInitialRequests: 4,
-      automaticNameDelimiter: '~',
+      automaticNameDelimiter: '-',
       cacheGroups: {
         styles: {
           name: 'chunk-styles',
-          test: /\.css$/,
-          chunks: 'all',
+          test: /\.styl(us)?$/,
           priority: -10,
         },
         vendors: {
           name: `chunk-vendors`,
           test: /[\\/]node_modules[\\/]/,
+          minSize: 0,
           priority: -10,
           chunks: 'all',
         },
-        pages:{
+        vueComponents: {
+          name: `chunk-vue-components`,
+          test: /\.vue$/,
+          minSize: 0,
+          priority: -10,
+          chunks: 'async',
+        },
+        pages: {
           name: `chunk-pages`,
           test: /[\\/]pages[\\/]/,
           priority: -15,
-          chunks: 'async',
-          reuseExistingChunk: true,
         },
         common: {
           name: `chunk-common`,
           priority: -20,
-          chunks: 'async',
           reuseExistingChunk: true,
         },
       },
@@ -84,6 +97,11 @@ module.exports = {
         },
       },
       {
+        test: /\.(png|jpg|gif|svg|ico)$/,
+        loader: 'file-loader',
+        options: {},
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
       },
@@ -94,7 +112,16 @@ module.exports = {
       },
       {
         test: /\.styl(us)?$/,
-        use: [ExtractCssPlugin.loader, 'css-loader', 'stylus-loader'],
+        use: [
+          {
+            loader: ExtractCssPlugin.loader,
+            options: {
+              publicPath: path.resolve(fromSrc(), './ui/public'),
+            },
+          },
+          'css-loader',
+          'stylus-loader',
+        ],
         exclude: /node_modules/,
       },
       {
@@ -104,5 +131,3 @@ module.exports = {
     ],
   },
 };
-
-// console.log(module.exports.optimization);

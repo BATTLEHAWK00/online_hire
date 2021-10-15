@@ -1,8 +1,8 @@
 import express, { RequestHandler } from 'express';
 import path from 'path';
+import { ControllerClass, handle } from './controller';
 import loader from './loader';
 import { fromSrc } from '../lib/pathUtil';
-import { ControllerClass, handle } from './controller';
 
 const router = express.Router();
 
@@ -11,20 +11,11 @@ function RegisterRoute(
   controller: ControllerClass,
   preHandlers: RequestHandler[] = []
 ) {
-  router.all(reqPath, ...preHandlers, (req, resp) =>
-    handle(req, resp, controller)
+  router.all(reqPath, ...preHandlers, (req, resp, next) =>
+    handle(req, resp, next, controller)
   );
 }
 
-
-//
-
-//
-
-//
-
-//
-// router.all('/test', (req, resp) => handle(req, resp, testController));
 loader.loadModulesDir(path.join(fromSrc(), './controllers'));
 
 export default { router, RegisterRoute };
