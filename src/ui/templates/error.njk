@@ -5,15 +5,16 @@
             <h1>错误: {{ error.status }}</h1>
         </div>
         <div class="section-content">
-            <h2>{{ error.message | d('服务器错误') }}</h2>
             {% if error.status === 404 %}
-                <div class='error-404'></div>
+                <div class='error-404 block-center'></div>
+            {% else %}
+                <h2>{{ error.message | d('服务器错误') }}</h2>
+                {% if globalContext.devMode %}
+                    <div class="section-footer">
+                        <pre>{{ error.stack }}</pre>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
-        {% if globalContext.devMode %}
-            <div class="section-footer">
-                <pre>{{ error.stack }}</pre>
-            </div>
-        {% endif %}
     </div>
 {% endblock %}

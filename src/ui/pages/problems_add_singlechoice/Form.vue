@@ -10,7 +10,6 @@
         name="desc"
         placeholder="题目描述"
         rows="3"
-        class="form-textarea"
         autofocus
       ></textarea>
     </div>

@@ -2,14 +2,14 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const ExtractCssPlugin = require('mini-css-extract-plugin');
 const TerserJsPlugin = require('terser-webpack-plugin');
-const path = require('path');
+// const path = require('path');
 const commonConfig = require('./webpack.config');
-const { fromSrc } = require('../src/lib/pathUtil');
+// const { fromSrc } = require('../src/lib/pathUtil');
 
 const devConfig = {
   entry: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'],
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractCssPlugin({

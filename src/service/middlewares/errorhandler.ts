@@ -13,5 +13,5 @@ export function errorHandleMiddleware(
   if ('status' in err && err.status !== 404) console.error(err);
   // render the error page
   res.status('status' in err ? err.status : 500);
-  res.render('error', { pageTitle: '错误', error: err });
+  res.render('error', { pageTitle: '错误', pageName: 'error', error: err });
 }

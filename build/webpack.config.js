@@ -97,11 +97,6 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|gif|svg|ico)$/,
-        loader: 'file-loader',
-        options: {},
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
       },
@@ -113,16 +108,24 @@ module.exports = {
       {
         test: /\.styl(us)?$/,
         use: [
+          ExtractCssPlugin.loader,
           {
-            loader: ExtractCssPlugin.loader,
+            loader: 'css-loader',
             options: {
-              publicPath: path.resolve(fromSrc(), './ui/public'),
+              esModule: false,
             },
           },
-          'css-loader',
           'stylus-loader',
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(svg|png|jpg|jpeg|gif|webp)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10,
+          name: 'static/img/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.js$/,

@@ -6,6 +6,7 @@ const path = require('path');
 const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const commonConfig = require('./webpack.config');
+const { fromSrc } = require('../src/lib/pathUtil');
 
 const prodConfig = {
   mode: 'production',
@@ -15,7 +16,6 @@ const prodConfig = {
       filename: '[name].[contenthash].css',
       chunkFilename: '[name].[chunkhash].chunk.css',
       ignoreOrder: false,
-      publicPath: '@public',
     }),
     new CleanWebpackPlugin(),
     new WebpackManifestPlugin({
