@@ -13,5 +13,5 @@ class testController extends Controller {
   // async get() {}
 }
 
-Router.RegisterRoute('/', indexController);
-Router.RegisterRoute('/test', testController);
+Router.RegisterRoute('main', '/', indexController);
+Router.RegisterRoute('test', '/test', testController);

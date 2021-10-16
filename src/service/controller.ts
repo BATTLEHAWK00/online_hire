@@ -19,6 +19,12 @@ interface Function {
   name: string;
 }
 
+declare module 'express-session' {
+  interface SessionData {
+    context: any;
+  }
+}
+
 function trimParams(data: any) {
   Object.keys(data).forEach(key => {
     if (data[key] instanceof Object) trimParams(data[key]);
@@ -46,6 +52,10 @@ export abstract class Controller {
 
   protected render(templateName: string) {
     this.__renderTime = Date.now();
+    if (this.req.get('X-PJAX')) {
+      this.setUIContext('usePjax', true);
+      console.log('pjax');
+    }
     if (!this.UIContext.pageTitle) this.setTitle(templateName);
     this.setUIContext('pageName', templateName);
     this.setUIContext('loggedUser', this.getSessionContext('loggedUser'));
@@ -78,7 +88,6 @@ export abstract class Controller {
   }
 
   protected setSessionContext(name: string, context: any) {
-    // @ts-ignore
     this.req.session.context[name] = context;
   }
 
@@ -87,7 +96,6 @@ export abstract class Controller {
   }
 
   public getSessionContext(name: string) {
-    // @ts-ignore
     return this.req.session.context[name];
   }
 

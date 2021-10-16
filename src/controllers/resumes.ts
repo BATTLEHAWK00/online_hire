@@ -1,7 +1,7 @@
 import { Controller } from '../service/controller';
 import { storageService } from '../service/fileStorage';
 import { RequireAuth } from '../service/controllerDecorators';
-import Router from '../service/router'
+import Router from '../service/router';
 
 @RequireAuth()
 export class resumesController extends Controller {
@@ -20,5 +20,9 @@ export class resumeFileController extends Controller {
   }
 }
 
-Router.RegisterRoute('/resumes',resumesController)
-Router.RegisterRoute('/resumes/file/:user/:filename',resumeFileController)
+Router.RegisterRoute('resumes_main', '/resumes', resumesController);
+Router.RegisterRoute(
+  'resumes_file',
+  '/resumes/file/:user/:filename',
+  resumeFileController
+);

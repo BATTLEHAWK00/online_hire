@@ -6,7 +6,6 @@ const path = require('path');
 const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const commonConfig = require('./webpack.config');
-const { fromSrc } = require('../src/lib/pathUtil');
 
 const prodConfig = {
   mode: 'production',

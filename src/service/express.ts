@@ -3,6 +3,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import compression from 'compression';
+import helmet from 'helmet';
 import {
   contextMiddleware,
   ipRecordMiddleware,
@@ -16,6 +17,9 @@ import { NotFoundError } from './error';
 async function InitExpress() {
   const app = express();
   const middlewares = [];
+
+  middlewares.push(helmet.hidePoweredBy());
+  middlewares.push(helmet.xssFilter());
 
   // 注册Nunjucks模板引擎
   registerNunjucks(app);

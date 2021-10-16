@@ -1,5 +1,5 @@
 import { Controller } from '../service/controller';
-import Router from '../service/router'
+import Router from '../service/router';
 
 import userModel, { User } from '../models/user';
 import {
@@ -133,7 +133,7 @@ export class userDetailController extends Controller {
   }
 }
 
-Router.RegisterRoute('/login', loginController);
-Router.RegisterRoute('/logout', logoutController);
-Router.RegisterRoute('/register', registerController);
-Router.RegisterRoute('/user/:uid', userDetailController);
+Router.RegisterRoute('user_login', '/login', loginController);
+Router.RegisterRoute('user_logout', '/logout', logoutController);
+Router.RegisterRoute('user_register', '/register', registerController);
+Router.RegisterRoute('user_detail', '/user/:uid', userDetailController);

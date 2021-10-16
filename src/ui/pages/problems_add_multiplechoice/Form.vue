@@ -45,6 +45,7 @@
         @click="addOption"
       />
     </div>
+    <v-button>撒旦阿松大</v-button>
     <div class="form-row text-center" style="margin: 20px auto">
       <input type="submit" class="com-button" value="添加" />
     </div>
@@ -52,8 +53,13 @@
 </template>
 
 <script>
+import { Button } from 'ant-design-vue';
+
 export default {
   name: 'Form',
+  components: {
+    vButton: Button,
+  },
   data() {
     return {
       options: [

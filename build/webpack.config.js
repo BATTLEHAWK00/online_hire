@@ -4,7 +4,10 @@ const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 const EslintFriendlyFormatter = require('eslint-friendly-formatter');
-const { fromSrc } = require('../src/lib/pathUtil');
+
+function fromSrc(dir) {
+  return path.resolve(__dirname, '../src', dir || '');
+}
 
 module.exports = {
   entry: [path.resolve(__dirname, '../src/ui/entry.js')],
@@ -12,8 +15,8 @@ module.exports = {
   resolve: {
     alias: {
       '@': fromSrc(),
-      '@pages': path.resolve(fromSrc(), './ui/pages'),
-      '@public': path.resolve(fromSrc(), './ui/public'),
+      '@pages': path.resolve(fromSrc('./ui/pages')),
+      '@public': path.resolve(fromSrc('./ui/public')),
     },
   },
   externalsType: 'script',
@@ -35,7 +38,7 @@ module.exports = {
     chunkIds: 'natural',
     splitChunks: {
       chunks: 'async',
-      minSize: 256000,
+      minSize: 0,
       minChunks: 1,
       maxAsyncRequests: 6,
       maxInitialRequests: 4,
@@ -45,6 +48,7 @@ module.exports = {
           name: 'chunk-styles',
           test: /\.styl(us)?$/,
           priority: -10,
+          reuseExistingChunk: true,
         },
         vendors: {
           name: `chunk-vendors`,
@@ -52,6 +56,7 @@ module.exports = {
           minSize: 0,
           priority: -10,
           chunks: 'all',
+          reuseExistingChunk: true,
         },
         vueComponents: {
           name: `chunk-vue-components`,
@@ -59,11 +64,13 @@ module.exports = {
           minSize: 0,
           priority: -10,
           chunks: 'async',
+          reuseExistingChunk: true,
         },
         pages: {
           name: `chunk-pages`,
           test: /[\\/]pages[\\/]/,
           priority: -15,
+          reuseExistingChunk: true,
         },
         common: {
           name: `chunk-common`,
@@ -80,6 +87,10 @@ module.exports = {
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
     }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
   ],
   module: {
     rules: [
@@ -87,8 +98,8 @@ module.exports = {
         test: /\.(ts|js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        exclude: /node_modules/,
-        // include: path.resolve(__dirname, 'src'), // 指定检查的目录
+        // exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'), // 指定检查的目录
         options: {
           // 这里的配置项参数将会被传递到 eslint 的 CLIEngine
           formatter: EslintFriendlyFormatter, // 指定错误报告的格式规范
@@ -102,8 +113,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ExtractCssPlugin.loader, 'vue-style-loader', 'css-loader'],
-        exclude: /node_modules/,
+        use: [
+          ExtractCssPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.styl(us)?$/,
@@ -130,6 +148,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        include: [fromSrc()],
       },
     ],
   },

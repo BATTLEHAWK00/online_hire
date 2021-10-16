@@ -1,5 +1,7 @@
 // noinspection JSUnresolvedFunction
 
+require('ant-design-vue/dist/antd.css');
+
 const pageName = document.documentElement.getAttribute('page-name');
 const startTime = Date.now();
 
@@ -16,15 +18,19 @@ async function waitVueLoading(components) {
   if (!components.length) return;
   try {
     const Vue = await import('vue');
+    const Antd = await import('ant-design-vue');
+    await import('ant-design-vue/dist/antd.css');
     components.forEach(component => {
       const mountId = `vue-${component.name}`;
       if (document.getElementById(mountId)) {
-        Vue.createApp(component).mount(`#${mountId}`);
+        const app = Vue.createApp(component);
+        app.use(Antd);
+        app.mount(`#${mountId}`);
       }
     });
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.err(`load Vue components failed: ${e}`);
+    console.error(`load Vue components failed: ${e}`);
   }
 }
 
@@ -55,7 +61,7 @@ async function loadPageStyles() {
       const ctx = require.context(
         `@pages/`,
         true,
-        /\.styl(us)?$/i,
+        /\.(styl(us)|css)?$/i,
         'lazy-once'
       );
       ctx.keys().forEach(async key => {
@@ -92,7 +98,9 @@ Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]).then(
 window.addEventListener('load', async () => {
   const endTime = Date.now();
   // eslint-disable-next-line no-console
-  console.log(`server process time: ${window.handleTime}ms, render time: ${window.renderTime}ms `);
+  console.log(
+    `server process time: ${window.handleTime}ms, render time: ${window.renderTime}ms `
+  );
   // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
 

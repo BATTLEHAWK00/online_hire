@@ -78,6 +78,12 @@ export class mycvsUploadController extends Controller {
   }
 }
 
-Router.RegisterRoute('/mycvs',mycvsController)
-Router.RegisterRoute('/mycvs/send',mycvsUploadController,[multipart.single('resumePDF')])
-Router.RegisterRoute('/mycvs/detail/:_id',mycvsDetailController)
+Router.RegisterRoute('mycvs', '/mycvs', mycvsController);
+Router.RegisterRoute('mycvs_send', '/mycvs/send', mycvsUploadController, [
+  multipart.single('resumePDF'),
+]);
+Router.RegisterRoute(
+  'mycvs_detail',
+  '/mycvs/detail/:_id',
+  mycvsDetailController
+);

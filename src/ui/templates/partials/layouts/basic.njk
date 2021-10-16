@@ -1,7 +1,15 @@
-{% extends './html.njk' %}
-{% block header %}
-    {% include '../components/nav.njk' %}
-{% endblock %}
-{% block footer %}
-    {% include '../components/footer.njk' %}
+{% if not usePjax %}
+    {% extends './html.njk' %}
+{% endif %}
+
+{% block htmlBody %}
+    {% block header %}
+        {% include '../components/nav.njk' %}
+    {% endblock %}
+    <div class="app">
+        {% block content %} {% endblock %}
+    </div>
+    {% block footer %}
+        {% include '../components/footer.njk' %}
+    {% endblock %}
 {% endblock %}

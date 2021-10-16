@@ -4,7 +4,7 @@ import problemModel from '../models/problem';
 import userModel from '../models/user';
 import { RequestInvalidError } from '../service/error';
 import { RequireAuth } from '../service/controllerDecorators';
-import Router from '../service/router'
+import Router from '../service/router';
 
 @RequireAuth()
 export class questionnaireController extends Controller {
@@ -32,7 +32,12 @@ export class addQuestionnaireController extends Controller {
   async get() {
     const pList = [];
     // eslint-disable-next-line no-restricted-syntax
-    for (const { _id, name, desc, type } of await problemModel.getProblemList()) {
+    for (const {
+      _id,
+      name,
+      desc,
+      type,
+    } of await problemModel.getProblemList()) {
       pList.push({ _id, name, desc, type });
     }
     this.setUIContext('pList', pList);
@@ -70,6 +75,18 @@ export class questionnaireDetailController extends Controller {
   }
 }
 
-Router.RegisterRoute('/questionnaire',questionnaireController)
-Router.RegisterRoute('/questionnaire/add',addQuestionnaireController)
-Router.RegisterRoute('/questionnaire/detail/:_id',questionnaireDetailController)
+Router.RegisterRoute(
+  'questionnaire_main',
+  '/questionnaire',
+  questionnaireController
+);
+Router.RegisterRoute(
+  'questionnaire_add',
+  '/questionnaire/add',
+  addQuestionnaireController
+);
+Router.RegisterRoute(
+  'questionnaire_detail',
+  '/questionnaire/detail/:_id',
+  questionnaireDetailController
+);

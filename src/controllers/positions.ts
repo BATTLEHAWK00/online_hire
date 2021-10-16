@@ -39,6 +39,10 @@ export class deletePositionController extends Controller {
   }
 }
 
-Router.RegisterRoute('/positions', positionsController);
-Router.RegisterRoute('/positions/add', addPositionsController);
-Router.RegisterRoute('/positions/delete/:_id', deletePositionController);
+Router.RegisterRoute('positions_main', '/positions', positionsController);
+Router.RegisterRoute('positions_add', '/positions/add', addPositionsController);
+Router.RegisterRoute(
+  'positions_delete',
+  '/positions/delete/:_id',
+  deletePositionController
+);

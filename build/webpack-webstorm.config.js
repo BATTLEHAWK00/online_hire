@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 function fromSrc() {
   return path.resolve('../src');
@@ -14,6 +15,12 @@ module.exports = {
       '@public': path.resolve(fromSrc(), './ui/public'),
     },
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+  ],
   externalsType: 'script',
   externals: {
     vue:

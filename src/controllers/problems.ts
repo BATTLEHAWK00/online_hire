@@ -3,7 +3,7 @@ import problemModel, { Problem } from '../models/problem';
 import { RequestInvalidError } from '../service/error';
 import userModel from '../models/user';
 import { RequireAuth } from '../service/controllerDecorators';
-import Router from '../service/router'
+import Router from '../service/router';
 
 function singleChoiceDoc(params: any): Problem {
   return {
@@ -138,8 +138,24 @@ export class deleteProblemController extends Controller {
   }
 }
 
-Router.RegisterRoute('/problems', problemsHandler);
-Router.RegisterRoute('/problems/detail/:_id', problemsDetailController);
-Router.RegisterRoute('/problems/add', chooseProblemsTypeController);
-Router.RegisterRoute('/problems/add/:problemType', addProblemsController);
-Router.RegisterRoute('/problems/delete/:_id', deleteProblemController);
+Router.RegisterRoute('problems_main', '/problems', problemsHandler);
+Router.RegisterRoute(
+  'problems_detail',
+  '/problems/detail/:_id',
+  problemsDetailController
+);
+Router.RegisterRoute(
+  'problems_choosetype',
+  '/problems/add',
+  chooseProblemsTypeController
+);
+Router.RegisterRoute(
+  'problems_add',
+  '/problems/add/:problemType',
+  addProblemsController
+);
+Router.RegisterRoute(
+  'problems_delete',
+  '/problems/delete/:_id',
+  deleteProblemController
+);

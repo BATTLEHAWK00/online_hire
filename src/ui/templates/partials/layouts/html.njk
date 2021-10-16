@@ -8,25 +8,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ pageTitle }}</title>
     <script>
-      window.UIContext = JSON.parse('{{ UIContext | dump | d('{}') | safe }}');
+      window.UIContext = JSON.parse(`{{ UIContext | dump | d('{}') | safe }}`);
       window.renderTime = {{ handler.__renderTime | timeDiff | d(0) | safe }};
       window.handleTime = {{ handler.__renderTime - handler.__handleTime | d(0) | safe }};
     </script>
     <script src="{{ staticFilesMap['/main.js'] | d('/main.js') }}"></script>
     <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.js') }}"></script>
-{#    {% if globalContext.devMode %}#}
-{#        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js" async></script>#}
-{#    {% else %}#}
-{#        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js" async></script>#}
-{#    {% endif %}#}
+    <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.css') }}"></script>
     <link rel="stylesheet" href="{{ staticFilesMap['/main.css'] | d('/main.css') }}">
     {% block head %} {% endblock %}
 </head>
 <body>
-{% block header %} {% endblock %}
-<div class="app">
-    {% block content %} {% endblock %}
-</div>
-{% block footer %} {% endblock %}
+{% block htmlBody %}{% endblock %}
 </body>
 </html>
