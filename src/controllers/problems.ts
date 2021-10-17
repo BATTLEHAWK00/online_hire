@@ -4,6 +4,8 @@ import { RequestInvalidError } from '../service/error';
 import userModel from '../models/user';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
+import { validateSingle } from '../service/validation';
+import { isName } from '../lib/validators';
 
 function singleChoiceDoc(params: any): Problem {
   return {
@@ -108,6 +110,11 @@ export class addProblemsController extends Controller {
 
   async post() {
     let problemDoc = null;
+    console.log(this.params);
+    validateSingle(isName, this.getParam('name'));
+    validateSingle(isName, this.getParam('desc'));
+    if (await problemModel.getByName(this.getParam('name')))
+      throw RequestInvalidError('该题目名称已存在！');
     switch (this.getParam('problemType')) {
       case 'singlechoice': {
         problemDoc = singleChoiceDoc(this.params);

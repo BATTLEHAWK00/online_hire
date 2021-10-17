@@ -43,6 +43,13 @@ class problemModel {
     });
   }
 
+  static async getByName(name: string) {
+    return coll.findOne({
+      name,
+      deleted: { $ne: true },
+    });
+  }
+
   static async getProblemList() {
     return coll.find({ deleted: { $ne: true } }).toArray();
   }

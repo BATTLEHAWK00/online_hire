@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { MethodNotAllowedError, ValidationError } from './error';
+import { MethodNotAllowedError } from './error';
 import { Validator } from '../lib/validators';
+import { trimParams, validateParams } from './validation';
 
 export interface Controller {
   get(): void;
@@ -27,13 +28,6 @@ declare module 'express-session' {
   interface SessionData {
     context: any;
   }
-}
-
-function trimParams(data: any) {
-  Object.keys(data).forEach(key => {
-    if (data[key] instanceof Object) trimParams(data[key]);
-    if (typeof data[key] === 'string') data[key] = data[key].trim();
-  });
 }
 
 export abstract class Controller {
@@ -117,18 +111,6 @@ export abstract class Controller {
 }
 
 export type ControllerClass = new (...args: any[]) => Controller;
-
-function validateParams(validators: any, params: any) {
-  Object.keys(validators)
-    .filter(key => key in params)
-    .map(key => ({ name: key, result: validators[key](params[key]) }))
-    .forEach(res => {
-      if (res.result === false)
-        throw ValidationError(`校验错误：${res.name}`)();
-      else if (typeof res.result === 'string')
-        throw ValidationError(`校验错误：${res.name}, ${res.result}`)();
-    });
-}
 
 export async function handle(
   req: Request,

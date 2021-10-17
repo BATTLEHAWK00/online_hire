@@ -1,6 +1,11 @@
 export class ControllerError extends Error {
-  constructor(private msg?: string, private status: number = 400) {
+  constructor(
+    private msg?: string,
+    private status: number = 400,
+    ...args: string[]
+  ) {
     super(msg);
+    this.msg = msg + args.join(',');
   }
 
   public getStatus() {
