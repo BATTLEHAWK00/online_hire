@@ -48,10 +48,13 @@
     <div class="form-row text-center" style="margin: 20px auto">
       <input type="submit" class="com-button" value="添加" />
     </div>
+    <a-button>asdasd</a-button>
   </div>
 </template>
 
 <script>
+import antd from '@lib/antd-components';
+
 export default {
   name: 'Form',
   data() {
@@ -68,6 +71,10 @@ export default {
     addOption() {
       this.options.push({ idx: this.options.length, desc: '' });
     },
+  },
+  mounted() {
+    antd.message.info('Hello!');
+    antd.notification.success({ message: 'asdasd', description: 'asdasdas' });
   },
 };
 </script>

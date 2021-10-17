@@ -18,6 +18,7 @@ module.exports = {
       '@': fromSrc(),
       '@pages': path.resolve(fromSrc('./ui/pages')),
       '@public': path.resolve(fromSrc('./ui/public')),
+      '@lib': path.resolve(fromSrc('./ui/lib')),
     },
   },
   // externalsType: 'script',
@@ -49,7 +50,6 @@ module.exports = {
           name: 'chunk-styles',
           test: /\.styl(us)?$/,
           priority: -10,
-          reuseExistingChunk: true,
         },
         vendors: {
           name: `chunk-vendors`,
@@ -57,24 +57,28 @@ module.exports = {
           minSize: 0,
           priority: -10,
           chunks: 'all',
-          reuseExistingChunk: true,
+        },
+        antd: {
+          name: `antd-components`,
+          test: /ant-design-vue/,
+          minSize: 0,
+          priority: -5,
+          chunks: 'async',
         },
         vueComponents: {
-          name: `chunk-vue-components`,
+          name: `vue-components`,
           test: /\.vue$/,
           minSize: 0,
           priority: -10,
           chunks: 'async',
-          reuseExistingChunk: true,
         },
         pages: {
-          name: `chunk-pages`,
+          name: `pages`,
           test: /[\\/]pages[\\/]/,
           priority: -15,
-          reuseExistingChunk: true,
         },
         common: {
-          name: `chunk-common`,
+          name: `common`,
           priority: -20,
           reuseExistingChunk: true,
         },
@@ -92,6 +96,14 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
     }),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+    new webpack.NormalModuleReplacementPlugin(
+      /node_modules\/ant-design-vue\/lib\/style\/index\.less/,
+      fromSrc('./ui/public/antd-global.less')
+    ),
     new CleanWebpackPlugin(),
   ],
   module: {
@@ -118,8 +130,23 @@ module.exports = {
           ExtractCssPlugin.loader,
           {
             loader: 'css-loader',
+            // options: {
+            //   esModule: false,
+            // },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          ExtractCssPlugin.loader,
+          'css-loader',
+          {
+            loader: 'less-loader',
             options: {
-              esModule: false,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],
@@ -149,7 +176,17 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [fromSrc()],
+        options: {
+          plugins: [
+            [
+              'import',
+              {
+                libraryName: 'ant-design-vue',
+                libraryDirectory: 'es',
+              },
+            ], // `style: true` 会加载 less 文件
+          ],
+        },
       },
     ],
   },

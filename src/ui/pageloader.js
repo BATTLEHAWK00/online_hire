@@ -13,10 +13,12 @@ async function waitVueLoading(components) {
   if (!components.length) return;
   try {
     const Vue = await import('vue');
+    const antd = (await import('@lib/antd-components')).default;
     components.forEach(component => {
       const mountId = `vue-${component.name}`;
       if (document.getElementById(mountId)) {
         const app = Vue.createApp(component);
+        antd.use(app);
         app.mount(`#${mountId}`);
       }
     });

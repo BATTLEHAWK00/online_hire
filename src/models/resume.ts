@@ -35,7 +35,7 @@ class resumesModel {
   }
 
   static async getResumesByUID(uid: string) {
-    return coll.find({ uid }).toArray();
+    return coll.find({ uid }).sort({ _id: -1 }).toArray();
   }
 }
 
