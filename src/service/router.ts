@@ -13,7 +13,6 @@ import { NoRouteFoundError } from './error';
 const router = express.Router();
 const routeMap: { [key: string]: string } = {};
 
-// eslint-disable-next-line no-unused-vars
 type ControllerInterceptor = (req: Request) => void;
 
 function RegisterRoute(

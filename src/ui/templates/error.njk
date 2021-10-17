@@ -11,7 +11,7 @@
                 <h2>{{ error.message | d('服务器错误') }}</h2>
                 {% if globalContext.devMode %}
                     <div class="section-footer">
-                        <pre>{{ error.stack }}</pre>
+                        <pre class='error-stackinfo'>{{ error.stack }}</pre>
                     </div>
                 {% endif %}
             {% endif %}

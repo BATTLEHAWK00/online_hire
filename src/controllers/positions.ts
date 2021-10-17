@@ -3,6 +3,7 @@ import positionModel from '../models/position';
 import { PositionAlreadyExistsError } from '../service/error';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
+import { isName } from '../lib/validators';
 
 export class positionsController extends Controller {
   async get() {
@@ -26,6 +27,12 @@ export class addPositionsController extends Controller {
     };
     await positionModel.addPosition(position);
     this.renderMessage('添加成功!', '/positions');
+  }
+
+  protected onInit() {
+    this.setValidator(this.post, {
+      name: isName,
+    });
   }
 }
 

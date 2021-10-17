@@ -14,13 +14,13 @@ export class mycvsController extends Controller {
     const rList: any = await resumesModel.getResumesByUID(
       this.getSessionContext('loggedUser')._id
     );
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
-    for (const r in rList) {
-      // eslint-disable-next-line no-await-in-loop
-      rList[r].intention = await positionModel.getPositionByID(
-        rList[r].intention
-      );
-    }
+    await Promise.all(
+      Object.keys(rList).map(async key => {
+        rList[key].intention = await positionModel.getPositionByID(
+          rList[key].intention
+        );
+      })
+    );
     this.setUIContext('rList', rList);
     this.setTitle('我的投递');
     this.render('mycvs_main');

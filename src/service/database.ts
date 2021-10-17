@@ -36,7 +36,6 @@ export async function ConnectDB() {
     database = connection.db();
     console.log('Database Connected.');
   } catch (err) {
-    // console.log(err);
     process.exit(1);
   }
 }

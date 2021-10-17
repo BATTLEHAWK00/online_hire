@@ -6,7 +6,7 @@ import {
 } from './error';
 import { Validator } from '../lib/validators';
 
-export interface ControllerMethods {
+export interface Controller {
   get(): void;
 
   post(): void;
@@ -20,9 +20,7 @@ interface Function {
   name: string;
 }
 
-interface ControllerValidators {
-  [key: string]: Validator;
-}
+type ControllerValidators = { [key: string]: Validator };
 
 declare module 'express-session' {
   interface SessionData {
@@ -117,7 +115,6 @@ export abstract class Controller {
   protected onInit?(): void;
 }
 
-// eslint-disable-next-line no-unused-vars
 export type ControllerClass = new (...args: any[]) => Controller;
 
 function validateParams(validators: any, params: any) {

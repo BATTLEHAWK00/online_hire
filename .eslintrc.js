@@ -63,5 +63,14 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
       },
     },
+    {
+      files: ['*.ts'],
+      excludedFiles: ['src/ui/**/*'],
+      rules: {
+        'no-unused-vars': 'off',
+        'no-redeclare': 'off',
+        '@typescript-eslint/no-unused-vars': 'error',
+      },
+    },
   ],
 };

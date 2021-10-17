@@ -2,7 +2,7 @@ import path from 'path';
 import nunjucks from 'nunjucks';
 import fs from 'fs';
 import { Express } from 'express';
-import registerFilters from '../lib/nunjucks_filter';
+import registerFilters from '../lib/nunjucksFilters';
 import configProvider from '../lib/configProvider';
 
 const systemContext = configProvider.getGlobalConfig().system;
