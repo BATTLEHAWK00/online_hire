@@ -29,7 +29,7 @@ export class mycvsController extends Controller {
 
 export class mycvsDetailController extends Controller {
   async get() {
-    const rDoc: any = await resumesModel.getResumeByID(this.params._id);
+    const rDoc: any = await resumesModel.getResumeByID(this.getParam('_id'));
     rDoc.intention = await positionModel.getPositionByID(rDoc.intention);
     this.setUIContext('rDoc', rDoc);
     this.setTitle('简历投递');

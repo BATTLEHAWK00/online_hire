@@ -1,6 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 export type Validator = (v: any) => boolean | string;
 
+export function CanBeEmpty(validator: Validator) {
+  return (v: string) => v.length === 0 || validator(v);
+}
+
+export function Nullable(validator: Validator) {
+  return (v: string) => v.length === null || validator(v);
+}
+
 export const isUname: Validator = (v: string) =>
   v.length > 3 || '用户名必须大于3位！';
 export const isName: Validator = (v: string) =>
@@ -13,3 +21,5 @@ export const isEmail: Validator = (v: string) =>
   /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(v) || '邮箱无效！';
 export const isChineseName: Validator = (v: string) =>
   /^[\u4e00-\u9fa5]{2,4}$/.test(v) || '姓名无效！';
+export const isGender: Validator = (v: string) =>
+  [1, 2].indexOf(parseInt(v, 10)) !== -1 || '性别无效！';

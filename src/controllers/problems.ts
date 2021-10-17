@@ -71,7 +71,7 @@ export class problemsHandler extends Controller {
 
 export class problemsDetailController extends Controller {
   async get() {
-    const pDoc = await problemModel.getByID(this.params._id);
+    const pDoc = await problemModel.getByID(this.getParam('_id'));
     this.setUIContext('pDoc', pDoc);
     this.setTitle('题库');
     this.render('problems_detail');
@@ -88,7 +88,7 @@ export class chooseProblemsTypeController extends Controller {
 export class addProblemsController extends Controller {
   async get() {
     this.setTitle('添加问题');
-    switch (this.params.problemType) {
+    switch (this.getParam('problemType')) {
       case 'singlechoice': {
         this.render('problems_add_singlechoice');
         break;
@@ -108,7 +108,7 @@ export class addProblemsController extends Controller {
 
   async post() {
     let problemDoc = null;
-    switch (this.params.problemType) {
+    switch (this.getParam('problemType')) {
       case 'singlechoice': {
         problemDoc = singleChoiceDoc(this.params);
         break;

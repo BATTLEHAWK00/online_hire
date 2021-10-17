@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  MethodNotAllowedError,
-  UnauthorizedError,
-  ValidationError,
-} from './error';
+import { MethodNotAllowedError, ValidationError } from './error';
 import { Validator } from '../lib/validators';
 
 export interface Controller {
@@ -20,7 +16,12 @@ interface Function {
   name: string;
 }
 
-type ControllerValidators = { [key: string]: Validator };
+interface ValidatorOptions {
+  validator: Validator;
+  required: boolean;
+}
+
+type ControllerValidators = { [key: string]: Validator | ValidatorOptions };
 
 declare module 'express-session' {
   interface SessionData {
@@ -141,10 +142,6 @@ export async function handle(
 
     // 获取HTTP方法
     const method: string = req.method.toLowerCase();
-
-    // 登录验证
-    if (handler.__requireAuth && !handler.getSessionContext('loggedUser'))
-      throw UnauthorizedError('你还没有登录！');
 
     // 校验参数
     if (handler.getValidator(method))

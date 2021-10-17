@@ -46,8 +46,8 @@ export class addQuestionnaireController extends Controller {
 
   async post() {
     const questionnaireDoc: Questionnaire = {
-      name: this.params.name,
-      content: this.params.content,
+      name: this.getParam('name'),
+      content: this.getParam('content'),
     };
     questionnaireDoc.createBy = this.getSessionContext('loggedUser')._id;
     await questionnaireModel.createQuestionnaire(questionnaireDoc);

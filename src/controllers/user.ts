@@ -10,10 +10,12 @@ import {
   ValidationError,
 } from '../service/error';
 import { sha1 } from '../lib/crypto';
-import { RequireAuth } from '../service/controllerDecorators';
 import {
+  CanBeEmpty,
   isChineseName,
   isEmail,
+  isGender,
+  isName,
   isPassword,
   isPhone,
   isUname,
@@ -86,15 +88,13 @@ export class registerController extends Controller {
   }
 }
 
-@RequireAuth()
 export class logoutController extends Controller {
   async get() {
     this.setSessionContext('loggedUser', null);
-    this.renderMessage('已注销用户!');
+    this.renderMessage('已注销用户!', '/');
   }
 }
 
-@RequireAuth()
 export class userDetailController extends Controller {
   async get() {
     const loggedUser = this.getSessionContext('loggedUser');
@@ -110,17 +110,18 @@ export class userDetailController extends Controller {
   }
 
   async post() {
-    if (this.params.passwd !== this.params.confirmPasswd) throw new Error();
+    if (this.getParam('passwd') !== this.getParam('confirmPasswd'))
+      throw new Error();
     const user: any = {
-      userName: this.params.userName,
-      realName: this.params.realName,
-      gender: this.params.gender,
-      phone: this.params.phone,
-      email: this.params.email,
-      desc: this.params.desc,
+      userName: this.getParam('userName'),
+      realName: this.getParam('realName'),
+      gender: this.getParam('gender'),
+      phone: this.getParam('phone'),
+      email: this.getParam('email'),
+      desc: this.getParam('desc'),
     };
-    if (this.params.passwd) {
-      const digest = sha1(this.params.passwd);
+    if (this.getParam('passwd')) {
+      const digest = sha1(this.getParam('passwd'));
       user.salt = digest.salt;
       user.passwd = digest.cipher;
     }
@@ -129,8 +130,21 @@ export class userDetailController extends Controller {
     for (const userKey in user) {
       if (user[userKey]) $set[userKey] = user[userKey];
     }
-    await userModel.updateUser(this.params.uid, $set);
+    await userModel.updateUser(this.getParam('uid'), $set);
     this.renderMessage('信息修改成功!');
+  }
+
+  protected onInit() {
+    this.setValidator(this.post, {
+      userName: isName,
+      realName: isChineseName,
+      phone: isPhone,
+      email: isEmail,
+      desc: CanBeEmpty(isName),
+      gender: isGender,
+      passwd: CanBeEmpty(isPassword),
+      confirmPasswd: CanBeEmpty(isPassword),
+    });
   }
 }
 

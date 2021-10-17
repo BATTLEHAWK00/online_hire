@@ -42,9 +42,13 @@ function getRoute(routeName: string) {
   return routeMap[routeName];
 }
 
-console.log('registering routes...');
+const startTime = Date.now();
 loader.loadModulesDir(path.join(fromSrc(), './controllers')).then(() => {
-  console.log(`${Object.keys(routeMap).length} routes loaded.`);
+  console.log(
+    `${Object.keys(routeMap).length} routes loaded. (${
+      Date.now() - startTime
+    }ms)`
+  );
 });
 
 export default { router, RegisterRoute, getRoute };

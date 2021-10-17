@@ -20,10 +20,10 @@ export class addPositionsController extends Controller {
   }
 
   async post() {
-    if (await positionModel.getPositionByName(this.params.name))
+    if (await positionModel.getPositionByName(this.getParam('name')))
       throw PositionAlreadyExistsError();
     const position: any = {
-      name: this.params.name,
+      name: this.getParam('name'),
     };
     await positionModel.addPosition(position);
     this.renderMessage('添加成功!', '/positions');
@@ -38,7 +38,7 @@ export class addPositionsController extends Controller {
 
 export class deletePositionController extends Controller {
   async post() {
-    await positionModel.deletePosition(this.params._id);
+    await positionModel.deletePosition(this.getParam('_id'));
     this.renderMessage('删除成功!', '/positions');
   }
 }

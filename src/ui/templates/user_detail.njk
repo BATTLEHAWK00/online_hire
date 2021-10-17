@@ -13,8 +13,8 @@
                 <div class="form-row">
                     <p>性别:</p>
                     <select name="gender">
-                        <option value="1">男</option>
-                        <option value="2">女</option>
+                        <option value="1" {% if udoc.gender === '1' %}selected{% endif %}>男</option>
+                        <option value="2" {% if udoc.gender === '2' %}selected{% endif %}>女</option>
                     </select>
                 </div>
                 <div class="form-row">
