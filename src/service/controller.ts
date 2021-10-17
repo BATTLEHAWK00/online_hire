@@ -4,6 +4,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from './error';
+import { Validator } from '../lib/validators';
 
 export interface ControllerMethods {
   get(): void;
@@ -17,6 +18,10 @@ export interface ControllerMethods {
 
 interface Function {
   name: string;
+}
+
+interface ControllerValidators {
+  [key: string]: Validator;
 }
 
 declare module 'express-session' {
@@ -35,9 +40,9 @@ function trimParams(data: any) {
 export abstract class Controller {
   protected req: Request;
   protected resp: Response;
-  private UIContext: any = {};
-  protected params: any;
-  private validators: any = {};
+  private UIContext: { [key: string]: any } = {};
+  protected params: { [key: string]: any };
+  private validators: ControllerValidators = {};
   private __handleTime: number;
   private __renderTime: number | undefined;
 

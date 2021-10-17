@@ -1,7 +1,5 @@
 // noinspection JSUnresolvedFunction
 
-require('ant-design-vue/dist/antd.css');
-
 const pageName = document.documentElement.getAttribute('page-name');
 const startTime = Date.now();
 
@@ -18,13 +16,10 @@ async function waitVueLoading(components) {
   if (!components.length) return;
   try {
     const Vue = await import('vue');
-    const Antd = await import('ant-design-vue');
-    await import('ant-design-vue/dist/antd.css');
     components.forEach(component => {
       const mountId = `vue-${component.name}`;
       if (document.getElementById(mountId)) {
         const app = Vue.createApp(component);
-        app.use(Antd);
         app.mount(`#${mountId}`);
       }
     });
@@ -95,6 +90,14 @@ Promise.all([loadPageStyles(), loadPageScripts(), loadVueComponents()]).then(
   }
 );
 
+if (process.env.NODE_ENV === 'development') {
+  if (module.hot) {
+    // eslint-disable-next-line no-console
+    console.log('using hot update.');
+    module.hot.accept();
+  }
+}
+
 window.addEventListener('load', async () => {
   const endTime = Date.now();
   // eslint-disable-next-line no-console
@@ -103,12 +106,4 @@ window.addEventListener('load', async () => {
   );
   // eslint-disable-next-line no-console
   console.log(`page load complete. (${endTime - startTime}ms)`);
-
-  if (process.env.NODE_ENV === 'development') {
-    if (module.hot) {
-      // eslint-disable-next-line no-console
-      console.log('using hot update.');
-      module.hot.accept();
-    }
-  }
 });

@@ -14,7 +14,7 @@
     </script>
     <script src="{{ staticFilesMap['/main.js'] | d('/main.js') }}"></script>
     <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.js') }}"></script>
-    <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.css') }}"></script>
+{#    <script src="{{ staticFilesMap['/chunk-vendors.js'] | d('/chunk-vendors.css') }}"></script>#}
     <link rel="stylesheet" href="{{ staticFilesMap['/main.css'] | d('/main.css') }}">
     {% block head %} {% endblock %}
 </head>

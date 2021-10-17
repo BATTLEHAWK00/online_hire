@@ -18,6 +18,7 @@ import {
   isPhone,
   isUname,
 } from '../lib/validators';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
 export class loginController extends Controller {
   async get() {
@@ -134,6 +135,10 @@ export class userDetailController extends Controller {
 }
 
 Router.RegisterRoute('user_login', '/login', loginController);
-Router.RegisterRoute('user_logout', '/logout', logoutController);
 Router.RegisterRoute('user_register', '/register', registerController);
-Router.RegisterRoute('user_detail', '/user/:uid', userDetailController);
+Router.RegisterRoute('user_logout', '/logout', logoutController, [
+  loginChecker,
+]);
+Router.RegisterRoute('user_detail', '/user/:uid', userDetailController, [
+  loginChecker,
+]);

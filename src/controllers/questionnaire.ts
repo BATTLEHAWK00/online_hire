@@ -3,10 +3,9 @@ import questionnaireModel, { Questionnaire } from '../models/questionnaire';
 import problemModel from '../models/problem';
 import userModel from '../models/user';
 import { RequestInvalidError } from '../service/error';
-import { RequireAuth } from '../service/controllerDecorators';
 import Router from '../service/router';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
-@RequireAuth()
 export class questionnaireController extends Controller {
   async get() {
     const qList = [];
@@ -78,15 +77,18 @@ export class questionnaireDetailController extends Controller {
 Router.RegisterRoute(
   'questionnaire_main',
   '/questionnaire',
-  questionnaireController
+  questionnaireController,
+  [loginChecker]
 );
 Router.RegisterRoute(
   'questionnaire_add',
   '/questionnaire/add',
-  addQuestionnaireController
+  addQuestionnaireController,
+  [loginChecker]
 );
 Router.RegisterRoute(
   'questionnaire_detail',
   '/questionnaire/detail/:_id',
-  questionnaireDetailController
+  questionnaireDetailController,
+  [loginChecker]
 );

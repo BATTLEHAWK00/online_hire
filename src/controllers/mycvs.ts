@@ -5,11 +5,10 @@ import resumesModel, { Resume } from '../models/resume';
 import { RequestInvalidError } from '../service/error';
 import { storageService } from '../service/fileStorage';
 import positionModel from '../models/position';
-import { RequireAuth } from '../service/controllerDecorators';
 import Router from '../service/router';
 import multipart from '../service/middlewares/multipart';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
-@RequireAuth()
 export class mycvsController extends Controller {
   async get() {
     const rList: any = await resumesModel.getResumesByUID(
@@ -28,7 +27,6 @@ export class mycvsController extends Controller {
   }
 }
 
-@RequireAuth()
 export class mycvsDetailController extends Controller {
   async get() {
     const rDoc: any = await resumesModel.getResumeByID(this.params._id);
@@ -39,7 +37,6 @@ export class mycvsDetailController extends Controller {
   }
 }
 
-@RequireAuth()
 export class mycvsUploadController extends Controller {
   async get() {
     const pList = await positionModel.getPositionList();
@@ -78,12 +75,17 @@ export class mycvsUploadController extends Controller {
   }
 }
 
-Router.RegisterRoute('mycvs', '/mycvs', mycvsController);
-Router.RegisterRoute('mycvs_send', '/mycvs/send', mycvsUploadController, [
-  multipart.single('resumePDF'),
-]);
+Router.RegisterRoute('mycvs', '/mycvs', mycvsController, [loginChecker]);
+Router.RegisterRoute(
+  'mycvs_send',
+  '/mycvs/send',
+  mycvsUploadController,
+  [loginChecker],
+  [multipart.single('resumePDF')]
+);
 Router.RegisterRoute(
   'mycvs_detail',
   '/mycvs/detail/:_id',
-  mycvsDetailController
+  mycvsDetailController,
+  [loginChecker]
 );

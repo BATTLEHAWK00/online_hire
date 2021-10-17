@@ -1,8 +1,7 @@
 {
   "watch": [
     "src",
-    "bin",
-    "build"
+    "bin"
   ],
   "ext": "js ts",
   "ignore": [

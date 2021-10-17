@@ -2,8 +2,8 @@ import { Controller } from '../service/controller';
 import problemModel, { Problem } from '../models/problem';
 import { RequestInvalidError } from '../service/error';
 import userModel from '../models/user';
-import { RequireAuth } from '../service/controllerDecorators';
 import Router from '../service/router';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
 function singleChoiceDoc(params: any): Problem {
   return {
@@ -48,7 +48,6 @@ function shortAnswerDoc(params: any): Problem {
   };
 }
 
-@RequireAuth()
 export class problemsHandler extends Controller {
   async get() {
     const problemList = [];
@@ -138,24 +137,30 @@ export class deleteProblemController extends Controller {
   }
 }
 
-Router.RegisterRoute('problems_main', '/problems', problemsHandler);
+Router.RegisterRoute('problems_main', '/problems', problemsHandler, [
+  loginChecker,
+]);
 Router.RegisterRoute(
   'problems_detail',
   '/problems/detail/:_id',
-  problemsDetailController
+  problemsDetailController,
+  [loginChecker]
 );
 Router.RegisterRoute(
   'problems_choosetype',
   '/problems/add',
-  chooseProblemsTypeController
+  chooseProblemsTypeController,
+  [loginChecker]
 );
 Router.RegisterRoute(
   'problems_add',
   '/problems/add/:problemType',
-  addProblemsController
+  addProblemsController,
+  [loginChecker]
 );
 Router.RegisterRoute(
   'problems_delete',
   '/problems/delete/:_id',
-  deleteProblemController
+  deleteProblemController,
+  [loginChecker]
 );

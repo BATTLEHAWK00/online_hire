@@ -1,6 +1,5 @@
 const OptimizeCSSPlugin = require('css-minimizer-webpack-plugin');
 const TerserJsPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const ExtractCssPlugin = require('mini-css-extract-plugin');
@@ -16,7 +15,6 @@ const prodConfig = {
       chunkFilename: '[name].[chunkhash].chunk.css',
       ignoreOrder: false,
     }),
-    new CleanWebpackPlugin(),
     new WebpackManifestPlugin({
       basePath: '/',
     }),

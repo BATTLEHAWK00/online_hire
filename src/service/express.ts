@@ -30,14 +30,14 @@ async function InitExpress() {
   // 路由日志记录
   middlewares.push(logger('dev'));
 
-  // Webpack中间件配置
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-    const { devMiddleware, hotMiddleware } = require('./webpack');
-    middlewares.push(devMiddleware);
-    middlewares.push(hotMiddleware);
-    console.log('Using Webpack Dev Middleware.');
-  }
+  // // Webpack中间件配置
+  // if (process.env.NODE_ENV === 'development') {
+  //   // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+  //   const { devMiddleware, hotMiddleware } = require('./webpack');
+  //   middlewares.push(devMiddleware);
+  //   middlewares.push(hotMiddleware);
+  //   console.log('Using Webpack Dev Middleware.');
+  // }
 
   // 处理ResponseBody
   middlewares.push(express.json());

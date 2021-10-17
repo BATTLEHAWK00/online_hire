@@ -4,6 +4,7 @@ const ExtractCssPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 const EslintFriendlyFormatter = require('eslint-friendly-formatter');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 function fromSrc(dir) {
   return path.resolve(__dirname, '../src', dir || '');
@@ -19,13 +20,13 @@ module.exports = {
       '@public': path.resolve(fromSrc('./ui/public')),
     },
   },
-  externalsType: 'script',
-  externals: {
-    vue:
-      process.env.NODE_ENV === 'development'
-        ? 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js'
-        : 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js',
-  },
+  // externalsType: 'script',
+  // externals: {
+  //   vue:
+  //     process.env.NODE_ENV === 'development'
+  //       ? 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.js'
+  //       : 'Vue@https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.prod.js',
+  // },
   output: {
     filename: '[name].js',
     publicPath: '/',
@@ -91,6 +92,7 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
     }),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [
@@ -98,8 +100,7 @@ module.exports = {
         test: /\.(ts|js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        // exclude: /node_modules/,
-        include: path.resolve(__dirname, 'src'), // 指定检查的目录
+        include: fromSrc('ui'), // 指定检查的目录
         options: {
           // 这里的配置项参数将会被传递到 eslint 的 CLIEngine
           formatter: EslintFriendlyFormatter, // 指定错误报告的格式规范

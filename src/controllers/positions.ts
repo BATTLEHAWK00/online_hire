@@ -1,10 +1,9 @@
 import { Controller } from '../service/controller';
 import positionModel from '../models/position';
 import { PositionAlreadyExistsError } from '../service/error';
-import { RequireAuth } from '../service/controllerDecorators';
 import Router from '../service/router';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
-@RequireAuth()
 export class positionsController extends Controller {
   async get() {
     this.setTitle('职位');
@@ -13,7 +12,6 @@ export class positionsController extends Controller {
   }
 }
 
-@RequireAuth()
 export class addPositionsController extends Controller {
   async get() {
     this.setTitle('添加职位');
@@ -31,7 +29,6 @@ export class addPositionsController extends Controller {
   }
 }
 
-@RequireAuth()
 export class deletePositionController extends Controller {
   async post() {
     await positionModel.deletePosition(this.params._id);
@@ -39,10 +36,18 @@ export class deletePositionController extends Controller {
   }
 }
 
-Router.RegisterRoute('positions_main', '/positions', positionsController);
-Router.RegisterRoute('positions_add', '/positions/add', addPositionsController);
+Router.RegisterRoute('positions_main', '/positions', positionsController, [
+  loginChecker,
+]);
+Router.RegisterRoute(
+  'positions_add',
+  '/positions/add',
+  addPositionsController,
+  [loginChecker]
+);
 Router.RegisterRoute(
   'positions_delete',
   '/positions/delete/:_id',
-  deletePositionController
+  deletePositionController,
+  [loginChecker]
 );

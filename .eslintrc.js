@@ -33,8 +33,17 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.js', '*.vue'],
+      files: ['src/ui/**/*.js', 'src/ui/**/*.vue'],
       extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 0,
+        'global-require': 0,
+        'no-underscore-dangle': 0,
+      },
+    },
+    {
+      files: ['build/**/*.js', 'build/**/*.ts'],
+      extends: ['prettier'],
       rules: {
         '@typescript-eslint/no-var-requires': 0,
         'global-require': 0,

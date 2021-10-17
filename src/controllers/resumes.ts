@@ -1,9 +1,8 @@
 import { Controller } from '../service/controller';
 import { storageService } from '../service/fileStorage';
-import { RequireAuth } from '../service/controllerDecorators';
 import Router from '../service/router';
+import { loginChecker } from '../service/interceptors/LoginChecker';
 
-@RequireAuth()
 export class resumesController extends Controller {
   async get() {
     this.setTitle('简历');
@@ -11,7 +10,6 @@ export class resumesController extends Controller {
   }
 }
 
-@RequireAuth()
 export class resumeFileController extends Controller {
   async get() {
     const path = `${this.params.user}/${this.params.filename}`;
@@ -20,9 +18,12 @@ export class resumeFileController extends Controller {
   }
 }
 
-Router.RegisterRoute('resumes_main', '/resumes', resumesController);
+Router.RegisterRoute('resumes_main', '/resumes', resumesController, [
+  loginChecker,
+]);
 Router.RegisterRoute(
   'resumes_file',
   '/resumes/file/:user/:filename',
-  resumeFileController
+  resumeFileController,
+  [loginChecker]
 );
