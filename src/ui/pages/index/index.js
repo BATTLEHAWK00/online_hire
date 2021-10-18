@@ -6,5 +6,3 @@ antd.notification.info({
   placement: 'topRight',
   top: '70px',
 });
-
-antd.Modal.success({ title: '测试', content: 'asdasdasd' });
