@@ -21,7 +21,7 @@
   line-height 50px
   margin-bottom 40px
   background-color white
-  box-shadow 0 1px 1px $color-shadow-light
+  box-shadow 0 3px 5px $color-shadow-light
 
   h1
     display inline-block
@@ -33,19 +33,28 @@
     margin-right 40px
 
 
-  ol
+  ul
     display inline-block
+    padding 0
+    margin 0
 
   li
     display inline-block
     list-style none
     transition background-color .5s
+    border-radius 10px
 
     &:hover
       background-color $color-nav-item-hover
+      transition background-color .25s
 
       a
+        display inline-block
         color white
+
+      &:active
+        background-color $color-nav-item-active
+
 
   .com-navbar-item
     a
