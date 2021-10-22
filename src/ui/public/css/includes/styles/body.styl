@@ -1,4 +1,21 @@
+$scrollbar-width = 8px
+
 body
   margin 0
   font 14px "Lucida Grande", Helvetica, Arial, sans-serif
   background-color #f8f8f8
+
+
+  &::-webkit-scrollbar
+    position absolute
+    right 0
+    width $scrollbar-width
+
+  &::-webkit-scrollbar-thumb
+    background-color #d0d0d0
+    border-radius $scrollbar-width
+
+  &::-webkit-scrollbar-track
+    background-color #fff
+    border-radius $scrollbar-width
+
