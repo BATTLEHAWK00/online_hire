@@ -1,7 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
-type RoleType = 'manager' | 'applicant';
+export type RoleType = 'manager' | 'applicant' | 'admin';
 
 export interface User {
   _id?: ObjectId;
@@ -21,6 +21,10 @@ const coll: Collection<User> = getColl('users');
 class userModel {
   static async getUserByID(_id: string) {
     return coll.findOne({ _id: new ObjectId(_id) });
+  }
+
+  static async getAdminList() {
+    return coll.find({ role: 'admin' }).toArray();
   }
 
   static async getUserByUname(userName: string) {

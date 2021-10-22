@@ -4,6 +4,7 @@ import { PositionAlreadyExistsError } from '../service/error';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
 import { isName } from '../lib/validators';
+import { RoleChecker } from '../service/interceptors/RoleChecker';
 
 export class positionsController extends Controller {
   async get() {
@@ -45,16 +46,17 @@ export class deletePositionController extends Controller {
 
 Router.RegisterRoute('positions_main', '/positions', positionsController, [
   loginChecker,
+  RoleChecker('admin', 'manager'),
 ]);
 Router.RegisterRoute(
   'positions_add',
   '/positions/add',
   addPositionsController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'positions_delete',
   '/positions/delete/:_id',
   deletePositionController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );

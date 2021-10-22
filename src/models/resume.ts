@@ -25,6 +25,10 @@ export interface Resume {
 const coll: Collection<Resume> = getColl('resumes');
 
 class resumesModel {
+  static async getResumeList() {
+    return coll.find().toArray();
+  }
+
   static async getResumeByID(_id: string) {
     return coll.findOne({ _id: new ObjectId(_id) });
   }

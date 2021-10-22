@@ -6,6 +6,7 @@ import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
 import { validateSingle } from '../service/validation';
 import { isName } from '../lib/validators';
+import { RoleChecker } from '../service/interceptors/RoleChecker';
 
 function singleChoiceDoc(params: any): Problem {
   return {
@@ -146,28 +147,29 @@ export class deleteProblemController extends Controller {
 
 Router.RegisterRoute('problems_main', '/problems', problemsHandler, [
   loginChecker,
+  RoleChecker('admin', 'manager'),
 ]);
 Router.RegisterRoute(
   'problems_detail',
   '/problems/detail/:_id',
   problemsDetailController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'problems_choosetype',
   '/problems/add',
   chooseProblemsTypeController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'problems_add',
   '/problems/add/:problemType',
   addProblemsController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'problems_delete',
   '/problems/delete/:_id',
   deleteProblemController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );

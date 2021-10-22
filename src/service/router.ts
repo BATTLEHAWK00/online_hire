@@ -13,7 +13,7 @@ import { NoRouteFoundError } from './error';
 const router = express.Router();
 const routeMap: { [key: string]: string } = {};
 
-type ControllerInterceptor = (req: Request) => void;
+export type ControllerInterceptor = (req: Request) => void;
 
 function RegisterRoute(
   routeName: string,

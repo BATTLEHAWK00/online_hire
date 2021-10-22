@@ -8,6 +8,7 @@ import positionModel from '../models/position';
 import Router from '../service/router';
 import multipart from '../service/middlewares/multipart';
 import { loginChecker } from '../service/interceptors/LoginChecker';
+import { RoleChecker } from '../service/interceptors/RoleChecker';
 
 export class mycvsController extends Controller {
   async get() {
@@ -75,17 +76,20 @@ export class mycvsUploadController extends Controller {
   }
 }
 
-Router.RegisterRoute('mycvs', '/mycvs', mycvsController, [loginChecker]);
+Router.RegisterRoute('mycvs', '/mycvs', mycvsController, [
+  loginChecker,
+  RoleChecker('admin', 'applicant'),
+]);
 Router.RegisterRoute(
   'mycvs_send',
   '/mycvs/send',
   mycvsUploadController,
-  [loginChecker],
+  [loginChecker, RoleChecker('admin', 'applicant')],
   [multipart.single('resumePDF')]
 );
 Router.RegisterRoute(
   'mycvs_detail',
   '/mycvs/detail/:_id',
   mycvsDetailController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'applicant')]
 );

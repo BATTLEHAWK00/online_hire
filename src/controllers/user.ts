@@ -74,7 +74,7 @@ export class registerController extends Controller {
     user.passwd = digest.cipher;
     user.salt = digest.salt;
     await userModel.createUser(user);
-    this.renderMessage('注册成功!');
+    this.renderMessage('注册成功!', '/login');
   }
 
   protected onInit() {

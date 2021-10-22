@@ -5,6 +5,7 @@ import userModel from '../models/user';
 import { RequestInvalidError } from '../service/error';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
+import { RoleChecker } from '../service/interceptors/RoleChecker';
 
 export class questionnaireController extends Controller {
   async get() {
@@ -78,17 +79,17 @@ Router.RegisterRoute(
   'questionnaire_main',
   '/questionnaire',
   questionnaireController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'questionnaire_add',
   '/questionnaire/add',
   addQuestionnaireController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );
 Router.RegisterRoute(
   'questionnaire_detail',
   '/questionnaire/detail/:_id',
   questionnaireDetailController,
-  [loginChecker]
+  [loginChecker, RoleChecker('admin', 'manager')]
 );

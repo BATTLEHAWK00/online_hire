@@ -28,6 +28,13 @@ nunjucksEnv.addGlobal('globalContext', {
   devMode: process.env.NODE_ENV === 'development',
 });
 
+export function addGlobal(context: any) {
+  nunjucksEnv.addGlobal('globalContext', {
+    ...nunjucksEnv.getGlobal('globalContext'),
+    ...context,
+  });
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function registerNunjucks(app: Express) {
   app.set('templates', templatePath);

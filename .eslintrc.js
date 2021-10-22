@@ -72,5 +72,13 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
       },
     },
+    {
+      files: ['*.js'],
+      excludedFiles: ['src/ui/**/*'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'no-redeclare': 'off',
+      },
+    },
   ],
 };

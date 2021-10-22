@@ -15,9 +15,13 @@ async function Init() {
     fileStorage.Init(),
   ]);
   // 初始化Express
+  // eslint-disable-next-line global-require
   const app = await require('../src/service/express').default.InitExpress();
   // 开启服务器
   await server.Start(app);
+  // eslint-disable-next-line global-require
+  const postInit = require('../src/service/postInit');
+  await postInit.Init();
   console.log(`Server started. (${Date.now() - startTime}ms)`);
 }
 

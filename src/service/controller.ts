@@ -97,6 +97,10 @@ export abstract class Controller {
     return this.req.session.context[name];
   }
 
+  public getRequest() {
+    return this.req;
+  }
+
   protected renderMessage(msg: string, redirectPath?: string, title = '消息') {
     this.setTitle(title);
     this.setUIContext('title', title);
