@@ -10,20 +10,24 @@
             </li>
         {% endfor %}
     </ul>
-    <div class="com-loggeduser" style="width: 200px">
+    <div class="com-loggeduser">
         {% if loggedUser %}
-            <span class='com-dropdown'>
-                <span>登录用户:</span>
+            <div class='com-dropdown'>
+                <span>用户:</span>
                 <a class='com-dropdown-trigger' href="/user/{{ loggedUser._id }}">{{ loggedUser.userName }}</a>
                 <ul class="com-dropdown-content">
-                    <li>asd</li>
-                    <li>asd</li>
-                    <li>asd</li>
+                    <li>
+                        <a href="/user/{{ loggedUser._id }}">
+                            我的资料
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            注销
+                        </a>
+                    </li>
                 </ul>
-            </span>
-            <a href="/logout">
-                注销
-            </a>
+            </div>
         {% else %}
             <a href="/login">
                 请登录
