@@ -1,10 +1,7 @@
-$scrollbar-width = 8px
-
 body
   margin 0
   font 14px "Lucida Grande", Helvetica, Arial, sans-serif
   background-color #f8f8f8
-
 
   &::-webkit-scrollbar
     position absolute
@@ -12,10 +9,10 @@ body
     width $scrollbar-width
 
   &::-webkit-scrollbar-thumb
-    background-color #d0d0d0
+    background-color $scrollbar-thumb-color
     border-radius $scrollbar-width
 
   &::-webkit-scrollbar-track
-    background-color #fff
+    background-color $scrollbar-background-color
     border-radius $scrollbar-width
 
