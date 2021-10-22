@@ -23,6 +23,7 @@ type ProblemTypeStr = 'SingleChoice' | 'MultipleChoice' | 'ShortAnswer';
 export interface Problem {
   _id?: ObjectId;
   name?: string;
+  tags?: string[];
   type?: ProblemTypeStr;
   desc?: string;
   createTime?: Date;

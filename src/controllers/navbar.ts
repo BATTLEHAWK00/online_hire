@@ -42,3 +42,4 @@ registerNavBar('题库管理', '/problems', RoleChecker('admin', 'manager'));
 registerNavBar('问卷管理', '/questionnaire', RoleChecker('admin', 'manager'));
 registerNavBar('简历管理', '/resumes', RoleChecker('admin', 'manager'));
 registerNavBar('我的投递', '/mycvs', RoleChecker('applicant', 'manager'));
+registerNavBar('系统管理', '/manage', RoleChecker('admin'));

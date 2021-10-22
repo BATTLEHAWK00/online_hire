@@ -4,6 +4,8 @@ import { getColl } from '../service/database';
 export interface Position {
   _id?: ObjectId;
   name?: string;
+  createBy?: string;
+  createTime?: Date;
   deleted?: boolean;
 }
 

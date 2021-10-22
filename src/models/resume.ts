@@ -8,6 +8,15 @@ export type ResumeStatus =
   | 'Failed'
   | 'Success';
 
+type ResumeInfoType = 'text' | 'number' | 'date' | 'select';
+
+export interface ResumeInfo {
+  [key: string]: {
+    type?: ResumeInfoType;
+    value?: string;
+  };
+}
+
 export interface Resume {
   _id?: ObjectId;
   uid?: string;
@@ -15,6 +24,8 @@ export interface Resume {
   intention?: string;
   desc?: string;
   status?: ResumeStatus;
+  grades?: number;
+  infos?: ResumeInfo;
   resumeFiles?: {
     filePath: string;
     contentType: string;
