@@ -30,5 +30,5 @@ Router.RegisterRoute(
   'resumes_file',
   '/resumes/file/:user/:filename',
   resumeFileController,
-  [loginChecker, RoleChecker('admin', 'manager')]
+  [loginChecker, RoleChecker('admin', 'manager', 'applicant')]
 );
