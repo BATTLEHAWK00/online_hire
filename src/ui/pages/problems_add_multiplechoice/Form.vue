@@ -52,8 +52,6 @@
 </template>
 
 <script>
-import antd from '@lib/antd-components';
-
 export default {
   name: 'Form',
   data() {
