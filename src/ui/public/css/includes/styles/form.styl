@@ -1,14 +1,3 @@
-body
-  margin 0
-  font 14px "Lucida Grande", Helvetica, Arial, sans-serif
-  background-color #f8f8f8
-
-textarea
-  font 14px "Lucida Grande", Helvetica, Arial, sans-serif
-
-a
-  color $color-a-tag
-
 input[type="text"], input[type="password"], select, textarea
   width calc(100% - 30px)
 
@@ -38,6 +27,9 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover
 input[type="checkbox"]
   margin 5px
 
+textarea
+  font 14px "Lucida Grande", Helvetica, Arial, sans-serif
+
 select
   width 50%
   height 30px
@@ -47,27 +39,3 @@ select
 
 form
   width 100%
-
-ol
-  margin 0
-  padding 0
-
-ul
-  padding 0
-  list-style none
-
-.app
-  width 80%
-  margin 0 auto
-
-  +mobile()
-    width calc(100% - 40px)
-
-  +tablet()
-    width 80%
-
-  +desktop()
-    width 60%
-
-.block-center
-  margin 0 auto
