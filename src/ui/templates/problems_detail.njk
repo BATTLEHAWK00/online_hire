@@ -18,17 +18,19 @@
         <div class='section-content'>
             <div style="width: 80%;margin: 0 auto">
                 <div class="problem-row">
-                    <strong>
-                        <span>{{ pDoc.desc }}</span>
-                    </strong>
+                    <h3>
+                        {{ pDoc.desc }}
+                    </h3>
                 </div>
-                {% for item in pDoc.content.options %}
-                    <div class="problem-row">
-                        <input type='checkbox' {% if item.isAnswer %} checked {% endif %} disabled
-                               style='vertical-align: middle'>
-                        <span>{{ loop.index }}. {{ item.name }}</span>
-                    </div>
-                {% endfor %}
+                <div class='problem-row'>
+                    {% if pDoc.type === 'SingleChoice' %}
+                        {% include "./partials/problem_detail_singlechoice.njk" %}
+                        {% elif pDoc.type === 'MultipleChoice' %}
+                        {% include "./partials/problem_detail_multiplechoice.njk" %}
+                        {% elif pDoc.type === 'ShortAnswer' %}
+                        {% include "./partials/problem_detail_shortanswer.njk" %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

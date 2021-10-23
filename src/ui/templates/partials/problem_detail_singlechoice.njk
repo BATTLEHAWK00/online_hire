@@ -1,0 +1,7 @@
+{% for item in pDoc.content.options %}
+    <p>
+        <input type='checkbox' {% if item.isAnswer %} checked {% endif %} disabled
+               style='vertical-align: middle'>
+        <span>{{ loop.index }}. {{ item.name }}</span>
+    </p>
+{% endfor %}
