@@ -1,3 +1,7 @@
-{% macro userRender(udoc) %}
-    <a href='/user/{{ udoc._id }}'>{{ udoc.userName }}</a>
+{% macro userRender(udoc,realName=false) %}
+    {% if realName %}
+        <a href='/user/{{ udoc._id }}'>{{ udoc.realName }}({{ udoc.userName }})</a>
+    {% else %}
+        <a href='/user/{{ udoc._id }}'>{{ udoc.userName }}</a>
+    {% endif %}
 {% endmacro %}

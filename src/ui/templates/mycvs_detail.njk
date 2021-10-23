@@ -3,8 +3,9 @@
     <div class="section">
         <div class="section-header">
             <h1>简历: {{ rDoc._id }}</h1>
+            <p>投递人: {{ userMacro.userRender(uDoc,realName=true) }}</p>
             <p>投递时间: {{ rDoc.submitTime | momentAgo }}</p>
-            <p>投递部门: {{ rDoc.intention.name }}</p>
+            <p>投递部门: {{ iDoc.name }}</p>
             <p>
                 <a href="/resumes/file/{{ rDoc.resumeFiles[0].filePath }}" target='_blank'>
                     <button class='com-button'>下载简历文件</button>

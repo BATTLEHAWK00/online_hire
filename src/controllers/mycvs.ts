@@ -9,6 +9,7 @@ import Router from '../service/router';
 import multipart from '../service/middlewares/multipart';
 import { loginChecker } from '../service/interceptors/LoginChecker';
 import { RoleChecker } from '../service/interceptors/RoleChecker';
+import userModel from '../models/user';
 
 export class mycvsController extends Controller {
   async get() {
@@ -30,9 +31,14 @@ export class mycvsController extends Controller {
 
 export class mycvsDetailController extends Controller {
   async get() {
-    const rDoc: any = await resumesModel.getResumeByID(this.getParam('_id'));
-    rDoc.intention = await positionModel.getPositionByID(rDoc.intention);
+    const rDoc = await resumesModel.getResumeByID(this.getParam('_id'));
+    const [iDoc, uDoc] = await Promise.all([
+      positionModel.getPositionByID(<string>rDoc?.intention),
+      userModel.getUserByID(<string>rDoc?.uid),
+    ]);
     this.setUIContext('rDoc', rDoc);
+    this.setUIContext('uDoc', uDoc);
+    this.setUIContext('iDoc', iDoc);
     this.setTitle('简历投递');
     this.render('mycvs_detail');
   }

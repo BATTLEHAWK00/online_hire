@@ -79,7 +79,9 @@ export class problemsHandler extends Controller {
 export class problemsDetailController extends Controller {
   async get() {
     const pDoc = await problemModel.getByID(this.getParam('_id'));
+    const uDoc = await userModel.getUserByID(<string>pDoc?.createBy);
     this.setUIContext('pDoc', pDoc);
+    this.setUIContext('uDoc', uDoc);
     this.setTitle('题库');
     this.render('problems_detail');
   }
