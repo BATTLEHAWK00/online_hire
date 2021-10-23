@@ -11,6 +11,7 @@
             <table class="com-table">
                 <th class="text-left">序号</th>
                 <th class="text-left">职位名称</th>
+                <th class="text-left">创建者</th>
                 <th class="text-left">应聘人数</th>
                 <th class="text-left">通过人数</th>
                 <th class="text-left">通过率</th>
@@ -20,6 +21,7 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ item.name }}</td>
+                            <td>{{ userMacro.userRender(uDict[item.createBy]) }}</td>
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>

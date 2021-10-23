@@ -4,7 +4,11 @@ import { addGlobal } from '../service/nunjucks';
 import { RoleChecker } from '../service/interceptors/RoleChecker';
 import { RoleType } from '../models/user';
 
-const navbarItems: any[] = [];
+const navbarItems: {
+  name: string;
+  routePath: string;
+  checkers: ControllerInterceptor[];
+}[] = [];
 
 function registerNavBar(
   name: string,
@@ -41,5 +45,5 @@ registerNavBar('职位管理', '/positions', RoleChecker('admin', 'manager'));
 registerNavBar('题库管理', '/problems', RoleChecker('admin', 'manager'));
 registerNavBar('问卷管理', '/questionnaire', RoleChecker('admin', 'manager'));
 registerNavBar('简历管理', '/resumes', RoleChecker('admin', 'manager'));
-registerNavBar('我的投递', '/mycvs', RoleChecker('applicant', 'manager'));
+registerNavBar('我的投递', '/mycvs', RoleChecker('applicant'));
 registerNavBar('系统管理', '/manage', RoleChecker('admin'));

@@ -97,9 +97,6 @@ export class logoutController extends Controller {
 
 export class userDetailController extends Controller {
   async get() {
-    const loggedUser = this.getSessionContext('loggedUser');
-    if (!loggedUser || (loggedUser && loggedUser._id !== this.params.uid))
-      throw UnauthorizedError();
     const user = await userModel.getUserByID(this.params.uid);
     if (user) {
       delete user.passwd;
@@ -110,6 +107,9 @@ export class userDetailController extends Controller {
   }
 
   async post() {
+    const loggedUser = this.getSessionContext('loggedUser');
+    if (!loggedUser || (loggedUser && loggedUser._id !== this.params.uid))
+      throw UnauthorizedError();
     if (this.getParam('passwd') !== this.getParam('confirmPasswd'))
       throw new Error();
     const user: any = {

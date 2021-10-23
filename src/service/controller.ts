@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
 import { MethodNotAllowedError } from './error';
 import { Validator } from '../lib/validators';
 import { trimParams, validateParams } from './validation';
+import { User } from '../models/user';
 
 export interface Controller {
   get(): void;
@@ -109,6 +111,13 @@ export abstract class Controller {
     this.setUIContext('referer', redirectTo);
     this.resp.setHeader('refresh', `3;url=${redirectTo}`);
     this.render('message');
+  }
+
+  public isSelfUser(udoc: User) {
+    if (udoc._id instanceof ObjectId) {
+      return udoc._id.toString() === this.getSessionContext('loggedUser')._id;
+    }
+    return udoc._id === this.getSessionContext('loggedUser')._id;
   }
 
   protected onInit?(): void;

@@ -5,42 +5,44 @@
             <h1>用户:{{ udoc.userName }}</h1>
         </div>
         <div class="section-content">
-            <form action="/user/{{ udoc._id }}" method="post">
-                <div class="form-row">
-                    <p>真实姓名:</p>
-                    <input type="text" name="realName" disabled placeholder="未更改" value="{{ udoc.realName }}">
-                </div>
-                <div class="form-row">
-                    <p>性别:</p>
-                    <select name="gender">
-                        <option value="1" {% if udoc.gender === '1' %}selected{% endif %}>男</option>
-                        <option value="2" {% if udoc.gender === '2' %}selected{% endif %}>女</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <p>手机号:</p>
-                    <input type="text" name="phone" placeholder="未更改" value="{{ udoc.phone }}">
-                </div>
-                <div class="form-row">
-                    <p>邮箱:</p>
-                    <input type="text" name="email" placeholder="未更改" value="{{ udoc.email }}">
-                </div>
-                <div class="form-row">
-                    <p>密码:</p>
-                    <input type="password" name="passwd" placeholder="未更改">
-                </div>
-                <div class="form-row">
-                    <p>确认密码:</p>
-                    <input type="password" name="confirmPasswd" placeholder="未更改">
-                </div>
-                <div class="form-row">
-                    <p>个人简介:</p>
-                    <textarea name="desc" rows="5">{{ udoc.desc }}</textarea>
-                </div>
-                <div class="form-row">
-                    <input type="submit" value="提交更改" class="com-button">
-                </div>
-            </form>
+            {% if handler.isSelfUser(udoc) %}
+                <form action="/user/{{ udoc._id }}" method="post">
+                    <div class="form-row">
+                        <p>真实姓名:</p>
+                        <input type="text" name="realName" disabled placeholder="未更改" value="{{ udoc.realName }}">
+                    </div>
+                    <div class="form-row">
+                        <p>性别:</p>
+                        <select name="gender">
+                            <option value="1" {% if udoc.gender === '1' %}selected{% endif %}>男</option>
+                            <option value="2" {% if udoc.gender === '2' %}selected{% endif %}>女</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <p>手机号:</p>
+                        <input type="text" name="phone" placeholder="未更改" value="{{ udoc.phone }}">
+                    </div>
+                    <div class="form-row">
+                        <p>邮箱:</p>
+                        <input type="text" name="email" placeholder="未更改" value="{{ udoc.email }}">
+                    </div>
+                    <div class="form-row">
+                        <p>密码:</p>
+                        <input type="password" name="passwd" placeholder="未更改">
+                    </div>
+                    <div class="form-row">
+                        <p>确认密码:</p>
+                        <input type="password" name="confirmPasswd" placeholder="未更改">
+                    </div>
+                    <div class="form-row">
+                        <p>个人简介:</p>
+                        <textarea name="desc" rows="5">{{ udoc.desc }}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <input type="submit" value="提交更改" class="com-button">
+                    </div>
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

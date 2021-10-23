@@ -4,6 +4,7 @@ import { getColl } from '../service/database';
 export interface Position {
   _id?: ObjectId;
   name?: string;
+  desc?: string;
   createBy?: string;
   createTime?: Date;
   deleted?: boolean;
@@ -13,6 +14,7 @@ const coll: Collection<Position> = getColl('positions');
 
 class positionModel {
   static async addPosition(position: Position) {
+    position.createTime = new Date();
     return coll.insertOne(position);
   }
 
