@@ -23,12 +23,12 @@
                             <td>
                                 <a href="/questionnaire/detail/{{ item._id }}">{{ item.name }}</a>
                             </td>
-                            <td>{{ item.createBy }}</td>
+                            <td>{{ userMacro.userRender(uDict[item.createBy]) }}</td>
                             <td>{{ item.updateTime | momentAgo }}</td>
                             <td>0</td>
                             <td>0</td>
                             <td>
-                                <a href="/">删除</a>
+                                {{ formMacro.renderPostTag('questionnaire_del','删除',item._id, '/questionnaire/delete/'+ item._id) }}
                             </td>
                         </tr>
                     {% endfor %}

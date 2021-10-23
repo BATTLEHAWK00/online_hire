@@ -1,0 +1,9 @@
+{% macro renderPostTag(prefix='',name='',id='',routePath='') %}
+    <form name="{{ prefix }}_{{ id }}"
+          action="{{ routePath }}"
+          method="post"
+          class="com-hiddenform"
+    >
+        <a href="javascript:document.{{ prefix }}_{{ id }}.submit();">{{ name }}</a>
+    </form>
+{% endmacro %}

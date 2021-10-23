@@ -6,23 +6,21 @@ import { RequestInvalidError } from '../service/error';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
 import { RoleChecker } from '../service/interceptors/RoleChecker';
+import { listToObject } from '../lib/jsUtils';
 
 export class questionnaireController extends Controller {
   async get() {
-    const qList = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const q of await questionnaireModel.getQuestionnaireList()) {
-      const { createBy, ...qDoc } = q;
-      if (!createBy) continue;
-      // eslint-disable-next-line no-await-in-loop
-      const user = await userModel.getUserByID(createBy);
-      if (!user) continue;
-      qList.push({
-        ...qDoc,
-        createBy: user.userName,
-      });
-    }
+    const qList = await questionnaireModel.getQuestionnaireList();
+    const uDict = listToObject(
+      await Promise.all(
+        qList.map(async ({ createBy }) =>
+          userModel.getUserByID(<string>createBy)
+        )
+      ),
+      '_id'
+    );
     this.setUIContext('qList', qList);
+    this.setUIContext('uDict', uDict);
     this.setTitle('问卷');
     this.render('questionnaire_main');
   }

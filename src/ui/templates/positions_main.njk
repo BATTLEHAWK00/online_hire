@@ -28,13 +28,7 @@
                             <td>0</td>
                             <td>0</td>
                             <td>
-                                <form name="position_del_{{ item._id }}"
-                                      action="/positions/delete/{{ item._id }}"
-                                      method="post"
-                                      class="com-hiddenform"
-                                >
-                                    <a href="javascript:document.position_del_{{ item._id }}.submit();">删除</a>
-                                </form>
+                                {{ formMacro.renderPostTag('position_del','删除',item._id, '/positions/delete/'+ item._id) }}
                             </td>
                         </tr>
                     {% endfor %}
