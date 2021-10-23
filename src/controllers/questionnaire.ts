@@ -7,6 +7,7 @@ import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
 import { RoleChecker } from '../service/interceptors/RoleChecker';
 import { listToObject } from '../lib/jsUtils';
+import { isName } from '../lib/validators';
 
 export class questionnaireController extends Controller {
   async get() {
@@ -51,6 +52,12 @@ export class addQuestionnaireController extends Controller {
     questionnaireDoc.createBy = this.getSessionContext('loggedUser')._id;
     await questionnaireModel.createQuestionnaire(questionnaireDoc);
     this.renderMessage('创建成功!');
+  }
+
+  protected onInit() {
+    this.setValidator(this.post, {
+      name: isName,
+    });
   }
 }
 

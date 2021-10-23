@@ -2,8 +2,10 @@ import { Collection, ObjectId } from 'mongodb';
 import { getColl } from '../service/database';
 
 export interface SingleChoice {
-  options?: string[];
-  answer?: number;
+  options?: {
+    name?: string;
+    isAnswer?: boolean;
+  }[];
 }
 
 export interface MultipleChoice {

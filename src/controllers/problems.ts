@@ -1,6 +1,6 @@
 import { Controller } from '../service/controller';
 import problemModel, { Problem } from '../models/problem';
-import { RequestInvalidError } from '../service/error';
+import { ProblemInvalidError, RequestInvalidError } from '../service/error';
 import userModel from '../models/user';
 import Router from '../service/router';
 import { loginChecker } from '../service/interceptors/LoginChecker';
@@ -10,27 +10,33 @@ import { RoleChecker } from '../service/interceptors/RoleChecker';
 import { listToObject } from '../lib/jsUtils';
 
 function singleChoiceDoc(params: any): Problem {
+  const options = Object.keys(params.options).map(option => ({
+    name: params.options[option],
+    isAnswer: false,
+  }));
+  options[params.answer].isAnswer = true;
+  if (new Set(options.map(({ name }) => name)).size !== options.length)
+    throw ProblemInvalidError();
   return {
     name: params.name,
     desc: params.desc,
     type: 'SingleChoice',
     content: {
-      options: params.options,
-      answer: params.answer,
+      options,
     },
   };
 }
 
 function multipleChoiceDoc(params: any): Problem {
-  const options = [];
   console.log(params);
-  // eslint-disable-next-line no-restricted-syntax,guard-for-in
-  for (const option in params.options) {
-    options.push({
-      name: params.options[option],
-      isAnswer: params[`answer.${option}`] === 'on',
-    });
-  }
+  const options = Object.keys(params.options).map(option => ({
+    name: params.options[option],
+    isAnswer: params[`answer.${option}`] === 'on',
+  }));
+  if (new Set(options.map(({ name }) => name)).size !== options.length)
+    throw ProblemInvalidError();
+  if (options.filter(({ isAnswer }) => isAnswer).length < 2)
+    throw ProblemInvalidError();
   return {
     name: params.name,
     desc: params.desc,

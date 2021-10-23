@@ -43,6 +43,7 @@ export const UserNotExistError = ControllerErr('该用户不存在!', 404);
 export const UnauthorizedError = ControllerErr('您无权限进行此操作!', 403);
 export const PositionAlreadyExistsError = ControllerErr('该职位已存在!', 400);
 export const EmptyResponseError = ControllerErr('响应为空!', 500);
+export const ProblemInvalidError = ControllerErr('题目数据无效!', 400);
 export const ValidationError = (msg: string) => ControllerErr(msg, 400);
 export const NoRouteFoundError = (msg: string) =>
   ControllerErr(`找不到路由：${msg}`, 500);
