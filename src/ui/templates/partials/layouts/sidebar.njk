@@ -1,0 +1,12 @@
+{% extends './basic.njk' %}
+
+{% block content %}
+    <div class='grid-layout'>
+        <div class='grid-9'>
+            {% block content_main %}{% endblock %}
+        </div>
+        <div class='grid-3'>
+            {% block content_sidebar %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
