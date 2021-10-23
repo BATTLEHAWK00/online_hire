@@ -20,14 +20,14 @@
                     {% for item in pList %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.name }}</td>
+                            <td>
+                                <a href="/">{{ item.name }}</a>
+                            </td>
                             <td>{{ userMacro.userRender(uDict[item.createBy]) }}</td>
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>
                             <td>
-                                <a href="/">查看</a>
-                                <a href="/">编辑</a>
                                 <form name="position_del_{{ item._id }}"
                                       action="/positions/delete/{{ item._id }}"
                                       method="post"

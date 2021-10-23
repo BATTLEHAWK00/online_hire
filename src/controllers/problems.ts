@@ -7,6 +7,7 @@ import { loginChecker } from '../service/interceptors/LoginChecker';
 import { validateSingle } from '../service/validation';
 import { isName } from '../lib/validators';
 import { RoleChecker } from '../service/interceptors/RoleChecker';
+import { listToObject } from '../lib/jsUtils';
 
 function singleChoiceDoc(params: any): Problem {
   return {
@@ -53,20 +54,17 @@ function shortAnswerDoc(params: any): Problem {
 
 export class problemsHandler extends Controller {
   async get() {
-    const problemList = [];
-    const problems = await problemModel.getProblemList();
-    // eslint-disable-next-line no-restricted-syntax
-    for await (const problem of problems) {
-      const { createBy, ...pDoc } = problem;
-      if (!createBy) continue;
-      const user = await userModel.getUserByID(createBy);
-      if (!user) continue;
-      problemList.push({
-        ...pDoc,
-        createBy: user.userName,
-      });
-    }
-    this.setUIContext('problemList', problemList);
+    const pdocs = await problemModel.getProblemList();
+    const uDict = listToObject(
+      await Promise.all(
+        pdocs.map(async ({ createBy }) =>
+          userModel.getUserByID(<string>createBy)
+        )
+      ),
+      '_id'
+    );
+    this.setUIContext('pDocs', pdocs);
+    this.setUIContext('uDict', uDict);
     this.setTitle('题库');
     this.render('problems_main');
   }

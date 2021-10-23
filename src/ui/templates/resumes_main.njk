@@ -16,8 +16,8 @@
                     {% for item in resdoc %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.userName }}</td>
-                            <td>{{ item.intention }}</td>
+                            <td>{{ userMacro.userRender(uDict[item.uid]) }}</td>
+                            <td>{{ iDict[item.intention].name }}</td>
                             <td>{{ item.marks }}</td>
                             <td>{{ item.submitTime | momentAgo }}</td>
                             <td>

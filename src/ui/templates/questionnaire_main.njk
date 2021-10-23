@@ -20,14 +20,14 @@
                     {% for item in qList %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.name }}</td>
+                            <td>
+                                <a href="/questionnaire/detail/{{ item._id }}">{{ item.name }}</a>
+                            </td>
                             <td>{{ item.createBy }}</td>
                             <td>{{ item.updateTime | momentAgo }}</td>
                             <td>0</td>
                             <td>0</td>
                             <td>
-                                <a href="/questionnaire/detail/{{ item._id }}">查看</a>
-                                <a href="/">编辑</a>
                                 <a href="/">删除</a>
                             </td>
                         </tr>

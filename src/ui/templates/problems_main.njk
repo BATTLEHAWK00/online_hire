@@ -16,18 +16,18 @@
                 <th class="text-left">引用次数</th>
                 <th class="text-left">通过数</th>
                 <th class="text-left">操作</th>
-                {% if problemList %}
-                    {% for item in problemList %}
+                {% if pDocs %}
+                    {% for item in pDocs %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.createBy }}</td>
+                            <td>
+                                <a href="/problems/detail/{{ item._id }}">{{ item.name }}</a>
+                            </td>
+                            <td>{{ userMacro.userRender(uDict[item.createBy]) }}</td>
                             <td>{{ item.updateTime | momentAgo }}</td>
                             <td>0</td>
                             <td>0</td>
                             <td>
-                                <a href="/problems/detail/{{ item._id }}">查看</a>
-                                <a href="/">编辑</a>
                                 <form name="problems_del_{{ item._id }}"
                                       action="/problems/delete/{{ item._id }}"
                                       method="post"
