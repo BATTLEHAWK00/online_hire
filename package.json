@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx ts-node bin/start.js",
+    "start": "npx ts-node --transpile-only --transpiler ts-node/transpilers/swc-experimental bin/start.js",
     "start:watch": "nodemon --config nodemon-backend.json",
     "start:dev": "nodemon --config nodemon-frontend.json",
     "build": "webpack --config ./build/webpack.prod.config.js"
   },
   "dependencies": {
+    "@swc/core": "^1.2.102",
     "@vue/server-renderer": "^3.2.4",
     "ant-design-vue": "^2.2.8",
     "compression": "^1.7.4",
