@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import path from 'path';
 import { Controller } from '../service/controller';
 import resumesModel, { Resume } from '../models/resume';
-import { RequestInvalidError } from '../service/error';
+import { RequestInvalidError, UnauthorizedError } from '../service/error';
 import { storageService } from '../service/fileStorage';
 import positionModel from '../models/position';
 import Router from '../service/router';
@@ -32,6 +32,9 @@ export class mycvsController extends Controller {
 export class mycvsDetailController extends Controller {
   async get() {
     const rDoc = await resumesModel.getResumeByID(this.getParam('_id'));
+    const loggedUser = this.getSessionContext('loggedUser');
+    if (loggedUser._id !== rDoc?.uid && loggedUser.role === 'applicant')
+      throw UnauthorizedError();
     const [iDoc, uDoc] = await Promise.all([
       positionModel.getPositionByID(<string>rDoc?.intention),
       userModel.getUserByID(<string>rDoc?.uid),
@@ -97,5 +100,5 @@ Router.RegisterRoute(
   'mycvs_detail',
   '/mycvs/detail/:_id',
   mycvsDetailController,
-  [loginChecker, RoleChecker('admin', 'applicant')]
+  [loginChecker]
 );

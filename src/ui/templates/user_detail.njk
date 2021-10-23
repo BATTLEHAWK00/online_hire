@@ -42,6 +42,13 @@
                         <input type="submit" value="提交更改" class="com-button">
                     </div>
                 </form>
+            {% else %}
+                {% set genderDict = ['男','女'] %}
+                <p>真实姓名: {{ udoc.realName | d('未知') }}</p>
+                <p>性别: {{ genderDict[udoc.gender|d(0)] }}</p>
+                <p>手机号: {{ udoc.phone | d('未知') }}</p>
+                <p>邮箱: {{ udoc.email | d('未知') }}</p>
+                <p>个人简介: {{ udoc.desc | d('无')}}</p>
             {% endif %}
         </div>
     </div>
