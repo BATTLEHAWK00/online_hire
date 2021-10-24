@@ -65,6 +65,6 @@ class HttpServer {
   }
 }
 
-module.exports = {
+export default {
   server: new HttpServer(),
 };

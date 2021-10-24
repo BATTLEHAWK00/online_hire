@@ -1,5 +1,5 @@
 const database = require('../src/service/database');
-const { server } = require('../src/service/server');
+const { server } = require('../src/service/server').default;
 const fileStorage = require('../src/service/fileStorage');
 require('../src/lib/configProvider');
 
